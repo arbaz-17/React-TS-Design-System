@@ -1,7 +1,7 @@
 
 # React / TypeScript Design System — Month 3 Project
 
-A reusable, scalable, and accessible **React component design system** built with **TypeScript** as the final project for Month 3 of my Frontend Development Internship at OptimusFox.
+A reusable, scalable, and accessible **React component design system** and storybook built with **TypeScript** as the final project for Month 3 of my Frontend Development Internship at OptimusFox.
 
 The project brings together the key skills covered throughout the month: strongly typed React components, modern styling approaches, accessibility engineering, and maintainable component architecture. Its goal is to establish a consistent UI foundation that can be reused across different applications rather than building one-off components for every page.
 
