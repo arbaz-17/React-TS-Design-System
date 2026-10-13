@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useTheme } from "./hooks/useTheme";
-import {InputVerification} from "./input-verification";
+import {TextareaVerification} from "./textarea-verification";
 
 import { cn } from "./lib/utils";
 
@@ -395,7 +395,7 @@ export default function App() {
           </div>
         </section>
 
-        <InputVerification />
+        <TextareaVerification />
 
         <footer className="border-t border-border pt-5 text-center text-sm text-muted-foreground">
           Mini Design System · Phase 2
