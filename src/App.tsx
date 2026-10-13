@@ -2,6 +2,59 @@
 import { useState } from "react";
 import { useTheme } from "./hooks/useTheme";
 
+import { cn } from "./lib/utils";
+
+const testCases = [
+  {
+    name: "Padding conflict",
+    actual: cn("px-4", "px-8"),
+    expected: "px-8",
+  },
+  {
+    name: "Background conflict",
+    actual: cn("bg-primary", "bg-secondary"),
+    expected: "bg-secondary",
+  },
+  {
+    name: "Conditional classes",
+    actual: cn("px-4", {
+      "text-primary": true,
+      "opacity-50": false,
+    }),
+    expected: "px-4 text-primary",
+  },
+  {
+    name: "Custom radius conflict",
+    actual: cn("rounded-control", "rounded-surface"),
+    expected: "rounded-surface",
+  },
+  {
+    name: "Custom radius override",
+    actual: cn("rounded-control", "rounded-lg"),
+    expected: "rounded-lg",
+  },
+  {
+    name: "Custom shadow conflict",
+    actual: cn("shadow-surface", "shadow-overlay"),
+    expected: "shadow-overlay",
+  },
+  {
+    name: "Variant preservation",
+    actual: cn("bg-primary", "hover:bg-secondary"),
+    expected: "bg-primary hover:bg-secondary",
+  },
+];
+
+console.table(
+  testCases.map(({ name, actual, expected }) => ({
+    test: name,
+    expected,
+    actual,
+    passed: actual === expected,
+  })),
+);
+
+
 const colorSamples = [
   {
     name: "Background",
