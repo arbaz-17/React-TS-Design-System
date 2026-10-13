@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useTheme } from "./hooks/useTheme";
-
+import {InputVerification} from "./input-verification";
 
 import { cn } from "./lib/utils";
 
@@ -394,6 +394,8 @@ export default function App() {
             </p>
           </div>
         </section>
+
+        <InputVerification />
 
         <footer className="border-t border-border pt-5 text-center text-sm text-muted-foreground">
           Mini Design System · Phase 2
