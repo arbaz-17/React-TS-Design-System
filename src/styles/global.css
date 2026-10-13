@@ -1,0 +1,87 @@
+
+@import "tailwindcss";
+@import "./tokens.css";
+
+/*
+ * Make Tailwind's dark: variant follow
+ * our manually controlled data-theme attribute.
+ */
+@custom-variant dark (&:where(
+  [data-theme="dark"],
+  [data-theme="dark"] *
+));
+
+
+/* ---------------------------------------------
+   Global foundation
+--------------------------------------------- */
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  html[data-theme="dark"] {
+    color-scheme: dark;
+  }
+
+  body {
+    min-height: 100vh;
+
+    background-color: var(--background);
+    color: var(--foreground);
+
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* Accessible keyboard focus */
+  :where(
+    a[href],
+    button,
+    input,
+    textarea,
+    select,
+    summary,
+    [tabindex]:not([tabindex="-1"])
+  ):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+
+  /* Unstyled content links */
+  a[href]:not([class]) {
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* Consistent text selection */
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+}
+
+/* ---------------------------------------------
+   Reduced motion support
+--------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
