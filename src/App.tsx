@@ -1,7 +1,17 @@
 
 import { useState } from "react";
 import { useTheme } from "./hooks/useTheme";
-import {Phase4Integration} from "./phase4-integration";
+import { TableVerification } from "./table-verification";
+import {
+  Badge,
+  Button,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "./components";
 
 import { cn } from "./lib/utils";
 
@@ -395,7 +405,44 @@ export default function App() {
           </div>
         </section>
 
-        <Phase4Integration />
+        <TableVerification />
+
+        <Card className="max-w-md" >
+      <CardHeader>
+        <CardTitle>
+          Design System
+        </CardTitle>
+
+        <CardDescription>
+          A reusable component library built with
+          React, TypeScript, and Tailwind CSS.
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        <div className="flex flex-wrap items-center gap-3">
+          <Badge variant="success">
+            Active
+          </Badge>
+
+          <Badge variant="destructive">
+            React 19
+          </Badge>
+        </div>
+      </CardContent>
+
+      <CardFooter className="justify-end">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => {
+            console.log("Card action triggered");
+          }}
+        >
+          View Details
+        </Button>
+      </CardFooter>
+    </Card>
 
         <footer className="border-t border-border pt-5 text-center text-sm text-muted-foreground">
           Mini Design System · Phase 2
