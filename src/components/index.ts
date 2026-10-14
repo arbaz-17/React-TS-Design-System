@@ -93,3 +93,52 @@ export type {
   FormDescriptionProps,
   FormMessageProps,
 } from "./composites/form-field";
+
+
+
+
+// Shared Composites — EmptyState
+
+export {
+  EmptyState,
+  EmptyStateVisual,
+  EmptyStateTitle,
+  EmptyStateDescription,
+  EmptyStateActions,
+} from "./composites/empty-state";
+
+export type {
+  EmptyStateProps,
+  EmptyStateVisualProps,
+  EmptyStateTitleProps,
+  EmptyStateDescriptionProps,
+  EmptyStateActionsProps,
+} from "./composites/empty-state";
+
+
+
+// Shared Composites — Table
+
+export {
+  TableContainer,
+  Table,
+  TableCaption,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "./composites/table";
+
+export type {
+  TableContainerProps,
+  TableProps,
+  TableCaptionProps,
+  TableHeaderProps,
+  TableBodyProps,
+  TableFooterProps,
+  TableRowProps,
+  TableHeadProps,
+  TableCellProps,
+} from "./composites/table";

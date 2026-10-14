@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useTheme } from "./hooks/useTheme";
-import {Phase4Integration} from "./phase4-integration";
+import { TableVerification } from "./table-verification";
 import {
   Badge,
   Button,
@@ -405,9 +405,9 @@ export default function App() {
           </div>
         </section>
 
-        <Phase4Integration />
+        <TableVerification />
 
-        <Card className="max-w-md">
+        <Card className="max-w-md" >
       <CardHeader>
         <CardTitle>
           Design System
