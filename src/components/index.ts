@@ -188,3 +188,41 @@ export type {
   TabsTriggerProps,
   TabsContentProps,
 } from "./interactive/tabs";
+
+
+
+
+// Advanced Interactive Components — Accordion
+
+export {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "./interactive/accordion";
+
+export type {
+  AccordionProps,
+  AccordionItemProps,
+  AccordionTriggerProps,
+  AccordionContentProps,
+} from "./interactive/accordion";
+
+
+
+
+// Advanced Interactive Components — Tooltip
+
+export {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "./interactive/tooltip";
+
+export type {
+  TooltipProviderProps,
+  TooltipProps,
+  TooltipTriggerProps,
+  TooltipContentProps,
+} from "./interactive/tooltip";
