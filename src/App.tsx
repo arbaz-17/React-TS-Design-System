@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { useTheme } from "./hooks/useTheme";
+import {Phase4Integration} from "./phase4-integration";
 
 import { cn } from "./lib/utils";
 
@@ -393,6 +394,8 @@ export default function App() {
             </p>
           </div>
         </section>
+
+        <Phase4Integration />
 
         <footer className="border-t border-border pt-5 text-center text-sm text-muted-foreground">
           Mini Design System · Phase 2
