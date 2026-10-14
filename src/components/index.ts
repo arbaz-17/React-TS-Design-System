@@ -142,3 +142,49 @@ export type {
   TableHeadProps,
   TableCellProps,
 } from "./composites/table";
+
+
+
+
+// Advanced Interactive Components — Dialog
+
+export {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from "./interactive/dialog";
+
+export type {
+  DialogProps,
+  DialogTriggerProps,
+  DialogContentProps,
+  DialogHeaderProps,
+  DialogTitleProps,
+  DialogDescriptionProps,
+  DialogFooterProps,
+  DialogCloseProps,
+} from "./interactive/dialog";
+
+
+
+
+// Advanced Interactive Components — Tabs
+
+export {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "./interactive/tabs";
+
+export type {
+  TabsProps,
+  TabsListProps,
+  TabsTriggerProps,
+  TabsContentProps,
+} from "./interactive/tabs";
