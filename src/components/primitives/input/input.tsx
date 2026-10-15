@@ -1,7 +1,7 @@
 
 import type { ComponentPropsWithRef } from "react";
 
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 
 /**
  * Supported single-line input types.
@@ -34,7 +34,7 @@ export type InputProps = Omit<
  *
  * Value management and validation are owned by
  * the consumer, not the component.
- */
+ */ 
 export function Input({
   type = "text",
   className,

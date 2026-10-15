@@ -1,7 +1,7 @@
 import type { ComponentPropsWithRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 
 /**
  * Button visual variants and sizes.

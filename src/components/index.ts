@@ -7,38 +7,38 @@
  */
 
 // Button
-export { Button } from "./primitives/button";
-export type { ButtonProps } from "./primitives/button";
+export { Button } from "./primitives/button/button";
+export type { ButtonProps } from "./primitives/button/button";
 
 // Input
-export { Input } from "./primitives/input";
+export { Input } from "./primitives/input/input";
 export type {
   InputProps,
   InputType,
-} from "./primitives/input";
+} from "./primitives/input/input";
 
 // Textarea
-export { Textarea } from "./primitives/textarea";
-export type { TextareaProps } from "./primitives/textarea";
+export { Textarea } from "./primitives/textarea/textarea";
+export type { TextareaProps } from "./primitives/textarea/textarea";
 
 // Checkbox
-export { Checkbox } from "./primitives/checkbox";
-export type { CheckboxProps } from "./primitives/checkbox";
+export { Checkbox } from "./primitives/checkbox/checkbox";
+export type { CheckboxProps } from "./primitives/checkbox/checkbox";
 
 // Badge
-export { Badge } from "./primitives/badge";
-export type { BadgeProps } from "./primitives/badge";
+export { Badge } from "./primitives/badge/badge";
+export type { BadgeProps } from "./primitives/badge/badge";
 
 
-export { Select } from "./primitives/select";
-export type { SelectProps } from "./primitives/select";
+export { Select } from "./primitives/select/select";
+export type { SelectProps } from "./primitives/select/select";
 
 // Skeleton
-export { Skeleton } from "./primitives/skeleton";
-export type { SkeletonProps } from "./primitives/skeleton";
+export { Skeleton } from "./primitives/skeleton/skeleton";
+export type { SkeletonProps } from "./primitives/skeleton/skeleton";
 
-export { Switch } from "./primitives/switch";
-export type { SwitchProps } from "./primitives/switch";
+export { Switch } from "./primitives/switch/switch";
+export type { SwitchProps } from "./primitives/switch/switch";
 
 
 export {

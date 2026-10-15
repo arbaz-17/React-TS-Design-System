@@ -1,7 +1,7 @@
 
 import type { ComponentPropsWithRef } from "react";
 
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 
 /**
  * A native checkbox presented as an on/off switch.
