@@ -48,7 +48,7 @@ export {
   CardDescription,
   CardContent,
   CardFooter,
-} from "./composites/card";
+} from "./composites/card/card";
 
 export type {
   CardProps,
@@ -57,7 +57,7 @@ export type {
   CardDescriptionProps,
   CardContentProps,
   CardFooterProps,
-} from "./composites/card";
+} from "./composites/card/card";
 
 
 
@@ -67,13 +67,13 @@ export {
   Alert,
   AlertTitle,
   AlertDescription,
-} from "./composites/alert";
+} from "./composites/alert/alert";
 
 export type {
   AlertProps,
   AlertTitleProps,
   AlertDescriptionProps,
-} from "./composites/alert";
+} from "./composites/alert/alert";
 
 
 
@@ -85,14 +85,14 @@ export {
   FormLabel,
   FormDescription,
   FormMessage,
-} from "./composites/form-field";
+} from "./composites/form-field/form-field";
 
 export type {
   FormFieldProps,
   FormLabelProps,
   FormDescriptionProps,
   FormMessageProps,
-} from "./composites/form-field";
+} from "./composites/form-field/form-field";
 
 
 
@@ -105,7 +105,7 @@ export {
   EmptyStateTitle,
   EmptyStateDescription,
   EmptyStateActions,
-} from "./composites/empty-state";
+} from "./composites/empty-state/empty-state";
 
 export type {
   EmptyStateProps,
@@ -113,7 +113,7 @@ export type {
   EmptyStateTitleProps,
   EmptyStateDescriptionProps,
   EmptyStateActionsProps,
-} from "./composites/empty-state";
+} from "./composites/empty-state/empty-state";
 
 
 
@@ -129,7 +129,7 @@ export {
   TableRow,
   TableHead,
   TableCell,
-} from "./composites/table";
+} from "./composites/table/table";
 
 export type {
   TableContainerProps,
@@ -141,7 +141,7 @@ export type {
   TableRowProps,
   TableHeadProps,
   TableCellProps,
-} from "./composites/table";
+} from "./composites/table/table";
 
 
 
