@@ -142,3 +142,87 @@ export type {
   TableHeadProps,
   TableCellProps,
 } from "./composites/table";
+
+
+
+
+// Advanced Interactive Components — Dialog
+
+export {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from "./interactive/dialog";
+
+export type {
+  DialogProps,
+  DialogTriggerProps,
+  DialogContentProps,
+  DialogHeaderProps,
+  DialogTitleProps,
+  DialogDescriptionProps,
+  DialogFooterProps,
+  DialogCloseProps,
+} from "./interactive/dialog";
+
+
+
+
+// Advanced Interactive Components — Tabs
+
+export {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "./interactive/tabs";
+
+export type {
+  TabsProps,
+  TabsListProps,
+  TabsTriggerProps,
+  TabsContentProps,
+} from "./interactive/tabs";
+
+
+
+
+// Advanced Interactive Components — Accordion
+
+export {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "./interactive/accordion";
+
+export type {
+  AccordionProps,
+  AccordionItemProps,
+  AccordionTriggerProps,
+  AccordionContentProps,
+} from "./interactive/accordion";
+
+
+
+
+// Advanced Interactive Components — Tooltip
+
+export {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "./interactive/tooltip";
+
+export type {
+  TooltipProviderProps,
+  TooltipProps,
+  TooltipTriggerProps,
+  TooltipContentProps,
+} from "./interactive/tooltip";
