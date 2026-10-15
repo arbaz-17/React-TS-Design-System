@@ -9,7 +9,7 @@ import {
   type MouseEvent,
 } from "react";
 
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 
 /* -------------------------------------------------------
  * Public Types

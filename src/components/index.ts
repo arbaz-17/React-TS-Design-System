@@ -157,7 +157,7 @@ export {
   DialogDescription,
   DialogFooter,
   DialogClose,
-} from "./interactive/dialog";
+} from "./interactive/dialog/dialog";
 
 export type {
   DialogProps,
@@ -168,7 +168,7 @@ export type {
   DialogDescriptionProps,
   DialogFooterProps,
   DialogCloseProps,
-} from "./interactive/dialog";
+} from "./interactive/dialog/dialog";
 
 
 
@@ -180,14 +180,14 @@ export {
   TabsList,
   TabsTrigger,
   TabsContent,
-} from "./interactive/tabs";
+} from "./interactive/tabs/tabs";
 
 export type {
   TabsProps,
   TabsListProps,
   TabsTriggerProps,
   TabsContentProps,
-} from "./interactive/tabs";
+} from "./interactive/tabs/tabs";
 
 
 
@@ -199,14 +199,14 @@ export {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from "./interactive/accordion";
+} from "./interactive/accordion/accordion";
 
 export type {
   AccordionProps,
   AccordionItemProps,
   AccordionTriggerProps,
   AccordionContentProps,
-} from "./interactive/accordion";
+} from "./interactive/accordion/accordion";
 
 
 
@@ -218,11 +218,11 @@ export {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from "./interactive/tooltip";
+} from "./interactive/tooltip/tooltip";
 
 export type {
   TooltipProviderProps,
   TooltipProps,
   TooltipTriggerProps,
   TooltipContentProps,
-} from "./interactive/tooltip";
+} from "./interactive/tooltip/tooltip";
