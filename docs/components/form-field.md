@@ -296,24 +296,36 @@ A future field-group abstraction may be added if necessary.
 - Accessibility testing
 - ESLint and production build
 
-## 13. Storybook Requirements — Phase 7
+## 13. Verified Storybook Coverage — Phase 7
 
-Create stories for:
+**Storybook navigation:** `Composites/FormField`
 
-1. Default Input Field
-2. Required Field
-3. With Description
-4. Invalid Field with Error
-5. Textarea Field
-6. Select Field
-7. Checkbox Field
-8. Switch Field
-9. Disabled Control
-10. Multiple Independent Fields
+**Story file:** [`src/components/composites/form-field.stories.tsx`](../../src/components/composites/form-field.stories.tsx)
 
-Storybook examples should demonstrate correct ID relationships, accessible names, native required states and error associations.
+**Coverage:** 10 locally verified stories.
 
-Include documentation explaining that validation and field state remain consumer responsibilities.
+| Story | Documented purpose |
+|---|---|
+| Default Input Field | Accessible input label |
+| Required Field | Native required validation |
+| With Description | aria-describedby association |
+| Invalid Field With Error | Error message and aria-invalid |
+| Textarea Field | Textarea composition |
+| Select Field | Select composition |
+| Checkbox Field | Checkbox composition |
+| Switch Field | Switch composition |
+| Disabled Control | Disabled-state behavior |
+| Multiple Independent Fields | Multifield form submission |
+
+**Storybook controls:** ClassName on the FormField root.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 14. Architectural Boundaries
 

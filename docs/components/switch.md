@@ -2,7 +2,7 @@
 
 **Category:** Core Primitive  
 **Implementation:** `src/components/primitives/switch.tsx`  
-**Status:** Ready for local verification and finalization
+**Status:** Implemented and verified
 
 ## 1. Responsibility
 
@@ -243,23 +243,25 @@ Switches are generally best for independently toggled settings. A consumer may i
 - Accessibility audit
 - ESLint and production build
 
-## 12. Storybook Requirements — Phase 7
+## 12. Verified Storybook Coverage — Phase 7
 
-Create stories for:
+**Storybook navigation:** `Primitives/Switch`
 
-1. Default Off
-2. Default On
-3. Controlled
-4. Uncontrolled
-5. Disabled Off
-6. Disabled On
-7. Invalid
-8. With Label
-9. With Description
-10. Form Integration
-11. Dark Theme
+**Story file:** [`src/components/primitives/switch.stories.tsx`](../../src/components/primitives/switch.stories.tsx)
 
-Storybook documentation should explain the difference between Checkbox and Switch and demonstrate accessible labeling.
+**Coverage:** 11 locally verified stories.
+
+The verified eleven-story coverage demonstrates on/off states, controlled and uncontrolled usage, disabled/invalid states, accessible labels/descriptions, native form integration, and theme support. **The exact story export names must be confirmed against the latest local `.stories.tsx` file** before treating this as a complete export-name inventory.
+
+**Storybook controls:** Checked/defaultChecked, disabled and other relevant native props where applicable.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 13. Architectural Boundaries
 

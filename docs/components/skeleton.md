@@ -2,7 +2,7 @@
 
 **Category:** Core Primitive  
 **Implementation:** `src/components/primitives/skeleton.tsx`  
-**Status:** Ready for local verification and finalization
+**Status:** Implemented and verified
 
 ## 1. Responsibility
 
@@ -185,21 +185,35 @@ No component-specific theme hook is required.
 - Accessibility audit
 - ESLint and production build
 
-## 11. Storybook Requirements — Phase 7
+## 11. Verified Storybook Coverage — Phase 7
 
-Create stories for:
+**Storybook navigation:** `Primitives/Skeleton`
 
-1. Default
-2. Text Lines
-3. Avatar
-4. Image Placeholder
-5. Profile Skeleton
-6. Card Skeleton
-7. Loading to Loaded
-8. Dark Theme
-9. Reduced Motion
+**Story file:** [`src/components/primitives/skeleton.stories.tsx`](../../src/components/primitives/skeleton.stories.tsx)
 
-Stories should illustrate composition and explain the accessibility responsibility of the surrounding loading region.
+**Coverage:** 9 locally verified stories.
+
+| Story | Documented purpose |
+|---|---|
+| Default | Configurable placeholder dimensions |
+| Text Lines | Variable-width text placeholders |
+| Avatar | Circular placeholders |
+| Image Placeholder | Aspect-ratio image placeholder |
+| Profile Skeleton | Composite profile loading |
+| Card Skeleton | Card composition |
+| Responsive List | Responsive repeated skeletons |
+| Loading To Loaded | Consumer-managed loading, busy state, and status message |
+| Reduced Motion | Animation preference behavior |
+
+**Storybook controls:** ClassName.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 12. Architectural Boundaries
 

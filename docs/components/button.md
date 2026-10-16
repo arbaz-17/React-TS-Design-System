@@ -128,23 +128,35 @@ Use semantic links rather than buttons for navigation.
 - Accessibility checks.
 - ESLint and production build.
 
-## 10. Storybook Requirements — Phase 7
+## 10. Verified Storybook Coverage — Phase 7
 
-Create stories demonstrating:
+**Storybook navigation:** `Primitives/Button`
 
-1. Default
-2. All Variants
-3. All Sizes
-4. With Icons
-5. Icon Only
-6. Disabled
-7. Loading
-8. Keyboard Focus
-9. Form Submission
+**Story file:** [`src/components/primitives/button.stories.tsx`](../../src/components/primitives/button.stories.tsx)
 
-Storybook controls should expose appropriate props such as `variant`, `size`, `loading`, and `disabled`.
+**Coverage:** 9 locally verified stories.
 
-Document the accessibility requirements and loading-state behavior alongside the stories.
+| Story | Documented purpose |
+|---|---|
+| Default | Default configuration and prop controls |
+| All Variants | Visual variants |
+| All Sizes | Size options |
+| With Icons | Text and icon composition |
+| Icon Only | Accessible icon-only action |
+| Disabled | Disabled state |
+| Loading | Loading-state behavior |
+| Keyboard Focus | Focus visibility and keyboard interaction |
+| Form Submission | Native form integration |
+
+**Storybook controls:** Variant, size, disabled, and loading where applicable.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 11. Architectural Boundaries
 

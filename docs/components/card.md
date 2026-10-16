@@ -299,24 +299,36 @@ Card does not manage form submission, validation or field values.
 - Accessibility testing completed.
 - ESLint and production build passed.
 
-## 11. Storybook Requirements — Phase 7
+## 11. Verified Storybook Coverage — Phase 7
 
-Create stories for:
+**Storybook navigation:** `Composites/Card`
 
-1. Default
-2. Complete Card
-3. Content Only
-4. Header and Content
-5. With Footer Actions
-6. With Status Badge
-7. Form Card
-8. Loading Card with Skeleton
-9. Custom Styling
-10. Responsive Card Grid
+**Story file:** [`src/components/composites/card.stories.tsx`](../../src/components/composites/card.stories.tsx)
 
-Document the responsibilities of each subcomponent and demonstrate how composition can be used to build different Card layouts.
+**Coverage:** 10 locally verified stories.
 
-Stories should also explain heading hierarchy and why Card itself is non-interactive.
+| Story | Documented purpose |
+|---|---|
+| Default | Root styling and default composition |
+| Complete Card | All six subcomponents |
+| Content Only | Optional sections |
+| Header And Content | Composition without footer |
+| With Footer Actions | Functional footer actions |
+| With Status Badge | Badge composition |
+| Form Card | Native form behavior |
+| Loading Card | Skeleton and busy state |
+| Custom Styling | Semantic styling extension |
+| Responsive Card Grid | Responsive layout |
+
+**Storybook controls:** ClassName on the root; other cards are composition examples.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 12. Architectural Boundaries
 

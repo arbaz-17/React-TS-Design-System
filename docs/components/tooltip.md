@@ -29,7 +29,7 @@ Tooltip provides four public components.
 
 TooltipContent automatically renders an internal `Tooltip.Portal`.
 
-TooltipTrigger and Tooltip are direct Radix primitive exports through our component wrapper module.
+`TooltipTrigger` is a direct Radix Trigger export. `Tooltip` is a small wrapper around `TooltipPrimitive.Root` that forwards its props; it does not add React state or styling.
 
 A shared TooltipProvider must exist above the Tooltip instances in the React tree.
 
@@ -424,27 +424,38 @@ Verify both light and dark themes, including Tooltips rendered inside Dialog.
 - Accessibility inspection
 - ESLint and production build
 
-## 15. Storybook Requirements — Phase 7
+## 15. Verified Storybook Coverage — Phase 7
 
-Create stories for:
+**Storybook navigation:** `Interactive/Tooltip`
 
-1. Basic Tooltip
-2. Text Button Trigger
-3. Icon-only Button
-4. Keyboard Focus
-5. Escape Dismissal
-6. Controlled Tooltip
-7. Custom Opening Delay
-8. Multiple Tooltips
-9. Different Placements
-10. Long Content
-11. Viewport Edge Collision
-12. Tooltip Inside Dialog
-13. Dark Theme
+**Story file:** [`src/components/interactive/tooltip.stories.tsx`](../../src/components/interactive/tooltip.stories.tsx)
 
-Storybook interaction tests should verify opening, dismissal, accessible description behavior, focus preservation and relevant positioning.
+**Coverage:** 12 locally verified stories.
 
-TooltipProvider should be configured as a global Storybook decorator.
+| Story | Documented purpose |
+|---|---|
+| Basic Tooltip | Delay control, hover and focus |
+| Text Button Trigger | Functional text button |
+| Icon Only Button | Icon-button accessible name |
+| Keyboard Focus | Focus activation |
+| Escape Dismissal | Keyboard dismissal |
+| Controlled Tooltip | React-managed visibility |
+| Custom Opening Delay | Scoped provider configuration |
+| Multiple Tooltips | Shared provider timing |
+| Different Placements | Content side preferences |
+| Long Content | Wrapping and zoom |
+| Viewport Edge Collision | Collision-aware positioning |
+| Tooltip Inside Dialog | Portal layering and dialog integration |
+
+**Storybook controls:** DelayDuration on Basic Tooltip; provider and controlled behavior shown in example stories.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 16. Architectural Boundaries
 

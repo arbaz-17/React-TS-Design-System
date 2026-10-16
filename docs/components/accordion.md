@@ -306,24 +306,37 @@ Accordion does not import these components internally.
 - Accessibility inspection
 - ESLint and production build
 
-## 12. Storybook Requirements — Phase 7
+## 12. Verified Storybook Coverage — Phase 7
 
-Create stories for:
+**Storybook navigation:** `Interactive/Accordion`
 
-1. Default
-2. Single Open
-3. Multiple Open
-4. Initially Expanded
-5. All Collapsed
-6. Rich Content
-7. Native Toggle Events
-8. Multiple Independent Accordions
-9. Accordion Inside Card
-10. Long Content
-11. Keyboard Interaction
-12. Dark Theme
+**Story file:** [`src/components/interactive/accordion.stories.tsx`](../../src/components/interactive/accordion.stories.tsx)
 
-Interaction tests should verify native opening and closing, exclusive grouping, multiple expansion, keyboard activation and focus visibility.
+**Coverage:** 11 locally verified stories.
+
+| Story | Documented purpose |
+|---|---|
+| Default | type/className controls |
+| Single Open | Native single-open grouping |
+| Multiple Open | Independent expansion |
+| Initially Expanded | defaultOpen behavior |
+| All Collapsed | Zero-open state |
+| Rich Content | Forms and lists in content |
+| Native Toggle Events | onToggle observation and rerenders |
+| Multiple Independent Accordions | Unique native grouping |
+| Accordion Inside Card | Card integration |
+| Long Content | Content reflow and zoom |
+| Keyboard Interaction | Native Enter/Space and Tab behavior |
+
+**Storybook controls:** Type and className.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 13. Architectural Boundaries
 

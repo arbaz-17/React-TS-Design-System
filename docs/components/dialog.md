@@ -342,25 +342,37 @@ The Dialog does not manage independent theme state.
 - Accessibility testing
 - ESLint and production build
 
-## 12. Storybook Requirements — Phase 7
+## 12. Verified Storybook Coverage — Phase 7
 
-Create stories for:
+**Storybook navigation:** `Interactive/Dialog`
 
-1. Basic Dialog
-2. With Description
-3. Without Description
-4. Form Dialog
-5. Controlled Dialog
-6. Uncontrolled Dialog
-7. Long Content
-8. Custom Width
-9. Dismissal Prevention
-10. Keyboard and Focus Behavior
-11. Dark Theme
+**Story file:** [`src/components/interactive/dialog.stories.tsx`](../../src/components/interactive/dialog.stories.tsx)
 
-Interactive stories should verify opening, closing, focus restoration and accessible naming.
+**Coverage:** 11 locally verified stories.
 
-Storybook examples should use real Button components and meaningful action handlers.
+| Story | Documented purpose |
+|---|---|
+| Basic Dialog | Complete eight-part composition |
+| With Description | Accessible description |
+| Without Description | Title-only semantics |
+| Form Dialog | Native validation and programmatic close |
+| Controlled Dialog | React-managed open state |
+| Uncontrolled Dialog | Radix-managed open state |
+| Long Content | Scrollable and constrained modal |
+| Custom Width | Width customization |
+| Dismissal Prevention | Unsaved-change protection |
+| Keyboard And Focus | Focus and keyboard behavior |
+| Portal And Theme | Portal theme inheritance |
+
+**Storybook controls:** Interactive props are demonstrated in examples rather than exposing modal state as generic controls.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 13. Architectural Boundaries
 

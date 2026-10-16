@@ -211,24 +211,25 @@ It does not import the theme hook. Light and dark colors resolve automatically t
 - Accessibility verification.
 - ESLint and production build.
 
-## 10. Storybook Requirements — Phase 7
+## 10. Verified Storybook Coverage — Phase 7
 
-Create stories demonstrating:
+**Storybook navigation:** `Primitives/Input`
 
-1. Default
-2. Supported Input Types
-3. Controlled
-4. Uncontrolled
-5. Disabled
-6. Read-only
-7. Required
-8. Invalid
-9. With Description
-10. With Error Message
+**Story file:** [`src/components/primitives/input.stories.tsx`](../../src/components/primitives/input.stories.tsx)
 
-Include examples of accessible labels and appropriate ARIA associations.
+**Coverage:** 9 locally verified stories.
 
-Stories should demonstrate native capabilities without introducing application-specific form-management logic.
+The verified nine-story coverage includes native input configuration, controlled/uncontrolled behavior, disabled and read-only states, required/invalid states, and accessible supporting or error text. **The exact story export names must be confirmed against the latest local `.stories.tsx` file** before treating this as a complete export-name inventory.
+
+**Storybook controls:** Type, placeholder, disabled, readOnly, required, and native control props as appropriate.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 11. Architectural Boundaries
 
