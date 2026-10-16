@@ -1,16 +1,4 @@
-/*
- * Mini Design System — Design Tokens
- *
- * Visual direction:
- * Orange · Charcoal · Graphite · Off-white
- *
- * Semantic foreground/background pairs must
- * always be used together where appropriate.
- */
 
-/* ---------------------------------------------
-   Light theme
---------------------------------------------- */
 
 :root {
   /* Brand identity */
@@ -58,9 +46,6 @@
   --ring: #c2410c;
 }
 
-/* ---------------------------------------------
-   Dark theme
---------------------------------------------- */
 
 :root[data-theme="dark"] {
   /* Base surfaces */
@@ -104,9 +89,7 @@
   --ring: #ffa676;
 }
 
-/* ---------------------------------------------
-   Tailwind v4 semantic color mapping
---------------------------------------------- */
+
 
 @theme inline {
   --color-background: var(--background);
@@ -141,9 +124,6 @@
   --color-ring: var(--ring);
 }
 
-/* ---------------------------------------------
-   Shared shape and elevation tokens
---------------------------------------------- */
 
 @theme {
   --radius-control: 0.5rem;

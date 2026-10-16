@@ -1,58 +1,32 @@
-
 import type { ComponentPropsWithRef } from "react";
 
-import {
-  cva,
-  type VariantProps,
-} from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "../../../lib/utils";
 
-/**
- * Semantic visual variants for Alert.
- *
- * Appearance does not determine accessibility role.
- * Consumers choose role="status" or role="alert"
- * only when appropriate.
- */
 const alertVariants = cva(
   [
-    // Layout
     "flex min-w-0 flex-col gap-1.5",
 
-    // Surface and spacing
-    "rounded-surface border border-l-4",
-    "px-4 py-3",
+    "rounded-surface border",
+    "px-4 py-3.5 sm:px-5 sm:py-4",
 
-    // Typography
     "text-foreground",
+
+    "[overflow-wrap:anywhere]",
+
+    "forced-colors:border-[CanvasText]",
   ],
   {
     variants: {
       variant: {
-        default: [
-          "border-border",
-          "border-l-primary",
-          "bg-muted/40",
-        ],
+        default: ["border-border", "bg-muted/60"],
 
-        success: [
-          "border-success/40",
-          "border-l-success",
-          "bg-success/10",
-        ],
+        success: ["border-success/40", "bg-success/15"],
 
-        warning: [
-          "border-warning/40",
-          "border-l-warning",
-          "bg-warning/10",
-        ],
+        warning: ["border-warning/40", "bg-warning/15"],
 
-        destructive: [
-          "border-destructive/40",
-          "border-l-destructive",
-          "bg-destructive/10",
-        ],
+        destructive: ["border-destructive/40", "bg-destructive/15"],
       },
     },
 
@@ -62,73 +36,38 @@ const alertVariants = cva(
   },
 );
 
-/**
- * Public prop types.
- */
-export type AlertProps =
-  ComponentPropsWithRef<"div"> &
+export type AlertProps = ComponentPropsWithRef<"div"> &
   VariantProps<typeof alertVariants>;
 
-export type AlertTitleProps =
-  ComponentPropsWithRef<"p">;
+export type AlertTitleProps = ComponentPropsWithRef<"p">;
 
-export type AlertDescriptionProps =
-  ComponentPropsWithRef<"div">;
+export type AlertDescriptionProps = ComponentPropsWithRef<"div">;
 
-/**
- * Alert
- *
- * Root presentation container.
- * Does not automatically assign an ARIA role.
- */
-export function Alert({
-  variant,
-  className,
-  ref,
-  ...props
-}: AlertProps) {
+export function Alert({ variant, className, ref, ...props }: AlertProps) {
   return (
     <div
       {...props}
       ref={ref}
-      className={cn(
-        alertVariants({ variant }),
-        className,
-      )}
+      className={cn(alertVariants({ variant }), className)}
     />
   );
 }
 
-/**
- * AlertTitle
- *
- * Prominent text without introducing
- * an unnecessary document heading.
- */
-export function AlertTitle({
-  className,
-  ref,
-  ...props
-}: AlertTitleProps) {
+export function AlertTitle({ className, ref, ...props }: AlertTitleProps) {
   return (
     <p
       {...props}
       ref={ref}
       className={cn(
-        "min-w-0 text-sm font-semibold",
-        "leading-5 text-foreground",
+        "min-w-0",
+        "text-sm font-semibold leading-5",
+        "tracking-tight text-foreground",
         className,
       )}
     />
   );
 }
 
-/**
- * AlertDescription
- *
- * Supports explanatory text, paragraphs,
- * lists, and other non-interactive content.
- */
 export function AlertDescription({
   className,
   ref,
@@ -139,8 +78,12 @@ export function AlertDescription({
       {...props}
       ref={ref}
       className={cn(
-        "min-w-0 text-sm leading-6",
-        "text-foreground",
+        "min-w-0",
+        "text-sm leading-6",
+        "text-muted-foreground",
+        "[&_a]:font-medium",
+        "[&_a]:underline",
+        "[&_a]:underline-offset-4",
         className,
       )}
     />

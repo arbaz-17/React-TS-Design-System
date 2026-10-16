@@ -11,10 +11,6 @@ import {
 
 import { cn } from "../../../lib/utils";
 
-/* -------------------------------------------------------
- * Public Types
- * ----------------------------------------------------- */
-
 type TabsSelectionProps =
   | {
       value: string;
@@ -56,10 +52,6 @@ export type TabsContentProps = Omit<
   value: string;
 };
 
-/* -------------------------------------------------------
- * Private Context
- * ----------------------------------------------------- */
-
 type TabsContextValue = {
   selectedValue: string;
   selectTab: (value: string) => void;
@@ -81,21 +73,22 @@ function useTabsContext() {
   return context;
 }
 
-/* -------------------------------------------------------
- * Private ID Helpers
- * ----------------------------------------------------- */
 
-function getTabId(prefix: string, value: string) {
+
+function getTabId(
+  prefix: string,
+  value: string,
+) {
   return `${prefix}-tab-${encodeURIComponent(value)}`;
 }
 
-function getPanelId(prefix: string, value: string) {
+function getPanelId(
+  prefix: string,
+  value: string,
+) {
   return `${prefix}-panel-${encodeURIComponent(value)}`;
 }
 
-/* -------------------------------------------------------
- * Tabs Root
- * ----------------------------------------------------- */
 
 export function Tabs({
   value,
@@ -108,7 +101,7 @@ export function Tabs({
   const idPrefix = useId();
 
   const [internalValue, setInternalValue] =
-    useState(defaultValue ?? value ?? "");
+    useState(defaultValue ?? "");
 
   const isControlled = value !== undefined;
 
@@ -148,9 +141,7 @@ export function Tabs({
   );
 }
 
-/* -------------------------------------------------------
- * TabsList
- * ----------------------------------------------------- */
+
 
 export function TabsList({
   className,
@@ -169,55 +160,62 @@ export function TabsList({
       return;
     }
 
-    const keys = [
-      "ArrowRight",
-      "ArrowLeft",
-      "Home",
-      "End",
-    ];
-
-    if (!keys.includes(event.key)) {
-      return;
-    }
-
-    // Only handle keyboard events originating
-    // from an actual tab button.
     if (
-      !(event.target instanceof HTMLButtonElement) ||
-      event.target.getAttribute("role") !== "tab"
+      event.key !== "ArrowRight" &&
+      event.key !== "ArrowLeft" &&
+      event.key !== "Home" &&
+      event.key !== "End"
     ) {
       return;
     }
 
-    // Scoped to this tablist, not the whole document.
-    // Native disabled buttons are excluded.
-    const enabledTabs = Array.from(
-      event.currentTarget.querySelectorAll<HTMLButtonElement>(
-        'button[role="tab"]:not(:disabled)',
-      ),
-    );
+    const target = event.target;
 
-    const currentIndex = enabledTabs.indexOf(
-      event.target,
-    );
-
-    if (currentIndex === -1) {
+    if (
+      !(target instanceof HTMLButtonElement) ||
+      target.getAttribute("role") !== "tab" ||
+      target.parentElement !== event.currentTarget
+    ) {
       return;
     }
 
-    const lastIndex = enabledTabs.length - 1;
+    const enabledTabs = Array.from(
+      event.currentTarget.children,
+    ).filter(
+      (
+        element,
+      ): element is HTMLButtonElement =>
+        element instanceof HTMLButtonElement &&
+        element.getAttribute("role") === "tab" &&
+        !element.disabled,
+    );
+
+    const currentIndex =
+      enabledTabs.indexOf(target);
+
+    if (
+      currentIndex === -1 ||
+      enabledTabs.length === 0
+    ) {
+      return;
+    }
+
+    const lastIndex =
+      enabledTabs.length - 1;
 
     let nextIndex = currentIndex;
 
     switch (event.key) {
       case "ArrowRight":
-        nextIndex = (currentIndex + 1) %
+        nextIndex =
+          (currentIndex + 1) %
           enabledTabs.length;
         break;
 
       case "ArrowLeft":
         nextIndex =
-          (currentIndex - 1 + enabledTabs.length) %
+          (currentIndex - 1 +
+            enabledTabs.length) %
           enabledTabs.length;
         break;
 
@@ -238,14 +236,17 @@ export function TabsList({
 
     event.preventDefault();
 
-    // Move keyboard focus to the next enabled tab.
     nextTab.focus();
 
-    // Automatic activation:
-    // focused tab becomes the selected tab.
-    const nextValue = nextTab.getAttribute(
-      "data-tabs-value",
-    );
+    // Keep keyboard-focused tabs visible in
+    // horizontally scrollable tab lists.
+    nextTab.scrollIntoView({
+      block: "nearest",
+      inline: "nearest",
+    });
+
+    const nextValue =
+      nextTab.getAttribute("data-tabs-value");
 
     if (nextValue !== null) {
       selectTab(nextValue);
@@ -269,9 +270,6 @@ export function TabsList({
   );
 }
 
-/* -------------------------------------------------------
- * TabsTrigger
- * ----------------------------------------------------- */
 
 export function TabsTrigger({
   value,
@@ -287,17 +285,21 @@ export function TabsTrigger({
     idPrefix,
   } = useTabsContext();
 
-  const isSelected = selectedValue === value;
+  const isSelected =
+    selectedValue === value;
 
-function handleClick(
-  event: MouseEvent<HTMLButtonElement>,
-) {
-  onClick?.(event);
+  function handleClick(
+    event: MouseEvent<HTMLButtonElement>,
+  ) {
+    onClick?.(event);
 
-  if (!event.defaultPrevented && !disabled) {
-    selectTab(value);
+    if (
+      !event.defaultPrevented &&
+      !disabled
+    ) {
+      selectTab(value);
+    }
   }
-}
 
   return (
     <button
@@ -306,25 +308,35 @@ function handleClick(
       type="button"
       role="tab"
       id={getTabId(idPrefix, value)}
-      aria-controls={getPanelId(idPrefix, value)}
+      aria-controls={getPanelId(
+        idPrefix,
+        value,
+      )}
       aria-selected={isSelected}
-      tabIndex={isSelected && !disabled ? 0 : -1}
+      tabIndex={
+        isSelected && !disabled ? 0 : -1
+      }
       data-tabs-value={value}
-      data-state={isSelected ? "active" : "inactive"}
+      data-state={
+        isSelected ? "active" : "inactive"
+      }
       disabled={disabled}
       onClick={handleClick}
       className={cn(
-        // Base layout
+        // Layout
         "relative inline-flex shrink-0",
         "min-h-11 items-center justify-center",
         "whitespace-nowrap px-4 py-2",
 
-        // Typography and appearance
+        // Typography and border
         "border-b-2 border-transparent",
         "text-sm font-medium",
         "text-muted-foreground",
 
-        // Selected state
+        // Hover
+        "hover:text-foreground",
+
+        // Selected
         "data-[state=active]:border-primary",
         "data-[state=active]:text-foreground",
 
@@ -334,9 +346,10 @@ function handleClick(
         "focus-visible:ring-inset",
         "focus-visible:ring-ring",
 
-        // Disabled state
+        // Disabled
         "disabled:cursor-not-allowed",
         "disabled:opacity-50",
+        "disabled:hover:text-muted-foreground",
 
         className,
       )}
@@ -344,9 +357,6 @@ function handleClick(
   );
 }
 
-/* -------------------------------------------------------
- * TabsContent
- * ----------------------------------------------------- */
 
 export function TabsContent({
   value,
@@ -359,7 +369,8 @@ export function TabsContent({
     idPrefix,
   } = useTabsContext();
 
-  const isSelected = selectedValue === value;
+  const isSelected =
+    selectedValue === value;
 
   return (
     <div
@@ -367,21 +378,22 @@ export function TabsContent({
       ref={ref}
       role="tabpanel"
       id={getPanelId(idPrefix, value)}
-      aria-labelledby={getTabId(idPrefix, value)}
+      aria-labelledby={getTabId(
+        idPrefix,
+        value,
+      )}
       hidden={!isSelected}
       tabIndex={0}
-      data-state={isSelected ? "active" : "inactive"}
+      data-state={
+        isSelected ? "active" : "inactive"
+      }
       className={cn(
         "min-w-0 py-4",
         "outline-none",
         "focus-visible:outline-2",
         "focus-visible:outline-offset-2",
         "focus-visible:outline-ring",
-
-        // Keeps inactive panels hidden even when
-        // consumer classes include display utilities.
         "data-[state=inactive]:hidden",
-
         className,
       )}
     />

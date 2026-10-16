@@ -1,5 +1,5 @@
 
-import { useId, useState, type ReactNode } from "react";
+import { useId, useRef, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import {
@@ -9,6 +9,7 @@ import {
   Inbox,
   Plus,
   SearchX,
+  CloudUpload,
 } from "lucide-react";
 
 import {
@@ -25,32 +26,6 @@ import {
   Input,
 } from "../../index";
 
-// -----------------------------------------
-// Story-only section helper
-// -----------------------------------------
-
-function DemoSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
-  const headingId = useId();
-
-  return (
-    <section aria-labelledby={headingId} className="w-full">
-      <h2 id={headingId} className="sr-only">
-        {title}
-      </h2>
-      {children}
-    </section>
-  );
-}
-
-// -----------------------------------------
-// Storybook metadata
-// -----------------------------------------
 
 const meta = {
   title: "Composites/EmptyState",
@@ -58,24 +33,26 @@ const meta = {
   tags: ["autodocs"],
 
   parameters: {
+    layout: "centered",
+
     docs: {
       description: {
         component:
-          "A presentation-only component family for empty content states. EmptyState, EmptyStateVisual, EmptyStateTitle, EmptyStateDescription, and EmptyStateActions are independently composable and optional. Consumers own data-state detection, illustrations, navigation, action handlers, accessible announcements, and focus behavior. EmptyState does not automatically assign ARIA roles or manage application state.",
+          "A compositional component for presenting empty content states. EmptyStateVisual, EmptyStateTitle, EmptyStateDescription, and EmptyStateActions are optional. Consumers manage data-state detection, illustrations, navigation, actions, announcements, and focus behavior. EmptyState does not automatically assign accessibility roles or manage application state.",
       },
     },
   },
 
   args: {
     className:
-      "max-w-xl rounded-surface border border-border bg-card",
+      "w-full max-w-xl rounded-surface border border-border bg-card",
   },
 
   argTypes: {
     className: {
       control: "text",
       description:
-        "Additional classes for root spacing, width, alignment, and presentation.",
+        "Additional classes for width, spacing, alignment, and presentation.",
     },
 
     children: {
@@ -96,91 +73,44 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// -----------------------------------------
-// 1. Default
-// -----------------------------------------
-
 export const Default: Story = {
   render: (args) => (
-    <DemoSection title="Empty project collection">
-      <EmptyState {...args}>
-        <EmptyStateVisual>
+    <EmptyState {...args}>
+      <EmptyStateVisual>
+        <div className="flex size-16 items-center justify-center rounded-2xl border border-border bg-muted/60">
           <FolderOpen
             aria-hidden="true"
-            className="size-12"
+            className="size-8 text-muted-foreground"
           />
-        </EmptyStateVisual>
+        </div>
+      </EmptyStateVisual>
 
-        <EmptyStateTitle>
-          No projects yet
-        </EmptyStateTitle>
+      <EmptyStateTitle>
+        No projects yet
+      </EmptyStateTitle>
 
-        <EmptyStateDescription>
-          Projects you create will appear here.
-          Get started by creating your first project.
-        </EmptyStateDescription>
-      </EmptyState>
-    </DemoSection>
+      <EmptyStateDescription>
+        Projects you create will appear here.
+        Get started by creating your first project.
+      </EmptyStateDescription>
+    </EmptyState>
   ),
 
   parameters: {
     docs: {
       description: {
         story:
-          "A complete informational empty state with a decorative icon, title, and description. Experiment with the root className control. No action is provided in this introductory example.",
+          "The recommended default composition: a decorative visual, descriptive heading, and supporting text. Use the className control to explore different container presentations. An action is intentionally omitted because not every empty state requires one.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 2. With Visual
-// -----------------------------------------
 
-export const WithVisual: Story = {
+export const Minimal: Story = {
   render: () => (
-    <DemoSection title="Empty inbox example">
-      <EmptyState>
-        <EmptyStateVisual>
-          <div className="flex size-16 items-center justify-center rounded-full bg-muted">
-            <Inbox
-              aria-hidden="true"
-              className="size-8 text-muted-foreground"
-            />
-          </div>
-        </EmptyStateVisual>
-
-        <EmptyStateTitle>
-          Your inbox is empty
-        </EmptyStateTitle>
-
-        <EmptyStateDescription>
-          New messages will appear here when
-          someone contacts you.
-        </EmptyStateDescription>
-      </EmptyState>
-    </DemoSection>
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "EmptyStateVisual accepts consumer-provided icons and styling. The decorative icon is hidden from assistive technology because the text conveys the same meaning.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 3. Without Visual
-// -----------------------------------------
-
-export const WithoutVisual: Story = {
-  render: () => (
-    <DemoSection title="Empty notifications example">
-      <EmptyState>
+    <div className="grid w-full max-w-3xl gap-4 md:grid-cols-2">
+      <EmptyState className="rounded-surface border border-border bg-card px-4 py-10">
         <EmptyStateTitle>
           No notifications
         </EmptyStateTitle>
@@ -190,49 +120,27 @@ export const WithoutVisual: Story = {
           will appear here when available.
         </EmptyStateDescription>
       </EmptyState>
-    </DemoSection>
-  ),
 
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "The visual section is optional. A heading and short explanation are often sufficient for simple empty states.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 4. Title Only
-// -----------------------------------------
-
-export const TitleOnly: Story = {
-  render: () => (
-    <DemoSection title="Minimal empty state example">
-      <EmptyState className="py-8">
+      <EmptyState className="rounded-surface border border-border bg-card px-4 py-10">
         <EmptyStateTitle>
           Nothing to display
         </EmptyStateTitle>
       </EmptyState>
-    </DemoSection>
+    </div>
   ),
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "The minimal supported composition. Every section except the root and the title is omitted. No child registration or Context is required.",
+          "Demonstrates two minimal compositions: title with description, and title only. EmptyStateVisual and EmptyStateActions are optional, and no Context or child registration is required.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 5. No Search Results
-// -----------------------------------------
 
 const sampleProjects = [
   "Design System",
@@ -242,49 +150,54 @@ const sampleProjects = [
 
 function NoSearchResultsExample() {
   const inputId = useId();
+
   const [query, setQuery] = useState("missing");
+
+  const normalizedQuery = query.trim().toLowerCase();
 
   const matchingProjects = sampleProjects.filter(
     (project) =>
-      project.toLowerCase().includes(query.toLowerCase()),
+      project.toLowerCase().includes(normalizedQuery),
   );
 
   return (
-    <DemoSection title="Project search example">
-      <div className="w-full max-w-xl space-y-4">
-        <div className="space-y-2">
-          <label
-            htmlFor={inputId}
-            className="block text-sm font-medium text-foreground"
-          >
-            Search projects
-          </label>
-
-          <Input
-            id={inputId}
-            type="search"
-            value={query}
-            placeholder="Search project names..."
-            onChange={(event) =>
-              setQuery(event.currentTarget.value)
-            }
-          />
-        </div>
-
-        <p
-          role="status"
-          className="text-sm text-muted-foreground"
+    <div className="w-full max-w-xl space-y-4">
+      <div className="space-y-2">
+        <label
+          htmlFor={inputId}
+          className="block text-sm font-medium text-foreground"
         >
-          {matchingProjects.length} matching projects
-        </p>
+          Search projects
+        </label>
 
+        <Input
+          id={inputId}
+          type="search"
+          value={query}
+          placeholder="Search project names..."
+          onChange={(event) =>
+            setQuery(event.currentTarget.value)
+          }
+        />
+      </div>
+
+      <p className="text-sm text-muted-foreground">
+        {matchingProjects.length} matching{" "}
+        {matchingProjects.length === 1
+          ? "project"
+          : "projects"}
+      </p>
+
+      <div aria-live="polite" aria-atomic="true">
         {matchingProjects.length === 0 ? (
           <EmptyState className="rounded-surface border border-border bg-card">
             <EmptyStateVisual>
-              <SearchX
-                aria-hidden="true"
-                className="size-11"
-              />
+              <div className="flex size-16 items-center justify-center rounded-2xl bg-muted/60">
+                <SearchX
+                  aria-hidden="true"
+                  className="size-8 text-muted-foreground"
+                />
+              </div>
             </EmptyStateVisual>
 
             <EmptyStateTitle>
@@ -292,8 +205,8 @@ function NoSearchResultsExample() {
             </EmptyStateTitle>
 
             <EmptyStateDescription>
-              Try another search term or clear the
-              current search to see all projects.
+              Try a different search term or clear
+              your search to see all projects.
             </EmptyStateDescription>
 
             <EmptyStateActions>
@@ -311,7 +224,7 @@ function NoSearchResultsExample() {
             {matchingProjects.map((project) => (
               <li
                 key={project}
-                className="rounded-control border border-border bg-card p-3 text-sm"
+                className="rounded-control border border-border bg-card px-4 py-3 text-sm text-foreground"
               >
                 {project}
               </li>
@@ -319,7 +232,7 @@ function NoSearchResultsExample() {
           </ul>
         )}
       </div>
-    </DemoSection>
+    </div>
   );
 }
 
@@ -328,116 +241,92 @@ export const NoSearchResults: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Demonstrates consumer-managed empty search results. The search input filters a fixed local collection, and Clear search restores matching content. EmptyState itself does not inspect arrays or manage search state.",
+          "A functional empty-search example. Typing filters a local project collection, and clearing the query restores the results. The consumer owns filtering and announcements; EmptyState remains presentational.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 6. No Records
-// -----------------------------------------
-
-export const NoRecords: Story = {
-  render: () => (
-    <DemoSection title="Empty records example">
-      <EmptyState className="rounded-surface border border-dashed border-border bg-card">
-        <EmptyStateVisual>
-          <FolderOpen
-            aria-hidden="true"
-            className="size-11"
-          />
-        </EmptyStateVisual>
-
-        <EmptyStateTitle>
-          No records yet
-        </EmptyStateTitle>
-
-        <EmptyStateDescription>
-          Your records will appear here after
-          they have been added to the collection.
-        </EmptyStateDescription>
-      </EmptyState>
-    </DemoSection>
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "A first-use empty collection without an action. Not every empty state needs a call to action, particularly when record creation is unavailable in the current context.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 7. Primary Action
-// -----------------------------------------
 
 function PrimaryActionExample() {
   const [created, setCreated] = useState(false);
+  const resetButtonRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <DemoSection title="Create a sample record">
-      <div className="w-full max-w-lg space-y-4">
-        <p
-          role="status"
-          className="text-sm text-muted-foreground"
-        >
-          {created
-            ? "A sample record has been created."
-            : "The collection has no records."}
-        </p>
+    <div className="w-full max-w-lg space-y-4">
+      <p
+        role="status"
+        className="text-sm text-muted-foreground"
+      >
+        {created
+          ? "A sample record has been created."
+          : "The collection has no records."}
+      </p>
 
-        {created ? (
-          <div className="space-y-4 rounded-surface border border-border bg-card p-5">
-            <p className="font-medium text-foreground">
+      {created ? (
+        <div className="space-y-4 rounded-surface border border-border bg-card p-5">
+          <div className="space-y-1">
+            <h3 className="text-base font-semibold text-foreground">
               Sample record
-            </p>
+            </h3>
 
-            <Button
-              variant="outline"
-              onClick={() => setCreated(false)}
-            >
-              Reset example
-            </Button>
+            <p className="text-sm text-muted-foreground">
+              Your collection now contains one record.
+            </p>
           </div>
-        ) : (
-          <EmptyState className="rounded-surface border border-border bg-card">
-            <EmptyStateVisual>
+
+          <Button
+            ref={resetButtonRef}
+            variant="outline"
+            onClick={() => setCreated(false)}
+          >
+            Reset example
+          </Button>
+        </div>
+      ) : (
+        <EmptyState className="rounded-surface border border-border bg-card">
+          <EmptyStateVisual>
+            <div className="flex size-16 items-center justify-center rounded-2xl bg-muted/60">
+              <Inbox
+                aria-hidden="true"
+                className="size-8 text-muted-foreground"
+              />
+            </div>
+          </EmptyStateVisual>
+
+          <EmptyStateTitle>
+            No records yet
+          </EmptyStateTitle>
+
+          <EmptyStateDescription>
+            Create a sample record to populate
+            your collection.
+          </EmptyStateDescription>
+
+          <EmptyStateActions>
+            <Button
+              onClick={() => {
+                setCreated(true);
+
+                requestAnimationFrame(() => {
+                  resetButtonRef.current?.focus();
+                });
+              }}
+            >
               <Plus
                 aria-hidden="true"
-                className="size-11"
+                className="size-4"
               />
-            </EmptyStateVisual>
-
-            <EmptyStateTitle>
-              No records yet
-            </EmptyStateTitle>
-
-            <EmptyStateDescription>
-              Create a sample record to populate
-              this collection.
-            </EmptyStateDescription>
-
-            <EmptyStateActions>
-              <Button onClick={() => setCreated(true)}>
-                <Plus
-                  aria-hidden="true"
-                  className="size-4"
-                />
-                Create sample record
-              </Button>
-            </EmptyStateActions>
-          </EmptyState>
-        )}
-      </div>
-    </DemoSection>
+              Create sample record
+            </Button>
+          </EmptyStateActions>
+        </EmptyState>
+      )}
+    </div>
   );
 }
 
@@ -446,18 +335,16 @@ export const PrimaryAction: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Demonstrates a functional primary action. React state belongs to the consuming example, and EmptyState is replaced by actual content after the sample record is created.",
+          "Demonstrates an empty-to-populated transition. The action creates local sample content, replacing the empty state with a record. The example moves focus to the newly available Reset button after creation; production applications should choose a focus target appropriate to their workflow.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 8. Multiple Actions
-// -----------------------------------------
 
 function MultipleActionsExample() {
   const tipsId = useId();
@@ -466,84 +353,102 @@ function MultipleActionsExample() {
   const [showTips, setShowTips] = useState(false);
 
   return (
-    <DemoSection title="Empty workspace with actions">
-      <div className="w-full max-w-lg space-y-4">
-        {created ? (
-          <div className="space-y-4 rounded-surface border border-border bg-card p-5">
-            <h3 className="font-semibold">
+    <div className="w-full max-w-lg">
+      {created ? (
+        <div className="space-y-4 rounded-surface border border-border bg-card p-5">
+          <div className="space-y-1">
+            <h3 className="text-base font-semibold text-foreground">
               Starter workspace
             </h3>
 
             <p className="text-sm text-muted-foreground">
               Your sample workspace is ready.
             </p>
+          </div>
+
+          <Button
+            variant="outline"
+            onClick={() => {
+              setCreated(false);
+              setShowTips(false);
+            }}
+          >
+            Reset example
+          </Button>
+        </div>
+      ) : (
+        <EmptyState className="rounded-surface border border-border bg-card">
+          <EmptyStateVisual>
+            <div className="flex size-16 items-center justify-center rounded-2xl bg-muted/60">
+              <FolderOpen
+                aria-hidden="true"
+                className="size-8 text-muted-foreground"
+              />
+            </div>
+          </EmptyStateVisual>
+
+          <EmptyStateTitle>
+            Your workspace is empty
+          </EmptyStateTitle>
+
+          <EmptyStateDescription>
+            Create a workspace or review a few
+            tips before getting started.
+          </EmptyStateDescription>
+
+          <EmptyStateActions>
+            <Button
+              onClick={() => setCreated(true)}
+            >
+              <Plus
+                aria-hidden="true"
+                className="size-4"
+              />
+              Create workspace
+            </Button>
 
             <Button
               variant="outline"
-              onClick={() => {
-                setCreated(false);
-                setShowTips(false);
-              }}
+              aria-expanded={showTips}
+              aria-controls={tipsId}
+              onClick={() =>
+                setShowTips((current) => !current)
+              }
             >
-              Reset example
-            </Button>
-          </div>
-        ) : (
-          <EmptyState className="rounded-surface border border-border bg-card">
-            <EmptyStateVisual>
-              <FolderOpen
+              <BookOpen
                 aria-hidden="true"
-                className="size-11"
+                className="size-4"
               />
-            </EmptyStateVisual>
+              {showTips ? "Hide tips" : "Show tips"}
+            </Button>
+          </EmptyStateActions>
 
-            <EmptyStateTitle>
-              Your workspace is empty
-            </EmptyStateTitle>
+          <div
+            id={tipsId}
+            hidden={!showTips}
+            className="w-full max-w-sm text-left"
+          >
+            <div className="rounded-control border border-border bg-muted/40 p-4">
+              <p className="mb-2 text-sm font-medium text-foreground">
+                Getting started
+              </p>
 
-            <EmptyStateDescription>
-              Create a starter workspace or review
-              some guidance before getting started.
-            </EmptyStateDescription>
-
-            <EmptyStateActions>
-              <Button
-                onClick={() => setCreated(true)}
-              >
-                Create workspace
-              </Button>
-
-              <Button
-                variant="outline"
-                aria-expanded={showTips}
-                aria-controls={tipsId}
-                onClick={() =>
-                  setShowTips((current) => !current)
-                }
-              >
-                <BookOpen
-                  aria-hidden="true"
-                  className="size-4"
-                />
-                {showTips ? "Hide tips" : "Show tips"}
-              </Button>
-            </EmptyStateActions>
-
-            <div
-              id={tipsId}
-              hidden={!showTips}
-              className="max-w-sm text-left"
-            >
-              <ul className="list-disc space-y-1 pl-5 text-sm text-muted-foreground">
-                <li>Choose a descriptive workspace name.</li>
-                <li>Organize related items together.</li>
-                <li>Invite collaborators when needed.</li>
+              <ul className="list-disc space-y-1 pl-5 text-sm leading-6 text-muted-foreground">
+                <li>
+                  Choose a descriptive workspace name.
+                </li>
+                <li>
+                  Organize related items together.
+                </li>
+                <li>
+                  Invite collaborators when needed.
+                </li>
               </ul>
             </div>
-          </EmptyState>
-        )}
-      </div>
-    </DemoSection>
+          </div>
+        </EmptyState>
+      )}
+    </div>
   );
 }
 
@@ -552,227 +457,93 @@ export const MultipleActions: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "EmptyStateActions supports multiple consumer-provided controls. The primary action creates sample content, and the secondary action expands local guidance with aria-expanded and aria-controls. Neither behavior exists inside EmptyState itself.",
+          "Demonstrates multiple actions and an accessible disclosure. The primary action creates sample content, while the secondary action reveals guidance using aria-expanded and aria-controls. The consuming application owns both behaviors.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 9. Custom Illustration
-// -----------------------------------------
-
-export const CustomIllustration: Story = {
+export const CustomVisual: Story = {
   render: () => (
-    <DemoSection title="Custom empty-state illustration">
-      <EmptyState className="rounded-surface border border-border bg-card">
-        <EmptyStateVisual>
-          <svg
-            viewBox="0 0 120 100"
-            fill="none"
+    <EmptyState className="w-full max-w-xl rounded-surface border border-border bg-card">
+      <EmptyStateVisual>
+        <div className="flex size-20 items-center justify-center rounded-2xl border border-border bg-muted/60">
+          <CloudUpload
             aria-hidden="true"
-            focusable="false"
-            className="h-28 w-32 text-primary"
-          >
-            <rect
-              x="22"
-              y="29"
-              width="76"
-              height="56"
-              rx="9"
-              fill="currentColor"
-              fillOpacity="0.08"
-              stroke="currentColor"
-              strokeWidth="2"
-            />
+            className="size-10 text-primary"
+            strokeWidth={1.5}
+          />
+        </div>
+      </EmptyStateVisual>
 
-            <path
-              d="M22 43H98"
-              stroke="currentColor"
-              strokeWidth="2"
-            />
+      <EmptyStateTitle>
+        Nothing uploaded yet
+      </EmptyStateTitle>
 
-            <path
-              d="M35 29V23C35 20 38 18 41 18H57L64 29"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinejoin="round"
-            />
-
-            <path
-              d="M49 63H71M60 52V74"
-              stroke="currentColor"
-              strokeWidth="3"
-              strokeLinecap="round"
-            />
-
-            <circle
-              cx="98"
-              cy="21"
-              r="7"
-              fill="currentColor"
-              fillOpacity="0.3"
-            />
-
-            <circle
-              cx="16"
-              cy="69"
-              r="4"
-              fill="currentColor"
-              fillOpacity="0.2"
-            />
-          </svg>
-        </EmptyStateVisual>
-
-        <EmptyStateTitle>
-          Nothing uploaded yet
-        </EmptyStateTitle>
-
-        <EmptyStateDescription>
-          Files added to this collection will
-          appear here.
-        </EmptyStateDescription>
-      </EmptyState>
-    </DemoSection>
+      <EmptyStateDescription>
+        Files you upload will appear here.
+        Start by adding your first file.
+      </EmptyStateDescription>
+    </EmptyState>
   ),
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "A consumer-provided decorative SVG illustration using currentColor and the existing primary design token. EmptyState does not generate illustrations. The text fully communicates the message without relying on the image.",
+          "Demonstrates a custom visual treatment using a Lucide icon, a subtle background, and a bordered icon container. The icon is decorative because the title and description already communicate the message.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 10. Inside Card
-// -----------------------------------------
 
 export const InsideCard: Story = {
   render: () => (
-    <DemoSection title="Empty activity card">
-      <Card className="w-full max-w-lg">
-        <CardHeader>
-          <CardTitle>
-            Recent activity
-          </CardTitle>
-        </CardHeader>
+    <Card className="w-full max-w-lg">
+      <CardHeader>
+        <CardTitle>
+          Recent activity
+        </CardTitle>
+      </CardHeader>
 
-        <CardContent>
-          <EmptyState className="px-3 py-8">
-            <EmptyStateVisual>
+      <CardContent>
+        <EmptyState className="px-3 py-8">
+          <EmptyStateVisual>
+            <div className="flex size-14 items-center justify-center rounded-2xl bg-muted/60">
               <Bell
                 aria-hidden="true"
-                className="size-10"
+                className="size-7 text-muted-foreground"
               />
-            </EmptyStateVisual>
+            </div>
+          </EmptyStateVisual>
 
-            <EmptyStateTitle>
-              No recent activity
-            </EmptyStateTitle>
+          <EmptyStateTitle className="text-base leading-6">
+            No recent activity
+          </EmptyStateTitle>
 
-            <EmptyStateDescription>
-              Updates and recent changes will
-              appear here when available.
-            </EmptyStateDescription>
-          </EmptyState>
-        </CardContent>
-      </Card>
-    </DemoSection>
+          <EmptyStateDescription>
+            Updates and recent changes will
+            appear here when available.
+          </EmptyStateDescription>
+        </EmptyState>
+      </CardContent>
+    </Card>
   ),
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Demonstrates EmptyState inside the existing Card family. Compact root padding prevents excessive nested spacing. The two component families remain independent and require no special integration props.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 11. Responsive Layout
-// -----------------------------------------
-
-export const ResponsiveLayout: Story = {
-  render: () => (
-    <DemoSection title="Responsive empty-state layouts">
-      <div className="grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="min-w-0 rounded-surface border border-border bg-card">
-          <EmptyState className="px-3 py-7">
-            <EmptyStateVisual>
-              <Inbox
-                aria-hidden="true"
-                className="size-8"
-              />
-            </EmptyStateVisual>
-
-            <EmptyStateTitle>
-              No messages
-            </EmptyStateTitle>
-
-            <EmptyStateDescription>
-              Your inbox is empty.
-            </EmptyStateDescription>
-          </EmptyState>
-        </div>
-
-        <div className="min-w-0 rounded-surface border border-border bg-card">
-          <EmptyState className="px-3 py-7">
-            <EmptyStateVisual>
-              <FolderOpen
-                aria-hidden="true"
-                className="size-8"
-              />
-            </EmptyStateVisual>
-
-            <EmptyStateTitle>
-              No project files
-            </EmptyStateTitle>
-
-            <EmptyStateDescription>
-              Your uploaded files will appear
-              here when available.
-            </EmptyStateDescription>
-          </EmptyState>
-        </div>
-
-        <div className="min-w-0 rounded-surface border border-border bg-card">
-          <EmptyState className="px-3 py-7">
-            <EmptyStateVisual>
-              <Bell
-                aria-hidden="true"
-                className="size-8"
-              />
-            </EmptyStateVisual>
-
-            <EmptyStateTitle>
-              No notifications
-            </EmptyStateTitle>
-
-            <EmptyStateDescription>
-              Important updates will appear here.
-            </EmptyStateDescription>
-          </EmptyState>
-        </div>
-      </div>
-    </DemoSection>
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "Demonstrates repeated EmptyState compositions in a responsive grid. Verify one, two, and three-column layouts as viewport width changes. Each instance preserves centered content, wrapping, and independent composition.",
+          "Demonstrates a compact EmptyState inside a Card. Reduced padding and a smaller visual prevent excessive whitespace when the component is nested inside another surface.",
       },
     },
   },

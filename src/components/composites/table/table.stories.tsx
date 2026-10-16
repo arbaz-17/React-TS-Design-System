@@ -1,6 +1,8 @@
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
+import { Eye, FolderOpen, RotateCcw } from "lucide-react";
 
 import {
   Badge,
@@ -24,9 +26,6 @@ import {
   TableRow,
 } from "../../index";
 
-// -----------------------------------------
-// Stable, typed story data
-// -----------------------------------------
 
 type Project = {
   id: number;
@@ -89,9 +88,13 @@ const totalBudget = projects.reduce(
   0,
 );
 
-// -----------------------------------------
-// Storybook metadata
-// -----------------------------------------
+const formatCurrency = (amount: number) =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(amount);
+
 
 const meta = {
   title: "Composites/Table",
@@ -99,10 +102,12 @@ const meta = {
   tags: ["autodocs"],
 
   parameters: {
+    layout: "centered",
+
     docs: {
       description: {
         component:
-          "A semantic, presentational table family containing nine native HTML components. Supports captions, column and row headers, body rows, footers, cell spans, native refs, and optional horizontal overflow. Consumers own data, actions, empty states, calculations, and accessibility relationships. Table does not implement sorting, filtering, pagination, selection, or data fetching.",
+          "A compositional table family built on native HTML elements. TableContainer provides optional horizontal scrolling, while Table, TableCaption, TableHeader, TableBody, TableFooter, TableRow, TableHead, and TableCell preserve native semantics. Consumers manage data, calculations, actions, empty states, and accessibility relationships. Sorting, filtering, selection, pagination, and data fetching are outside the component's responsibilities.",
       },
     },
   },
@@ -115,13 +120,13 @@ const meta = {
     className: {
       control: "text",
       description:
-        "Additional classes for the native table element.",
+        "Additional CSS classes applied to the native table element.",
     },
 
     children: {
       control: false,
       description:
-        "Native table sections, captions, and rows.",
+        "Native table captions, sections, rows, and cells.",
     },
 
     ref: {
@@ -136,14 +141,15 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// -----------------------------------------
-// 1. Basic Table
-// -----------------------------------------
 
-export const BasicTable: Story = {
+export const Default: Story = {
   render: (args) => (
-    <TableContainer className="max-w-xl">
+    <TableContainer className="max-w-2xl">
       <Table {...args}>
+        <TableCaption>
+          Project records and assigned task counts.
+        </TableCaption>
+
         <TableHeader>
           <TableRow>
             <TableHead>Project</TableHead>
@@ -157,7 +163,10 @@ export const BasicTable: Story = {
         <TableBody>
           {projects.map((project) => (
             <TableRow key={project.id}>
-              <TableHead scope="row">
+              <TableHead
+                scope="row"
+                className="text-sm font-medium text-foreground"
+              >
                 {project.name}
               </TableHead>
 
@@ -179,142 +188,18 @@ export const BasicTable: Story = {
     docs: {
       description: {
         story:
-          "Basic native table composition. TableHeader provides column headings, TableBody contains typed records, and scope=row identifies each project. Explore table-level className through controls.",
+          "The recommended basic composition. A native caption identifies the table, column headers describe the data, and project names use scope='row' to identify each record. Use the className control to customize the table.",
       },
     },
   },
 };
-
-// -----------------------------------------
-// 2. Table With Caption
-// -----------------------------------------
-
-export const TableWithCaption: Story = {
-  render: () => (
-    <TableContainer className="max-w-xl">
-      <Table>
-        <TableCaption>
-          Project records and their current task counts
-        </TableCaption>
-
-        <TableHeader>
-          <TableRow>
-            <TableHead>Project</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">
-              Tasks
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {projects.map((project) => (
-            <TableRow key={project.id}>
-              <TableHead scope="row">
-                {project.name}
-              </TableHead>
-
-              <TableCell>
-                {project.status}
-              </TableCell>
-
-              <TableCell className="text-right tabular-nums">
-                {project.tasks}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "TableCaption provides a native description identifying the table. It remains associated with the table in the accessibility tree, and its placement is controlled by the existing caption-top style.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 3. Row Headers
-// -----------------------------------------
-
-export const RowHeaders: Story = {
-  render: () => (
-    <TableContainer className="max-w-xl">
-      <Table>
-        <TableCaption>
-          Completion progress by project
-        </TableCaption>
-
-        <TableHeader>
-          <TableRow>
-            <TableHead scope="col">
-              Project
-            </TableHead>
-
-            <TableHead
-              scope="col"
-              className="text-right"
-            >
-              Total tasks
-            </TableHead>
-
-            <TableHead
-              scope="col"
-              className="text-right"
-            >
-              Completed
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {projects.map((project) => (
-            <TableRow key={project.id}>
-              <TableHead scope="row">
-                {project.name}
-              </TableHead>
-
-              <TableCell className="text-right tabular-nums">
-                {project.tasks}
-              </TableCell>
-
-              <TableCell className="text-right tabular-nums">
-                {project.completed}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "Distinguishes column headers (scope=col) from row headers (scope=row). TableHead defaults to column scope, so the consumer explicitly sets row scope for project names.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 4. Status Badges
-// -----------------------------------------
 
 export const StatusBadges: Story = {
   render: () => (
-    <TableContainer className="max-w-xl">
+    <TableContainer className="max-w-2xl">
       <Table>
         <TableCaption>
-          Project names and current statuses
+          Current project statuses and ownership.
         </TableCaption>
 
         <TableHeader>
@@ -328,7 +213,10 @@ export const StatusBadges: Story = {
         <TableBody>
           {projects.map((project) => (
             <TableRow key={project.id}>
-              <TableHead scope="row">
+              <TableHead
+                scope="row"
+                className="text-sm font-medium text-foreground"
+              >
                 {project.name}
               </TableHead>
 
@@ -352,30 +240,27 @@ export const StatusBadges: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Composes the existing Badge primitive inside native data cells. Status meaning is conveyed by visible text as well as color. Table itself does not depend on Badge.",
+          "Demonstrates composing the existing Badge component inside table cells. Status is communicated through visible text as well as color. Table does not depend on Badge or interpret status values.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 5. Row Actions
-// -----------------------------------------
 
 function RowActionsExample() {
-  const [message, setMessage] = useState(
-    "No project selected.",
-  );
+  const [selectedProject, setSelectedProject] =
+    useState<Project | null>(null);
 
   return (
-    <div className="w-full max-w-xl space-y-4">
+    <div className="w-full max-w-2xl space-y-4">
       <TableContainer>
         <Table>
           <TableCaption>
-            Project records with example actions
+            Project records with individual actions.
           </TableCaption>
 
           <TableHeader>
@@ -391,12 +276,21 @@ function RowActionsExample() {
           <TableBody>
             {projects.map((project) => (
               <TableRow key={project.id}>
-                <TableHead scope="row">
+                <TableHead
+                  scope="row"
+                  className="text-sm font-medium text-foreground"
+                >
                   {project.name}
                 </TableHead>
 
                 <TableCell>
-                  {project.status}
+                  <Badge
+                    variant={
+                      statusVariants[project.status]
+                    }
+                  >
+                    {project.status}
+                  </Badge>
                 </TableCell>
 
                 <TableCell className="text-right">
@@ -405,12 +299,14 @@ function RowActionsExample() {
                     size="sm"
                     variant="outline"
                     aria-label={`View ${project.name}`}
-                    onClick={() => {
-                      setMessage(
-                        `Selected project: ${project.name}`,
-                      );
-                    }}
+                    onClick={() =>
+                      setSelectedProject(project)
+                    }
                   >
+                    <Eye
+                      aria-hidden="true"
+                      className="size-4"
+                    />
                     View
                   </Button>
                 </TableCell>
@@ -420,12 +316,21 @@ function RowActionsExample() {
         </Table>
       </TableContainer>
 
-      <p
+      <div
         role="status"
-        className="text-sm text-muted-foreground"
+        className="min-h-10 rounded-control border border-border bg-muted/40 px-4 py-3 text-sm text-muted-foreground"
       >
-        {message}
-      </p>
+        {selectedProject ? (
+          <span>
+            Selected project:{" "}
+            <strong className="font-medium text-foreground">
+              {selectedProject.name}
+            </strong>
+          </span>
+        ) : (
+          "Select View to inspect a project."
+        )}
+      </div>
     </div>
   );
 }
@@ -435,25 +340,23 @@ export const RowActions: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Places native Button actions inside cells. Each repeated View button receives a unique accessible name identifying its project. Clicking updates a local status message without navigation or modifying the Table implementation.",
+          "Demonstrates functional row-level buttons. Each View button has a unique accessible name identifying its project, and clicking updates a local status region. Actions remain inside native table cells rather than making entire rows interactive.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 6. Footer Totals
-// -----------------------------------------
 
 export const FooterTotals: Story = {
   render: () => (
-    <TableContainer className="max-w-xl">
+    <TableContainer className="max-w-3xl">
       <Table>
         <TableCaption>
-          Project task totals
+          Project task progress and budget totals.
         </TableCaption>
 
         <TableHeader>
@@ -467,13 +370,20 @@ export const FooterTotals: Story = {
             <TableHead className="text-right">
               Completed
             </TableHead>
+
+            <TableHead className="text-right">
+              Budget (USD)
+            </TableHead>
           </TableRow>
         </TableHeader>
 
         <TableBody>
           {projects.map((project) => (
             <TableRow key={project.id}>
-              <TableHead scope="row">
+              <TableHead
+                scope="row"
+                className="text-sm font-medium text-foreground"
+              >
                 {project.name}
               </TableHead>
 
@@ -484,22 +394,33 @@ export const FooterTotals: Story = {
               <TableCell className="text-right tabular-nums">
                 {project.completed}
               </TableCell>
+
+              <TableCell className="text-right tabular-nums">
+                {formatCurrency(project.budget)}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
 
         <TableFooter>
           <TableRow>
-            <TableHead scope="row">
+            <TableHead
+              scope="row"
+              className="text-sm font-semibold text-foreground"
+            >
               Total
             </TableHead>
 
-            <TableCell className="text-right tabular-nums">
+            <TableCell className="text-right font-semibold tabular-nums">
               {totalTasks}
             </TableCell>
 
-            <TableCell className="text-right tabular-nums">
+            <TableCell className="text-right font-semibold tabular-nums">
               {totalCompleted}
+            </TableCell>
+
+            <TableCell className="text-right font-semibold tabular-nums">
+              {formatCurrency(totalBudget)}
             </TableCell>
           </TableRow>
         </TableFooter>
@@ -509,51 +430,64 @@ export const FooterTotals: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Demonstrates native tfoot semantics. Totals are calculated from the stable typed story data, not by the Table component. The summary row uses a row heading and aligned numeric cells.",
+          "Demonstrates native tfoot semantics, consumer-calculated totals, right-aligned numeric columns, and tabular numerals. Numeric headings and values share alignment for easier comparison.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 7. Empty Data
-// -----------------------------------------
 
 function EmptyDataExample() {
-  const [showRecords, setShowRecords] = useState(false);
+  const [showRecords, setShowRecords] =
+    useState(false);
 
   return (
-    <section className="w-full max-w-xl space-y-4">
-      <h2 className="text-lg font-semibold text-foreground">
-        Project records
-      </h2>
+    <div className="w-full max-w-2xl space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="space-y-1">
+          <h3 className="text-base font-semibold text-foreground">
+            Project records
+          </h3>
 
-      <Button
-        variant="outline"
-        onClick={() => {
-          setShowRecords((current) => !current);
-        }}
-      >
-        {showRecords
-          ? "Show empty table"
-          : "Restore project records"}
-      </Button>
+          <p className="text-sm text-muted-foreground">
+            Browse the projects in your collection.
+          </p>
+        </div>
+
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() =>
+            setShowRecords((current) => !current)
+          }
+        >
+          <RotateCcw
+            aria-hidden="true"
+            className="size-4"
+          />
+
+          {showRecords
+            ? "Show empty state"
+            : "Restore records"}
+        </Button>
+      </div>
 
       <p
         role="status"
         className="text-sm text-muted-foreground"
       >
         {showRecords
-          ? `${projects.length} records displayed.`
+          ? `${projects.length} project records displayed.`
           : "No project records available."}
       </p>
 
       <TableContainer>
         <Table>
-          <TableCaption>
+          <TableCaption className="sr-only">
             Project collection
           </TableCaption>
 
@@ -561,6 +495,7 @@ function EmptyDataExample() {
             <TableRow>
               <TableHead>Project</TableHead>
               <TableHead>Status</TableHead>
+
               <TableHead className="text-right">
                 Tasks
               </TableHead>
@@ -571,12 +506,21 @@ function EmptyDataExample() {
             {showRecords ? (
               projects.map((project) => (
                 <TableRow key={project.id}>
-                  <TableHead scope="row">
+                  <TableHead
+                    scope="row"
+                    className="text-sm font-medium text-foreground"
+                  >
                     {project.name}
                   </TableHead>
 
                   <TableCell>
-                    {project.status}
+                    <Badge
+                      variant={
+                        statusVariants[project.status]
+                      }
+                    >
+                      {project.status}
+                    </Badge>
                   </TableCell>
 
                   <TableCell className="text-right tabular-nums">
@@ -590,8 +534,15 @@ function EmptyDataExample() {
                   colSpan={3}
                   className="p-0"
                 >
-                  <EmptyState className="py-8">
-                    <EmptyStateTitle>
+                  <EmptyState className="px-4 py-10">
+                    <div className="flex size-14 items-center justify-center rounded-2xl bg-muted/60">
+                      <FolderOpen
+                        aria-hidden="true"
+                        className="size-7 text-muted-foreground"
+                      />
+                    </div>
+
+                    <EmptyStateTitle className="text-base">
                       No projects found
                     </EmptyStateTitle>
 
@@ -606,7 +557,7 @@ function EmptyDataExample() {
           </TableBody>
         </Table>
       </TableContainer>
-    </section>
+    </div>
   );
 }
 
@@ -615,40 +566,40 @@ export const EmptyData: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Demonstrates valid EmptyState composition inside a native table cell spanning all three columns. The consumer handles the empty/filled state. The persistent toggle retains keyboard focus as table content changes.",
+          "Demonstrates a valid empty state inside a table cell spanning all three columns. The toggle switches between empty and populated data while preserving focus on the control. Empty-state detection and rendering remain consumer responsibilities.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 8. Horizontal Overflow
-// -----------------------------------------
 
-export const HorizontalOverflow: Story = {
-  render: () => (
+function HorizontalOverflowExample() {
+  const tableLabelId = useId();
+
+  return (
     <div className="w-full max-w-md space-y-3">
-      <p className="text-sm text-muted-foreground">
-        Focus the table region, then use the
-        horizontal scrollbar or arrow keys to
-        explore the wide table.
+      <p
+        id={tableLabelId}
+        className="text-sm text-muted-foreground"
+      >
+        Scroll horizontally to explore the full
+        project report. You can also focus the
+        table region and use the arrow keys.
       </p>
 
       <TableContainer
         role="region"
         aria-label="Scrollable project report"
+        aria-describedby={tableLabelId}
         tabIndex={0}
-        className={[
-          "focus-visible:outline-2",
-          "focus-visible:outline-offset-2",
-          "focus-visible:outline-ring",
-        ].join(" ")}
+        className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       >
-        <Table className="min-w-[780px]">
-          <TableCaption>
+        <Table className="min-w-[800px]">
+          <TableCaption className="sr-only">
             Wide project report
           </TableCaption>
 
@@ -675,12 +626,21 @@ export const HorizontalOverflow: Story = {
           <TableBody>
             {projects.map((project) => (
               <TableRow key={project.id}>
-                <TableHead scope="row" className="whitespace-nowrap">
+                <TableHead
+                  scope="row"
+                  className="whitespace-nowrap text-sm font-medium text-foreground"
+                >
                   {project.name}
                 </TableHead>
 
                 <TableCell>
-                  {project.status}
+                  <Badge
+                    variant={
+                      statusVariants[project.status]
+                    }
+                  >
+                    {project.status}
+                  </Badge>
                 </TableCell>
 
                 <TableCell className="whitespace-nowrap">
@@ -696,7 +656,7 @@ export const HorizontalOverflow: Story = {
                 </TableCell>
 
                 <TableCell className="text-right tabular-nums">
-                  ${project.budget.toLocaleString("en-US")}
+                  {formatCurrency(project.budget)}
                 </TableCell>
               </TableRow>
             ))}
@@ -704,244 +664,103 @@ export const HorizontalOverflow: Story = {
         </Table>
       </TableContainer>
     </div>
-  ),
+  );
+}
+
+export const HorizontalOverflow: Story = {
+  render: () => <HorizontalOverflowExample />,
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Uses a narrow TableContainer and a wider Table to demonstrate horizontal scrolling. This deliberately scrollable region has an accessible label, keyboard focus stop, and visible focus outline. TableContainer does not supply those accessibility attributes automatically.",
+          "Demonstrates a wide table inside a narrow scrollable container. The intentionally scrollable region has an accessible name, descriptive instructions, a keyboard focus stop, and a visible focus outline. These attributes are consumer-managed rather than applied automatically to every TableContainer.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 9. Numeric Alignment
-// -----------------------------------------
 
-export const NumericAlignment: Story = {
+export const InsideCard: Story = {
   render: () => (
-    <TableContainer className="max-w-xl">
-      <Table>
-        <TableCaption>
-          Project task counts and budgets
-        </TableCaption>
+    <Card className="w-full max-w-2xl">
+      <CardHeader>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="space-y-1">
+            <CardTitle>
+              Project overview
+            </CardTitle>
 
-        <TableHeader>
-          <TableRow>
-            <TableHead>Project</TableHead>
+            <CardDescription>
+              Current project statuses and task counts.
+            </CardDescription>
+          </div>
 
-            <TableHead className="text-right">
-              Tasks
-            </TableHead>
+          <Badge variant="neutral">
+            {projects.length} projects
+          </Badge>
+        </div>
+      </CardHeader>
 
-            <TableHead className="text-right">
-              Completed
-            </TableHead>
+      <CardContent>
+        <TableContainer>
+          <Table>
+            <TableCaption className="sr-only">
+              Project overview records
+            </TableCaption>
 
-            <TableHead className="text-right">
-              Budget (USD)
-            </TableHead>
-          </TableRow>
-        </TableHeader>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Project</TableHead>
+                <TableHead>Status</TableHead>
 
-        <TableBody>
-          {projects.map((project) => (
-            <TableRow key={project.id}>
-              <TableHead scope="row">
-                {project.name}
-              </TableHead>
+                <TableHead className="text-right">
+                  Tasks
+                </TableHead>
+              </TableRow>
+            </TableHeader>
 
-              <TableCell className="text-right tabular-nums">
-                {project.tasks}
-              </TableCell>
-
-              <TableCell className="text-right tabular-nums">
-                {project.completed}
-              </TableCell>
-
-              <TableCell className="text-right tabular-nums">
-                ${project.budget.toLocaleString("en-US")}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-
-        <TableFooter>
-          <TableRow>
-            <TableHead scope="row">
-              Total
-            </TableHead>
-
-            <TableCell className="text-right tabular-nums">
-              {totalTasks}
-            </TableCell>
-
-            <TableCell className="text-right tabular-nums">
-              {totalCompleted}
-            </TableCell>
-
-            <TableCell className="text-right tabular-nums">
-              ${totalBudget.toLocaleString("en-US")}
-            </TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "Demonstrates right-aligned numeric columns and tabular numerals for easier visual comparison. Column headings and values share alignment. The data and number formatting are consumer responsibilities.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 10. Table Inside Card
-// -----------------------------------------
-
-export const TableInsideCard: Story = {
-  render: () => (
-    <div className="w-full max-w-2xl">
-      <h2 className="sr-only">
-        Project summary card
-      </h2>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            Project overview
-          </CardTitle>
-
-          <CardDescription>
-            Current project statuses and task counts.
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent>
-          <TableContainer>
-            <Table>
-              <TableCaption className="sr-only">
-                Project summary records
-              </TableCaption>
-
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Project</TableHead>
-                  <TableHead>Status</TableHead>
-
-                  <TableHead className="text-right">
-                    Tasks
+            <TableBody>
+              {projects.map((project) => (
+                <TableRow key={project.id}>
+                  <TableHead
+                    scope="row"
+                    className="text-sm font-medium text-foreground"
+                  >
+                    {project.name}
                   </TableHead>
+
+                  <TableCell>
+                    <Badge
+                      variant={
+                        statusVariants[project.status]
+                      }
+                    >
+                      {project.status}
+                    </Badge>
+                  </TableCell>
+
+                  <TableCell className="text-right tabular-nums">
+                    {project.tasks}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-
-              <TableBody>
-                {projects.map((project) => (
-                  <TableRow key={project.id}>
-                    <TableHead scope="row">
-                      {project.name}
-                    </TableHead>
-
-                    <TableCell>
-                      <Badge
-                        variant={
-                          statusVariants[project.status]
-                        }
-                      >
-                        {project.status}
-                      </Badge>
-                    </TableCell>
-
-                    <TableCell className="text-right tabular-nums">
-                      {project.tasks}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </CardContent>
-      </Card>
-    </div>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </CardContent>
+    </Card>
   ),
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Demonstrates Table inside the existing Card family. The Card provides surrounding context; the native table retains its own semantic structure and visually hidden caption. Neither component family requires integration-specific props.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 11. Custom Styling
-// -----------------------------------------
-
-export const CustomStyling: Story = {
-  render: () => (
-    <TableContainer className="max-w-xl rounded-none border-primary/30">
-      <Table>
-        <TableCaption>
-          Compact project summary
-        </TableCaption>
-
-        <TableHeader className="bg-secondary/50">
-          <TableRow>
-            <TableHead className="py-2 text-xs font-semibold uppercase tracking-wide">
-              Project
-            </TableHead>
-
-            <TableHead className="py-2 text-xs font-semibold uppercase tracking-wide">
-              Status
-            </TableHead>
-
-            <TableHead className="py-2 text-right text-xs font-semibold uppercase tracking-wide">
-              Tasks
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {projects.map((project) => (
-            <TableRow
-              key={project.id}
-              className="hover:bg-muted/30"
-            >
-              <TableHead scope="row" className="py-2">
-                {project.name}
-              </TableHead>
-
-              <TableCell className="py-2">
-                {project.status}
-              </TableCell>
-
-              <TableCell className="py-2 text-right tabular-nums">
-                {project.tasks}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "Demonstrates className customization of TableContainer, TableHeader, TableHead, TableRow, and TableCell. Styling uses existing semantic tokens. Hover styling remains purely visual and does not make rows interactive.",
+          "Demonstrates Table inside the existing Card family. Card provides the heading and supporting context, while Table retains its native semantics, scroll container, and visually hidden caption. No integration-specific component props are required.",
       },
     },
   },

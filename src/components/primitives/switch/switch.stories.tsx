@@ -8,10 +8,6 @@ import {
   type SwitchProps,
 } from "../../index";
 
-// -----------------------------------------
-// Story-only labeled helper
-// -----------------------------------------
-
 type LabeledSwitchProps = SwitchProps & {
   label: string;
   description?: string;
@@ -78,9 +74,6 @@ function LabeledSwitch({
   );
 }
 
-// -----------------------------------------
-// Storybook metadata
-// -----------------------------------------
 
 const meta = {
   title: "Primitives/Switch",
@@ -158,10 +151,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// -----------------------------------------
-// 1. Default Off
-// -----------------------------------------
-
 export const DefaultOff: Story = {
   render: (args) => (
     <LabeledSwitch
@@ -187,9 +176,6 @@ export const DefaultOff: Story = {
   },
 };
 
-// -----------------------------------------
-// 2. Default On
-// -----------------------------------------
 
 export const DefaultOn: Story = {
   render: () => (
@@ -211,9 +197,6 @@ export const DefaultOn: Story = {
   },
 };
 
-// -----------------------------------------
-// 3. Controlled
-// -----------------------------------------
 
 function ControlledExample() {
   const [enabled, setEnabled] = useState(false);
@@ -256,9 +239,6 @@ export const Controlled: Story = {
   },
 };
 
-// -----------------------------------------
-// 4. Uncontrolled
-// -----------------------------------------
 
 function UncontrolledExample() {
   const switchRef = useRef<HTMLInputElement>(null);
@@ -324,15 +304,13 @@ export const Uncontrolled: Story = {
     docs: {
       description: {
         story:
-          'The browser manages the checked state. FormData includes the value "on" when enabled, and omits the field when disabled. The forwarded ref targets the native input.',
+  'The browser manages the checked state. FormData includes "on" when the switch is checked and omits the field when unchecked. The forwarded ref targets the native input.',
       },
     },
   },
 };
 
-// -----------------------------------------
-// 5. Disabled Off
-// -----------------------------------------
+
 
 export const DisabledOff: Story = {
   render: () => (
@@ -354,9 +332,6 @@ export const DisabledOff: Story = {
   },
 };
 
-// -----------------------------------------
-// 6. Disabled On
-// -----------------------------------------
 
 export const DisabledOn: Story = {
   render: () => (
@@ -379,9 +354,7 @@ export const DisabledOn: Story = {
   },
 };
 
-// -----------------------------------------
-// 7. Invalid
-// -----------------------------------------
+
 
 export const Invalid: Story = {
   render: () => (
@@ -405,32 +378,8 @@ export const Invalid: Story = {
   },
 };
 
-// -----------------------------------------
-// 8. With Label
-// -----------------------------------------
 
-export const WithLabel: Story = {
-  render: () => (
-    <LabeledSwitch
-      label="Compact display mode"
-      defaultChecked
-    />
-  ),
 
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "An external HTML label is associated with the underlying input using htmlFor and id. Clicking the label toggles the switch.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 9. With Description
-// -----------------------------------------
 
 export const WithDescription: Story = {
   render: () => (
@@ -452,62 +401,6 @@ export const WithDescription: Story = {
   },
 };
 
-// -----------------------------------------
-// 10. Required
-// -----------------------------------------
-
-function RequiredExample() {
-  const [submitted, setSubmitted] = useState(false);
-
-  return (
-    <form
-      className="space-y-4"
-      onSubmit={(event) => {
-        event.preventDefault();
-        setSubmitted(true);
-      }}
-    >
-      <LabeledSwitch
-        label="Enable automatic backups"
-        name="automaticBackups"
-        required
-        description="For this example, automatic backups must be enabled before continuing."
-        onChange={() => setSubmitted(false)}
-      />
-
-      <Button type="submit">
-        Continue
-      </Button>
-
-      {submitted && (
-        <p
-          role="status"
-          className="text-sm text-success"
-        >
-          Form submitted successfully.
-        </p>
-      )}
-    </form>
-  );
-}
-
-export const Required: Story = {
-  render: () => <RequiredExample />,
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "Demonstrates the native required constraint. Because Switch uses a checkbox input, the form requires the setting to be on. Required switches are uncommon; use Checkbox for agreements and consent.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 11. Form Integration
-// -----------------------------------------
 
 type SettingsResult = {
   automaticSaving: boolean;

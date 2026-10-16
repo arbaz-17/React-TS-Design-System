@@ -1,17 +1,7 @@
-
 import { useId, useRef, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import {
-  Button,
-  Input,
-  Select,
-  type SelectProps,
-} from "../../index";
-
-// --------------------------------------------------
-// Story-only helpers
-// --------------------------------------------------
+import { Button, Input, Select, type SelectProps } from "../../index";
 
 type LabeledSelectProps = SelectProps & {
   label: string;
@@ -30,50 +20,31 @@ function LabeledSelect({
 }: LabeledSelectProps) {
   const generatedId = useId();
   const selectId = id ?? generatedId;
-
   const descriptionId = `${generatedId}-description`;
   const errorId = `${generatedId}-error`;
-
-  const describedByIds =
-    [
-      describedBy,
-      description ? descriptionId : undefined,
-      error ? errorId : undefined,
-    ]
-      .filter(Boolean)
-      .join(" ") || undefined;
+  const describedByIds = [
+    describedBy,
+    description ? descriptionId : undefined,
+    error ? errorId : undefined,
+  ]
+    .filter(Boolean)
+    .join(" ") || undefined;
 
   return (
     <div className="w-full max-w-sm space-y-2">
-      <label
-        htmlFor={selectId}
-        className="block text-sm font-medium text-foreground"
-      >
+      <label htmlFor={selectId} className="block text-sm font-medium text-foreground">
         {label}
       </label>
-
-      <Select
-        {...props}
-        id={selectId}
-        aria-describedby={describedByIds}
-      >
+      <Select {...props} id={selectId} aria-describedby={describedByIds}>
         {children}
       </Select>
-
       {description && (
-        <p
-          id={descriptionId}
-          className="text-sm text-muted-foreground"
-        >
+        <p id={descriptionId} className="text-sm text-muted-foreground">
           {description}
         </p>
       )}
-
       {error && (
-        <p
-          id={errorId}
-          className="text-sm text-destructive"
-        >
+        <p id={errorId} className="text-sm text-destructive">
           {error}
         </p>
       )}
@@ -81,26 +52,29 @@ function LabeledSelect({
   );
 }
 
-function SpeciesOptions() {
+const genres = [
+  { value: "action", label: "Action" },
+  { value: "war", label: "War" },
+  { value: "racing", label: "Racing" },
+  { value: "simulation", label: "Simulation" },
+] as const;
+
+function GenreOptions() {
   return (
     <>
-      <option value="cow">Cow</option>
-      <option value="buffalo">Buffalo</option>
-      <option value="goat">Goat</option>
-      <option value="sheep">Sheep</option>
+      {genres.map((genre) => (
+        <option key={genre.value} value={genre.value}>
+          {genre.label}
+        </option>
+      ))}
     </>
   );
 }
-
-// --------------------------------------------------
-// Storybook metadata
-// --------------------------------------------------
 
 const meta = {
   title: "Primitives/Select",
   component: Select,
   tags: ["autodocs"],
-
   parameters: {
     docs: {
       description: {
@@ -109,50 +83,39 @@ const meta = {
       },
     },
   },
-
   args: {
-    defaultValue: "cow",
+    defaultValue: "action",
     disabled: false,
     required: false,
     "aria-invalid": false,
   },
-
   argTypes: {
     defaultValue: {
       control: false,
       description:
         "Initial uncontrolled selection. Changing this after mounting does not reset the native select.",
     },
-
     value: {
       control: false,
-      description:
-        "Controlled selected value. Pair with onChange.",
+      description: "Controlled selected value. Pair with onChange.",
     },
-
     onChange: {
       control: false,
       description: "Native selection change handler.",
     },
-
     children: {
       control: false,
-      description:
-        "Native option and optgroup elements.",
+      description: "Native option and optgroup elements.",
     },
-
     disabled: {
       control: "boolean",
       description:
         "Prevents selection, keyboard interaction, and normal form submission.",
     },
-
     required: {
       control: "boolean",
-      description:
-        "Enables native required-field validation.",
+      description: "Enables native required-field validation.",
     },
-
     "aria-invalid": {
       control: "boolean",
       description:
@@ -165,28 +128,19 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// --------------------------------------------------
-// 1. Default playground
-// --------------------------------------------------
-
 export const Default: Story = {
   render: (args) => (
     <LabeledSelect
       {...args}
-      label="Animal species"
-      error={
-        args["aria-invalid"]
-          ? "Please select a valid animal species."
-          : undefined
-      }
+      label="Favorite Game Genre"
+      error={args["aria-invalid"] ? "Please review your genre selection." : undefined}
     >
       <option value="" disabled>
-        Choose an animal
+        Choose a Genre
       </option>
-      <SpeciesOptions />
+      <GenreOptions />
     </LabeledSelect>
   ),
-
   parameters: {
     docs: {
       description: {
@@ -197,41 +151,22 @@ export const Default: Story = {
   },
 };
 
-// --------------------------------------------------
-// 2. Controlled
-// --------------------------------------------------
-
 function ControlledExample() {
-  const [species, setSpecies] = useState("cow");
-
-  const labels: Record<string, string> = {
-    cow: "Cow",
-    buffalo: "Buffalo",
-    goat: "Goat",
-    sheep: "Sheep",
-  };
+  const [genre, setGenre] = useState("rpg");
+  const selectedLabel = genres.find((item) => item.value === genre)?.label ?? genre;
 
   return (
     <div className="max-w-sm space-y-4">
       <LabeledSelect
-        label="Animal species"
-        name="species"
-        value={species}
-        onChange={(event) => {
-          setSpecies(event.currentTarget.value);
-        }}
+        label="Favorite game genre"
+        name="genre"
+        value={genre}
+        onChange={(event) => setGenre(event.currentTarget.value)}
       >
-        <SpeciesOptions />
+        <GenreOptions />
       </LabeledSelect>
-
-      <p
-        role="status"
-        className="text-sm text-muted-foreground"
-      >
-        Selected species:{" "}
-        <span className="font-medium text-foreground">
-          {labels[species] ?? species}
-        </span>
+      <p role="status" className="text-sm text-muted-foreground">
+        Selected genre: <span className="font-medium text-foreground">{selectedLabel}</span>
       </p>
     </div>
   );
@@ -239,74 +174,43 @@ function ControlledExample() {
 
 export const Controlled: Story = {
   render: () => <ControlledExample />,
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "React state owns the selected value. The native onChange event updates that state. Select does not manage selection internally.",
+          "React state owns the selected genre. The native onChange event updates that state. Select does not manage selection internally.",
       },
     },
   },
 };
 
-// --------------------------------------------------
-// 3. Uncontrolled
-// --------------------------------------------------
-
 function UncontrolledExample() {
   const selectRef = useRef<HTMLSelectElement>(null);
-
-  const [submittedValue, setSubmittedValue] =
-    useState<string | null>(null);
+  const [submittedValue, setSubmittedValue] = useState<string | null>(null);
 
   return (
     <form
       className="max-w-sm space-y-4"
       onSubmit={(event) => {
         event.preventDefault();
-
         const formData = new FormData(event.currentTarget);
-        const value = formData.get("species");
-
-        setSubmittedValue(
-          typeof value === "string" ? value : "",
-        );
+        const value = formData.get("genre");
+        setSubmittedValue(typeof value === "string" ? value : "");
       }}
     >
-      <LabeledSelect
-        label="Animal species"
-        name="species"
-        defaultValue="goat"
-        ref={selectRef}
-      >
-        <SpeciesOptions />
+      <LabeledSelect label="Favorite game genre" name="genre" defaultValue="strategy" ref={selectRef}>
+        <GenreOptions />
       </LabeledSelect>
-
       <div className="flex flex-wrap gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => selectRef.current?.focus()}
-        >
+        <Button type="button" variant="outline" onClick={() => selectRef.current?.focus()}>
           Focus using ref
         </Button>
-
-        <Button type="submit">
-          Read selection
-        </Button>
+        <Button type="submit">Read selection</Button>
       </div>
-
       {submittedValue !== null && (
-        <p
-          role="status"
-          className="text-sm text-muted-foreground"
-        >
-          Submitted value:{" "}
-          <span className="font-medium text-foreground">
-            {submittedValue || "(empty)"}
-          </span>
+        <p role="status" className="text-sm text-muted-foreground">
+          Submitted value: <span className="font-medium text-foreground">{submittedValue || "(empty)"}</span>
         </p>
       )}
     </form>
@@ -315,7 +219,6 @@ function UncontrolledExample() {
 
 export const Uncontrolled: Story = {
   render: () => <UncontrolledExample />,
-
   parameters: {
     controls: { disable: true },
     docs: {
@@ -327,24 +230,17 @@ export const Uncontrolled: Story = {
   },
 };
 
-// --------------------------------------------------
-// 4. Placeholder-like option
-// --------------------------------------------------
-
 export const WithPlaceholder: Story = {
   render: () => (
     <LabeledSelect
-      label="Animal species"
+      label="Favorite game genre"
       defaultValue=""
-      description="Choose one of the available species."
+      description="Choose the genre you enjoy playing most."
     >
-      <option value="" disabled>
-        Select a species...
-      </option>
-      <SpeciesOptions />
+      <option value="" disabled>Select a genre...</option>
+      <GenreOptions />
     </LabeledSelect>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
@@ -355,10 +251,6 @@ export const WithPlaceholder: Story = {
     },
   },
 };
-
-// --------------------------------------------------
-// 5. Required
-// --------------------------------------------------
 
 function RequiredExample() {
   const [submitted, setSubmitted] = useState(false);
@@ -372,23 +264,17 @@ function RequiredExample() {
       }}
     >
       <LabeledSelect
-        label="Animal species (required)"
-        name="species"
+        label="Game genre (required)"
+        name="genre"
         defaultValue=""
         required
-        description="Choose a species before submitting."
+        description="Choose a genre before submitting."
         onChange={() => setSubmitted(false)}
       >
-        <option value="" disabled>
-          Choose a species
-        </option>
-        <SpeciesOptions />
+        <option value="" disabled>Choose a genre</option>
+        <GenreOptions />
       </LabeledSelect>
-
-      <Button type="submit">
-        Submit
-      </Button>
-
+      <Button type="submit">Submit</Button>
       {submitted && (
         <p role="status" className="text-sm text-success">
           Form submitted successfully.
@@ -400,34 +286,28 @@ function RequiredExample() {
 
 export const Required: Story = {
   render: () => <RequiredExample />,
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Native required validation rejects the initial empty value. Choose a valid option before submitting the form.",
+          "Native required validation rejects the initial empty value. Choose a genre before submitting the form.",
       },
     },
   },
 };
 
-// --------------------------------------------------
-// 6. Disabled
-// --------------------------------------------------
-
 export const Disabled: Story = {
   render: () => (
     <LabeledSelect
-      label="Unavailable selection"
-      defaultValue="buffalo"
+      label="Locked game genre"
+      defaultValue="simulation"
       disabled
-      description="This selection is currently unavailable."
+      description="This preference cannot currently be changed."
     >
-      <SpeciesOptions />
+      <GenreOptions />
     </LabeledSelect>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
@@ -439,26 +319,19 @@ export const Disabled: Story = {
   },
 };
 
-// --------------------------------------------------
-// 7. Invalid
-// --------------------------------------------------
-
 export const Invalid: Story = {
   render: () => (
     <LabeledSelect
-      label="Animal species"
+      label="Favorite game genre"
       defaultValue=""
       required
       aria-invalid="true"
-      error="Please choose an animal species."
+      error="Please choose a game genre."
     >
-      <option value="" disabled>
-        Choose a species
-      </option>
-      <SpeciesOptions />
+      <option value="" disabled>Choose a genre</option>
+      <GenreOptions />
     </LabeledSelect>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
@@ -470,61 +343,47 @@ export const Invalid: Story = {
   },
 };
 
-// --------------------------------------------------
-// 8. Native option groups
-// --------------------------------------------------
-
 export const OptionGroups: Story = {
   render: () => (
     <LabeledSelect
-      label="Choose an animal"
-      defaultValue="goat"
-      description="Options are organized into native groups."
+      label="Choose a game"
+      defaultValue="stardew-valley"
+      description="Games are organized into native genre groups."
     >
-      <optgroup label="Large livestock">
-        <option value="cow">Cow</option>
-        <option value="buffalo">Buffalo</option>
+      <optgroup label="Role-playing games">
+        <option value="baldurs-gate-3">Baldur's Gate 3</option>
+        <option value="skyrim">The Elder Scrolls V: Skyrim</option>
       </optgroup>
-
-      <optgroup label="Small livestock">
-        <option value="goat">Goat</option>
-        <option value="sheep">Sheep</option>
+      <optgroup label="Simulation games">
+        <option value="stardew-valley">Stardew Valley</option>
+        <option value="the-sims-4">The Sims 4</option>
       </optgroup>
-
-      <optgroup label="Other">
-        <option value="horse" disabled>
-          Horse (unavailable)
-        </option>
+      <optgroup label="Upcoming additions">
+        <option value="coming-soon" disabled>Coming soon (unavailable)</option>
       </optgroup>
     </LabeledSelect>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Native optgroup elements organize related options, while individual option elements can be disabled without disabling the entire select.",
+          "Native optgroup elements organize related games, while individual option elements can be disabled without disabling the entire select.",
       },
     },
   },
 };
 
-// --------------------------------------------------
-// 9. Accessible description
-// --------------------------------------------------
-
 export const WithDescription: Story = {
   render: () => (
     <LabeledSelect
-      label="Preferred animal species"
-      defaultValue="cow"
-      description="Choose the main species managed by your farm. You can update this preference later."
+      label="Preferred game genre"
+      defaultValue="action"
+      description="Choose the genre you want to see first in your game library. You can update this later."
     >
-      <SpeciesOptions />
+      <GenreOptions />
     </LabeledSelect>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
@@ -536,75 +395,38 @@ export const WithDescription: Story = {
   },
 };
 
-// --------------------------------------------------
-// 10. Native form integration
-// --------------------------------------------------
-
 function FormIntegrationExample() {
-  const farmNameId = useId();
-
-  const [result, setResult] = useState<{
-    farmName: string;
-    species: string;
-  } | null>(null);
+  const libraryNameId = useId();
+  const [result, setResult] = useState<{ libraryName: string; genre: string } | null>(null);
 
   return (
     <form
       className="max-w-sm space-y-4"
       onSubmit={(event) => {
         event.preventDefault();
-
         const formData = new FormData(event.currentTarget);
-
         setResult({
-          farmName: String(formData.get("farmName") ?? ""),
-          species: String(formData.get("species") ?? ""),
+          libraryName: String(formData.get("libraryName") ?? ""),
+          genre: String(formData.get("genre") ?? ""),
         });
       }}
     >
       <div className="space-y-2">
-        <label
-          htmlFor={farmNameId}
-          className="block text-sm font-medium text-foreground"
-        >
-          Farm name
+        <label htmlFor={libraryNameId} className="block text-sm font-medium text-foreground">
+          Game library name
         </label>
-
-        <Input
-          id={farmNameId}
-          name="farmName"
-          defaultValue="Green Valley Farm"
-          required
-        />
+        <Input id={libraryNameId} name="libraryName" defaultValue="My Game Collection" required />
       </div>
-
-      <LabeledSelect
-        label="Primary species"
-        name="species"
-        defaultValue=""
-        required
-      >
-        <option value="" disabled>
-          Select primary species
-        </option>
-        <SpeciesOptions />
+      <LabeledSelect label="Favorite genre" name="genre" defaultValue="" required>
+        <option value="" disabled>Select a genre</option>
+        <GenreOptions />
       </LabeledSelect>
-
-      <Button type="submit">
-        Save details
-      </Button>
-
+      <Button type="submit">Save preferences</Button>
       {result && (
-        <div
-          role="status"
-          className="rounded-surface border border-border bg-card p-3 text-sm text-foreground"
-        >
-          <p className="font-medium">
-            Form submitted successfully
-          </p>
-
-          <p>Farm: {result.farmName}</p>
-          <p>Species: {result.species}</p>
+        <div role="status" className="rounded-surface border border-border bg-card p-3 text-sm text-foreground">
+          <p className="font-medium">Preferences saved locally</p>
+          <p>Library: {result.libraryName}</p>
+          <p>Genre: {genres.find((item) => item.value === result.genre)?.label ?? result.genre}</p>
         </div>
       )}
     </form>
@@ -613,13 +435,12 @@ function FormIntegrationExample() {
 
 export const FormIntegration: Story = {
   render: () => <FormIntegrationExample />,
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Demonstrates Select alongside Input and Button using native form validation and FormData. No form-management library or backend is required.",
+          "Demonstrates Select alongside Input and Button using native form validation and FormData. The example displays submitted values locally; no backend is required.",
       },
     },
   },

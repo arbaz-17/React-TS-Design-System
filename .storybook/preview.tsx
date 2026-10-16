@@ -41,7 +41,7 @@ const preview: Preview = {
   },
 
   parameters: {
-    layout: "padded",
+    layout: "centered",
     controls: {
       expanded: true,
     },

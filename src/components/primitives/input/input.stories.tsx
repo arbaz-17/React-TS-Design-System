@@ -1,7 +1,7 @@
 
 import { useId, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import { userEvent, within, expect } from "storybook/test";
 import {
   Button,
   Input,
@@ -9,9 +9,6 @@ import {
   type InputType,
 } from "../../index";
 
-// --------------------------------------------------
-// Shared story-only helper
-// --------------------------------------------------
 
 type LabeledInputProps = InputProps & {
   label: string;
@@ -63,9 +60,6 @@ function LabeledInput({
   );
 }
 
-// --------------------------------------------------
-// Storybook metadata
-// --------------------------------------------------
 
 const meta = {
   title: "Primitives/Input",
@@ -76,7 +70,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A native, type-safe single-line input primitive. Supports seven input types, controlled and uncontrolled values, and native form attributes. Labels, validation, and error messages are the consumer's responsibility.",
+          "A native, type-safe single-line input primitive. Supports seven input types, controlled and uncontrolled values, and native form attributes.",
       },
     },
   },
@@ -142,9 +136,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// --------------------------------------------------
-// 1. Default interactive playground
-// --------------------------------------------------
 
 export const Default: Story = {
   render: (args) => (
@@ -164,9 +155,6 @@ export const Default: Story = {
   },
 };
 
-// --------------------------------------------------
-// 2. Supported input types
-// --------------------------------------------------
 
 const inputExamples: {
   type: InputType;
@@ -176,12 +164,12 @@ const inputExamples: {
   {
     type: "text",
     label: "Full name",
-    defaultValue: "Alex Morgan",
+    defaultValue: "Arbaz Ahmad",
   },
   {
     type: "email",
     label: "Email address",
-    defaultValue: "alex@example.com",
+    defaultValue: "arbaz@example.com",
   },
   {
     type: "password",
@@ -205,7 +193,7 @@ const inputExamples: {
   },
   {
     type: "number",
-    label: "Animal count",
+    label: "Amount",
     defaultValue: "25",
   },
 ];
@@ -229,15 +217,12 @@ export const SupportedTypes: Story = {
     docs: {
       description: {
         story:
-          "All seven supported native input types. Unsupported types such as checkbox, file, date, and radio are deliberately excluded from InputType.",
+          "All seven supported native input types.",
       },
     },
   },
 };
 
-// --------------------------------------------------
-// 3. Controlled input
-// --------------------------------------------------
 
 function ControlledExample() {
   const [value, setValue] = useState("TrackDairy");
@@ -276,10 +261,6 @@ export const Controlled: Story = {
     },
   },
 };
-
-// --------------------------------------------------
-// 4. Uncontrolled input
-// --------------------------------------------------
 
 function UncontrolledExample() {
   const [submittedValue, setSubmittedValue] =
@@ -340,9 +321,6 @@ export const Uncontrolled: Story = {
   },
 };
 
-// --------------------------------------------------
-// 5. Disabled state
-// --------------------------------------------------
 
 export const Disabled: Story = {
   args: {
@@ -367,10 +345,6 @@ export const Disabled: Story = {
     },
   },
 };
-
-// --------------------------------------------------
-// 6. Read-only state
-// --------------------------------------------------
 
 export const ReadOnly: Story = {
   args: {
@@ -397,10 +371,6 @@ export const ReadOnly: Story = {
   },
 };
 
-// --------------------------------------------------
-// 7. Native required validation
-// --------------------------------------------------
-
 function RequiredExample() {
   const [submitted, setSubmitted] = useState(false);
 
@@ -418,7 +388,7 @@ function RequiredExample() {
         type="email"
         required
         autoComplete="email"
-        placeholder="alex@example.com"
+        placeholder="arbaz@example.com"
         onChange={() => setSubmitted(false)}
       />
 
@@ -449,10 +419,6 @@ export const Required: Story = {
   },
 };
 
-// --------------------------------------------------
-// 8. Accessible description
-// --------------------------------------------------
-
 export const WithDescription: Story = {
   render: () => (
     <LabeledInput
@@ -474,9 +440,38 @@ export const WithDescription: Story = {
   },
 };
 
-// --------------------------------------------------
-// 9. Validation error
-// --------------------------------------------------
+
+export const FocusState: Story = {
+  render: () => (
+    <LabeledInput
+      label="Project name"
+      placeholder="Enter project name"
+    />
+  ),
+
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const input = canvas.getByRole("textbox", {
+      name: "Project name",
+    });
+
+    await userEvent.tab();
+
+    await expect(input).toHaveFocus();
+  },
+
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          "Demonstrates keyboard focus and the visible focus indicator. Press Tab to navigate to the input. The focus ring is applied using focus-visible styles.",
+      },
+    },
+  },
+};
+
 
 function ValidationErrorExample() {
   const inputId = useId();

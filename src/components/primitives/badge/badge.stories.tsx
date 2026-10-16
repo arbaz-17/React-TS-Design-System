@@ -1,46 +1,30 @@
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
-
-import {
-  CheckCircle2,
-  Clock3,
-  Info,
-  XCircle,
-} from "lucide-react";
-
+import { CheckCircle2, Clock3, Info, XCircle } from "lucide-react";
 import { Badge } from "../../index";
-
-// -----------------------------------------
-// Storybook metadata
-// -----------------------------------------
 
 const meta = {
   title: "Primitives/Badge",
   component: Badge,
   tags: ["autodocs"],
-
   parameters: {
     docs: {
       description: {
         component:
-          "A noninteractive, semantic presentation primitive for compact labels, statuses, and metadata. Badge provides six visual variants, two sizes, icon composition, and text wrapping. Its colors use the shared design tokens. Badge does not provide button behavior, live announcements, or an automatically assigned status role.",
+          "A noninteractive presentation primitive for compact labels, statuses, and metadata. Supports six semantic variants, two sizes, icon composition, and text wrapping.",
       },
     },
   },
-
   args: {
-    children: "Neutral badge",
+    children: "New release",
     variant: "neutral",
     size: "md",
   },
-
   argTypes: {
     children: {
       control: "text",
-      description:
-        "Visible badge content. Supports text and React nodes.",
+      description: "Visible content. Supports text and React nodes.",
     },
-
     variant: {
       control: "select",
       options: [
@@ -60,7 +44,6 @@ const meta = {
         defaultValue: { summary: "neutral" },
       },
     },
-
     size: {
       control: "select",
       options: ["sm", "md"],
@@ -70,7 +53,6 @@ const meta = {
         defaultValue: { summary: "md" },
       },
     },
-
     className: {
       control: false,
       description:
@@ -83,10 +65,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// -----------------------------------------
-// 1. Default playground
-// -----------------------------------------
-
 export const Default: Story = {
   parameters: {
     docs: {
@@ -98,232 +76,207 @@ export const Default: Story = {
   },
 };
 
-// -----------------------------------------
-// 2. Semantic variants
-// -----------------------------------------
-
 export const Variants: Story = {
   render: () => (
     <div className="flex flex-wrap items-center gap-3">
-      <Badge variant="neutral">Neutral</Badge>
-      <Badge variant="primary">Primary</Badge>
-      <Badge variant="success">Success</Badge>
-      <Badge variant="warning">Warning</Badge>
-      <Badge variant="destructive">Destructive</Badge>
-      <Badge variant="outline">Outline</Badge>
+      <Badge variant="neutral">Draft</Badge>
+      <Badge variant="primary">New</Badge>
+      <Badge variant="success">Completed</Badge>
+      <Badge variant="warning">Pending</Badge>
+      <Badge variant="destructive">Failed</Badge>
+      <Badge variant="outline">Archived</Badge>
     </div>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Shows all six variants using semantic design tokens. Variants communicate visual intent; meaningful text must still convey the information.",
+          "Compares all six visual variants. Badge text should communicate meaning independently of color.",
       },
     },
   },
 };
-
-// -----------------------------------------
-// 3. Supported sizes
-// -----------------------------------------
 
 export const Sizes: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center gap-4">
-      <Badge variant="primary" size="sm">
-        Small
-      </Badge>
+    <div className="flex flex-wrap items-center gap-6">
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-muted-foreground">
+          Small
+        </span>
+        <Badge variant="primary" size="sm">
+          New release
+        </Badge>
+      </div>
 
-      <Badge variant="primary" size="md">
-        Medium
-      </Badge>
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-muted-foreground">
+          Medium
+        </span>
+        <Badge variant="primary" size="md">
+          New release
+        </Badge>
+      </div>
     </div>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Badge supports small and medium sizes. These control typography and spacing, not interaction or touch-target dimensions.",
+          "Compares typography and spacing in small and medium badges. Badges are noninteractive and do not have touch-target requirements.",
       },
     },
   },
 };
-
-// -----------------------------------------
-// 4. Icons with text
-// -----------------------------------------
 
 export const WithIcons: Story = {
   render: () => (
     <div className="flex flex-wrap items-center gap-3">
       <Badge variant="success">
-        <CheckCircle2
-          aria-hidden="true"
-          className="size-3.5"
-        />
+        <CheckCircle2 aria-hidden="true" />
         Completed
       </Badge>
 
       <Badge variant="warning">
-        <Clock3
-          aria-hidden="true"
-          className="size-3.5"
-        />
+        <Clock3 aria-hidden="true" />
         Pending
       </Badge>
 
       <Badge variant="destructive">
-        <XCircle
-          aria-hidden="true"
-          className="size-3.5"
-        />
+        <XCircle aria-hidden="true" />
         Failed
       </Badge>
 
       <Badge variant="primary">
-        <Info
-          aria-hidden="true"
-          className="size-3.5"
-        />
-        Information
+        <Info aria-hidden="true" />
+        Update available
       </Badge>
     </div>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Badges accept icons through normal React composition. Decorative icons are hidden from assistive technology because the adjacent text already communicates their meaning.",
+          "Decorative icons can be composed with text. Icons are hidden from assistive technology because the labels already convey their meaning.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 5. Realistic status examples
-// -----------------------------------------
-
-const statusExamples = [
+const taskStatuses = [
   {
-    label: "Active",
+    title: "Project setup",
+    description: "Initial configuration completed",
+    label: "Completed",
     variant: "success",
-    description: "A subscription currently in use.",
   },
   {
-    label: "In Review",
-    variant: "warning",
-    description: "A request awaiting review.",
-  },
-  {
-    label: "Overdue",
-    variant: "destructive",
-    description: "A task past its deadline.",
-  },
-  {
-    label: "Draft",
-    variant: "neutral",
-    description: "An item not yet published.",
-  },
-  {
-    label: "New",
+    title: "Design review",
+    description: "Work is currently underway",
+    label: "In progress",
     variant: "primary",
-    description: "A recently added item.",
+  },
+  {
+    title: "Documentation",
+    description: "Not started yet",
+    label: "To do",
+    variant: "neutral",
+  },
+  {
+    title: "Client approval",
+    description: "Waiting for feedback",
+    label: "Pending",
+    variant: "warning",
+  },
+  {
+    title: "File upload",
+    description: "Upload could not be completed",
+    label: "Failed",
+    variant: "destructive",
   },
 ] as const;
 
 export const StatusExamples: Story = {
   render: () => (
-    <div className="max-w-lg space-y-3">
-      {statusExamples.map((status) => (
+    <div className="w-full max-w-xl overflow-hidden rounded-surface border border-border bg-card">
+      {taskStatuses.map((item, index) => (
         <div
-          key={status.label}
-          className="flex flex-wrap items-center justify-between gap-3 rounded-surface border border-border bg-card p-3"
+          key={item.title}
+          className={`flex flex-wrap items-center justify-between gap-3 p-4 ${
+            index > 0 ? "border-t border-border" : ""
+          }`}
         >
-          <p className="text-sm text-foreground">
-            {status.description}
-          </p>
+          <div className="min-w-0 space-y-0.5">
+            <p className="text-sm font-medium text-foreground">
+              {item.title}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {item.description}
+            </p>
+          </div>
 
-          <Badge variant={status.variant}>
-            {status.label}
+          <Badge variant={item.variant} size="sm">
+            {item.label}
           </Badge>
         </div>
       ))}
     </div>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Realistic examples of badges used for application statuses. Status text carries the meaning rather than relying solely on color.",
+          "Shows badges as compact status labels in a simple task list. Status text conveys meaning without relying solely on color.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 6. Long content and wrapping
-// -----------------------------------------
-
 export const LongContent: Story = {
   render: () => (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <div className="max-w-48">
-        <Badge
-          variant="outline"
-          className="max-w-full"
-        >
+        <Badge variant="outline">
           Awaiting additional documentation and final approval
         </Badge>
       </div>
 
       <div className="max-w-48">
-        <Badge
-          variant="primary"
-          className="max-w-full"
-        >
+        <Badge variant="primary">
           VeryLongUnbrokenStatusIdentifierForTesting
         </Badge>
       </div>
     </div>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Demonstrates wrapping within a constrained width, including a long unbroken string. Badge supports whitespace wrapping and word breaking instead of always forcing a single line.",
+          "Demonstrates wrapping in constrained layouts, including an unbroken identifier. Prefer concise labels in actual interfaces.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 7. Inline usage
-// -----------------------------------------
-
 export const InlineUsage: Story = {
   render: () => (
     <div className="max-w-lg space-y-4">
       <p className="text-sm leading-7 text-foreground">
-        Project status:{" "}
+        Task status:{" "}
         <Badge variant="success" size="sm">
           Completed
         </Badge>
       </p>
 
       <p className="text-sm leading-7 text-foreground">
-        Current plan:{" "}
+        Priority:{" "}
         <Badge variant="primary" size="sm">
-          Pro
+          High
         </Badge>
       </p>
 
@@ -335,13 +288,12 @@ export const InlineUsage: Story = {
       </p>
     </div>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Badges can appear within ordinary text without becoming interactive elements. Their inline-flex layout and vertical alignment support compact metadata presentation.",
+          "Badges can sit alongside text as noninteractive metadata without behaving like links or buttons.",
       },
     },
   },

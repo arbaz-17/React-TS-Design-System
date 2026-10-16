@@ -3,13 +3,6 @@ import type { ComponentPropsWithRef } from "react";
 
 import { cn } from "../../../lib/utils";
 
-/**
- * Public component prop types.
- *
- * Each component inherits the native attributes
- * and ref type of its underlying HTML element.
- */
-
 export type TableContainerProps =
   ComponentPropsWithRef<"div">;
 
@@ -37,14 +30,6 @@ export type TableHeadProps =
 export type TableCellProps =
   ComponentPropsWithRef<"td">;
 
-/**
- * TableContainer
- *
- * Optional presentation wrapper providing
- * a bordered surface and horizontal overflow.
- *
- * Does not automatically add a role or tabIndex.
- */
 export function TableContainer({
   className,
   ref,
@@ -64,11 +49,7 @@ export function TableContainer({
   );
 }
 
-/**
- * Table
- *
- * Native semantic HTML table.
- */
+
 export function Table({
   className,
   ref,
@@ -79,7 +60,7 @@ export function Table({
       {...props}
       ref={ref}
       className={cn(
-        "w-full caption-top",
+        "w-full caption-top border-collapse",
         "text-sm text-foreground",
         className,
       )}
@@ -87,12 +68,6 @@ export function Table({
   );
 }
 
-/**
- * TableCaption
- *
- * Provides an accessible caption describing
- * the purpose or content of the table.
- */
 export function TableCaption({
   className,
   ref,
@@ -111,11 +86,6 @@ export function TableCaption({
   );
 }
 
-/**
- * TableHeader
- *
- * Native table column-header section.
- */
 export function TableHeader({
   className,
   ref,
@@ -126,18 +96,13 @@ export function TableHeader({
       {...props}
       ref={ref}
       className={cn(
-        "bg-muted/40",
+        "bg-muted/60",
         className,
       )}
     />
   );
 }
 
-/**
- * TableBody
- *
- * Native table body containing data rows.
- */
 export function TableBody({
   className,
   ref,
@@ -155,12 +120,6 @@ export function TableBody({
   );
 }
 
-/**
- * TableFooter
- *
- * Optional table section for totals
- * or other summary rows.
- */
 export function TableFooter({
   className,
   ref,
@@ -179,12 +138,6 @@ export function TableFooter({
   );
 }
 
-/**
- * TableRow
- *
- * Native table row with a subtle divider.
- * No automatic selection or click behavior.
- */
 export function TableRow({
   className,
   ref,
@@ -195,7 +148,7 @@ export function TableRow({
       {...props}
       ref={ref}
       className={cn(
-        "border-b border-border",
+        "border-b border-border/70",
         "last:border-b-0",
         className,
       )}
@@ -203,14 +156,6 @@ export function TableRow({
   );
 }
 
-/**
- * TableHead
- *
- * Native th element, defaulting to a
- * column-header scope.
- *
- * Use scope="row" for a row heading.
- */
 export function TableHead({
   className,
   scope = "col",
@@ -225,21 +170,14 @@ export function TableHead({
       className={cn(
         "px-4 py-3",
         "text-left align-middle",
-        "font-medium text-foreground",
+        "text-xs font-semibold",
+        "text-muted-foreground",
         className,
       )}
     />
   );
 }
 
-/**
- * TableCell
- *
- * Native data cell.
- *
- * Supports colSpan, rowSpan, headers,
- * and other standard td attributes.
- */
 export function TableCell({
   className,
   ref,
@@ -250,7 +188,7 @@ export function TableCell({
       {...props}
       ref={ref}
       className={cn(
-        "px-4 py-3",
+        "px-4 py-3.5",
         "align-middle text-foreground",
         className,
       )}

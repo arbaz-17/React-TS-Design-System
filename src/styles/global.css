@@ -9,10 +9,6 @@
   &:where([data-theme="dark"], [data-theme="dark"] *)
 );
 
-/* ---------------------------------------------
-   Global foundation
---------------------------------------------- */
-
 @layer base {
   html {
     width: 100%;
@@ -48,21 +44,13 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /*
-   * Do not constrain the application root.
-   */
+
   #root {
     width: 100%;
     min-height: 100svh;
     text-align: left;
   }
 
-  /*
-   * Visible keyboard focus.
-   *
-   * Individual components may add more
-   * specific focus styles when necessary.
-   */
   :where(
     a[href],
     button,
@@ -76,27 +64,20 @@
     outline-offset: 3px;
   }
 
-  /*
-   * Native, unstyled links.
-   */
+
   a[href]:not([class]) {
     color: var(--primary);
     text-decoration: underline;
     text-underline-offset: 0.2em;
   }
 
-  /*
-   * Theme-aware text selection.
-   */
+
   ::selection {
     background-color: var(--accent);
     color: var(--accent-foreground);
   }
 }
 
-/* ---------------------------------------------
-   Reduced motion
---------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   *,

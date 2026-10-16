@@ -8,10 +8,6 @@ import {
   type CheckboxProps,
 } from "../../index";
 
-// --------------------------------------------------
-// Story-only labeled checkbox helper
-// --------------------------------------------------
-
 type LabeledCheckboxProps = CheckboxProps & {
   label: string;
   description?: string;
@@ -83,9 +79,6 @@ function LabeledCheckbox({
   );
 }
 
-// --------------------------------------------------
-// Storybook metadata
-// --------------------------------------------------
 
 const meta = {
   title: "Primitives/Checkbox",
@@ -164,9 +157,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// --------------------------------------------------
-// 1. Default playground
-// --------------------------------------------------
 
 export const Default: Story = {
   render: (args) => (
@@ -193,9 +183,6 @@ export const Default: Story = {
   },
 };
 
-// --------------------------------------------------
-// 2. Initially checked
-// --------------------------------------------------
 
 export const Checked: Story = {
   render: () => (
@@ -216,32 +203,7 @@ export const Checked: Story = {
   },
 };
 
-// --------------------------------------------------
-// 3. Initially unchecked
-// --------------------------------------------------
 
-export const Unchecked: Story = {
-  render: () => (
-    <LabeledCheckbox
-      label="Receive weekly summary"
-      defaultChecked={false}
-    />
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "Starts unchecked. The browser manages subsequent checked-state changes.",
-      },
-    },
-  },
-};
-
-// --------------------------------------------------
-// 4. Controlled
-// --------------------------------------------------
 
 function ControlledExample() {
   const [checked, setChecked] = useState(false);
@@ -283,9 +245,7 @@ export const Controlled: Story = {
   },
 };
 
-// --------------------------------------------------
-// 5. Uncontrolled
-// --------------------------------------------------
+
 
 function UncontrolledExample() {
   const checkboxRef = useRef<HTMLInputElement>(null);
@@ -359,9 +319,6 @@ export const Uncontrolled: Story = {
   },
 };
 
-// --------------------------------------------------
-// 6. Disabled
-// --------------------------------------------------
 
 export const Disabled: Story = {
   render: () => (
@@ -383,9 +340,6 @@ export const Disabled: Story = {
   },
 };
 
-// --------------------------------------------------
-// 7. Disabled and checked
-// --------------------------------------------------
 
 export const DisabledChecked: Story = {
   render: () => (
@@ -408,9 +362,6 @@ export const DisabledChecked: Story = {
   },
 };
 
-// --------------------------------------------------
-// 8. Required
-// --------------------------------------------------
 
 function RequiredExample() {
   const [submitted, setSubmitted] = useState(false);
@@ -461,9 +412,6 @@ export const Required: Story = {
   },
 };
 
-// --------------------------------------------------
-// 9. Invalid
-// --------------------------------------------------
 
 export const Invalid: Story = {
   render: () => (
@@ -487,32 +435,6 @@ export const Invalid: Story = {
   },
 };
 
-// --------------------------------------------------
-// 10. With label
-// --------------------------------------------------
-
-export const WithLabel: Story = {
-  render: () => (
-    <LabeledCheckbox
-      label="Remember my preferences"
-      defaultChecked
-    />
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "The checkbox is associated with a visible HTML label using id and htmlFor. Clicking the label toggles the checkbox.",
-      },
-    },
-  },
-};
-
-// --------------------------------------------------
-// 11. With description
-// --------------------------------------------------
 
 export const WithDescription: Story = {
   render: () => (
@@ -533,9 +455,6 @@ export const WithDescription: Story = {
   },
 };
 
-// --------------------------------------------------
-// 12. Form integration
-// --------------------------------------------------
 
 type PreferencesResult = {
   channels: string[];
