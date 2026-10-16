@@ -48,6 +48,7 @@ export {
   CardDescription,
   CardContent,
   CardFooter,
+  CardMedia,
 } from "./composites/card/card";
 
 export type {
@@ -57,6 +58,7 @@ export type {
   CardDescriptionProps,
   CardContentProps,
   CardFooterProps,
+  CardMediaProps,
 } from "./composites/card/card";
 
 

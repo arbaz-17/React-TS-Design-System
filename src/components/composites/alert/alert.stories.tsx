@@ -16,9 +16,6 @@ import {
   Button,
 } from "../../index";
 
-// -----------------------------------------
-// Storybook metadata
-// -----------------------------------------
 
 const meta = {
   title: "Composites/Alert",
@@ -91,10 +88,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// -----------------------------------------
-// 1. Default
-// -----------------------------------------
-
 export const Default: Story = {
   render: (args) => (
     <Alert {...args}>
@@ -119,9 +112,6 @@ export const Default: Story = {
   },
 };
 
-// -----------------------------------------
-// 2. Success
-// -----------------------------------------
 
 export const Success: Story = {
   render: () => (
@@ -151,9 +141,6 @@ export const Success: Story = {
   },
 };
 
-// -----------------------------------------
-// 3. Warning
-// -----------------------------------------
 
 export const Warning: Story = {
   render: () => (
@@ -184,9 +171,6 @@ export const Warning: Story = {
   },
 };
 
-// -----------------------------------------
-// 4. Destructive
-// -----------------------------------------
 
 export const Destructive: Story = {
   render: () => (
@@ -216,9 +200,6 @@ export const Destructive: Story = {
   },
 };
 
-// -----------------------------------------
-// 5. All Variants
-// -----------------------------------------
 
 export const AllVariants: Story = {
   render: () => (
@@ -272,9 +253,6 @@ export const AllVariants: Story = {
   },
 };
 
-// -----------------------------------------
-// 6. Title Only
-// -----------------------------------------
 
 export const TitleOnly: Story = {
   render: () => (
@@ -299,9 +277,6 @@ export const TitleOnly: Story = {
   },
 };
 
-// -----------------------------------------
-// 7. Description Only
-// -----------------------------------------
 
 export const DescriptionOnly: Story = {
   render: () => (
@@ -325,9 +300,6 @@ export const DescriptionOnly: Story = {
   },
 };
 
-// -----------------------------------------
-// 8. With Icon
-// -----------------------------------------
 
 export const WithIcon: Story = {
   render: () => (
@@ -336,13 +308,12 @@ export const WithIcon: Story = {
         <AlertTitle className="flex items-center gap-2">
           <Info
             aria-hidden="true"
-            className="size-4 shrink-0"
+            className="size-4 shrink-0 text-primary"
           />
           Information
         </AlertTitle>
-
         <AlertDescription>
-          You can update your settings later.
+          You can update your preferences at any time.
         </AlertDescription>
       </Alert>
 
@@ -350,13 +321,12 @@ export const WithIcon: Story = {
         <AlertTitle className="flex items-center gap-2">
           <CheckCircle2
             aria-hidden="true"
-            className="size-4 shrink-0"
+            className="size-4 shrink-0 text-success"
           />
-          Completed
+          Changes saved
         </AlertTitle>
-
         <AlertDescription>
-          The operation finished successfully.
+          Your preferences have been updated successfully.
         </AlertDescription>
       </Alert>
 
@@ -364,13 +334,12 @@ export const WithIcon: Story = {
         <AlertTitle className="flex items-center gap-2">
           <AlertTriangle
             aria-hidden="true"
-            className="size-4 shrink-0"
+            className="size-4 shrink-0 text-warning"
           />
-          Warning
+          Storage almost full
         </AlertTitle>
-
         <AlertDescription>
-          Please review the information before continuing.
+          Review unused files to free up storage space.
         </AlertDescription>
       </Alert>
 
@@ -378,32 +347,27 @@ export const WithIcon: Story = {
         <AlertTitle className="flex items-center gap-2">
           <XCircle
             aria-hidden="true"
-            className="size-4 shrink-0"
+            className="size-4 shrink-0 text-destructive"
           />
-          Error
+          Unable to save changes
         </AlertTitle>
-
         <AlertDescription>
-          The operation could not be completed.
+          Something went wrong. Please try again.
         </AlertDescription>
       </Alert>
     </div>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Decorative icons can be composed inside AlertTitle. The icons use aria-hidden because the adjacent text already conveys the meaning. Alert does not depend on an icon library.",
+          "Demonstrates decorative icon composition using semantic colors. Icons supplement visible text and remain hidden from assistive technology.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 9. Long Content
-// -----------------------------------------
 
 export const LongContent: Story = {
   render: () => (
@@ -463,9 +427,6 @@ export const LongContent: Story = {
   },
 };
 
-// -----------------------------------------
-// 10. Dynamic Status — polite announcement
-// -----------------------------------------
 
 function DynamicStatusExample() {
   const [saved, setSaved] = useState(false);
@@ -515,9 +476,7 @@ export const DynamicStatus: Story = {
   },
 };
 
-// -----------------------------------------
-// 11. Urgent Alert — assertive announcement
-// -----------------------------------------
+
 
 function UrgentAlertExample() {
   const [urgent, setUrgent] = useState(false);
@@ -533,27 +492,30 @@ function UrgentAlertExample() {
           : "Simulate session expiry"}
       </Button>
 
-      <div
-        role="alert"
-        aria-atomic="true"
-      >
-        {urgent && (
-          <Alert variant="destructive">
-            <AlertTitle>
-              Session expired
-            </AlertTitle>
+      {urgent && (
+        <Alert
+          variant="destructive"
+          role="alert"
+          aria-atomic="true"
+        >
+          <AlertTitle className="flex items-center gap-2">
+            <XCircle
+              aria-hidden="true"
+              className="size-4 shrink-0 text-destructive"
+            />
+            Session expired
+          </AlertTitle>
 
-            <AlertDescription>
-              Your session has expired and unsaved
-              changes may be lost. Save a copy of
-              your work before leaving this page.
-            </AlertDescription>
-          </Alert>
-        )}
-      </div>
+          <AlertDescription>
+            Your session has expired. Unsaved changes
+            may be lost. Please sign in again to continue.
+          </AlertDescription>
+        </Alert>
+      )}
     </div>
   );
 }
+
 
 export const UrgentAlert: Story = {
   render: () => <UrgentAlertExample />,

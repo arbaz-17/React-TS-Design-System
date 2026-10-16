@@ -1,277 +1,216 @@
-
 import { useId, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { CheckCircle2 } from "lucide-react";
 
 import {
   Badge,
   Button,
   Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
   CardContent,
+  CardDescription,
   CardFooter,
+  CardHeader,
+  CardMedia,
+  CardTitle,
   Input,
   Skeleton,
 } from "../../index";
-
-// -----------------------------------------
-// Storybook metadata
-// -----------------------------------------
 
 const meta = {
   title: "Composites/Card",
   component: Card,
   tags: ["autodocs"],
-
   parameters: {
     docs: {
       description: {
         component:
-          "A composition-based content container consisting of Card, CardHeader, CardTitle, CardDescription, CardContent, and CardFooter. Every section is optional. Components inherit their native HTML props and refs, use semantic design tokens, and contain no internal state or business logic. CardTitle renders h3, so consumers must consider document heading hierarchy. Card itself is noninteractive.",
+          "A noninteractive, composition-based content surface. CardHeader, CardTitle, CardDescription, CardContent, CardFooter, and optional CardMedia can be combined as needed. CardTitle renders an h3; choose surrounding heading levels appropriately. Card has no built-in loading, image, or action state.",
       },
     },
   },
-
-  args: {
-    className: "w-full max-w-md",
-  },
-
+  args: { className: "w-full max-w-md" },
   argTypes: {
     className: {
       control: "text",
       description:
-        "Additional Tailwind classes for root layout and visual customization.",
+        "Additional classes for the Card root. Section spacing is controlled by each subcomponent.",
     },
-
     children: {
       control: false,
-      description:
-        "Composable Card sections and arbitrary React content.",
+      description: "Composable Card sections and arbitrary React content.",
     },
-
     ref: {
       control: false,
-      description:
-        "Optional ref to the native root HTMLDivElement.",
+      description: "Optional ref to the native root HTMLDivElement.",
     },
   },
 } satisfies Meta<typeof Card>;
 
 export default meta;
-
 type Story = StoryObj<typeof meta>;
-
-// -----------------------------------------
-// 1. Default
-// -----------------------------------------
 
 export const Default: Story = {
   render: (args) => (
     <Card {...args}>
       <CardHeader>
         <CardTitle>Project overview</CardTitle>
-        <CardDescription>
-          Summary of your current project.
-        </CardDescription>
+        <CardDescription>A quick summary of the current work.</CardDescription>
       </CardHeader>
-
-      <CardContent>
+      <CardContent className="pt-3">
         <p className="text-sm leading-6 text-card-foreground">
-          Build a reusable design system using React,
-          TypeScript, Tailwind CSS, and Storybook.
+          Keep project information, updates, and next steps together in one
+          place.
         </p>
       </CardContent>
     </Card>
   ),
-
   parameters: {
     docs: {
       description: {
         story:
-          "A basic composition using Card, CardHeader, CardTitle, CardDescription, and CardContent. Experiment with the root className to change width, padding, or shadow.",
+          "The simplest header-and-content composition. Use controls to adjust the root width or surface styling.",
       },
     },
   },
 };
-
-// -----------------------------------------
-// 2. Complete Card
-// -----------------------------------------
 
 export const CompleteCard: Story = {
   render: () => (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>Design System</CardTitle>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <CardTitle>Website refresh</CardTitle>
+          <Badge variant="success" size="sm">
+            Active
+          </Badge>
+        </div>
         <CardDescription>
-          Frontend Engineering — Month 3
+          Design and development · Updated today
         </CardDescription>
       </CardHeader>
-
-      <CardContent className="space-y-3">
-        <p className="text-sm leading-6">
-          A reusable component library with semantic
-          design tokens, accessible components, and
-          documented composition patterns.
+      <CardContent className="space-y-4 pt-4">
+        <p className="text-sm leading-6 text-card-foreground">
+          Refresh the site with clearer navigation, consistent components, and
+          accessible patterns.
         </p>
-
-        <div className="flex flex-wrap gap-2">
-          <Badge variant="primary">React</Badge>
-          <Badge variant="outline">TypeScript</Badge>
-          <Badge variant="outline">Tailwind CSS</Badge>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>Progress</span>
+            <span>75%</span>
+          </div>
+          <div
+            className="h-2 overflow-hidden rounded-full bg-muted"
+            aria-label="75% complete"
+            role="img"
+          >
+            <div className="h-full w-3/4 rounded-full bg-primary" />
+          </div>
         </div>
       </CardContent>
-
-      <CardFooter className="justify-between">
-        <Badge variant="success">
-          Active
-        </Badge>
-
+      <CardFooter className="justify-between border-t border-border pt-4">
         <span className="text-xs text-muted-foreground">
-          Internship project
+          18 of 24 tasks completed
         </span>
+        <Badge variant="outline" size="sm">
+          On track
+        </Badge>
       </CardFooter>
     </Card>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Demonstrates all six public Card components. Header, content, and footer are composed independently. CardFooter can contain metadata without interactive controls.",
+          "A complete card with a clear heading, status, progress, and footer metadata. Progress is expressed in text as well as visually.",
       },
     },
   },
 };
-
-// -----------------------------------------
-// 3. Content Only
-// -----------------------------------------
 
 export const ContentOnly: Story = {
   render: () => (
     <Card className="w-full max-w-sm">
       <CardContent>
-        <p className="text-sm leading-6">
-          A Card does not require a header, title,
-          description, or footer. Consumers can render
-          only the sections needed for their content.
+        <p className="text-sm leading-6 text-card-foreground">
+          Your workspace is ready. Add a project to start organizing your work.
         </p>
       </CardContent>
     </Card>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "A minimal Card demonstrates that its sections are optional. No Context, required nesting, or child registration is involved.",
+          "A minimal surface using CardContent alone. All Card sections are optional.",
       },
     },
   },
 };
-
-// -----------------------------------------
-// 4. Header and Content
-// -----------------------------------------
 
 export const HeaderAndContent: Story = {
   render: () => (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>Component inventory</CardTitle>
-        <CardDescription>
-          Current design-system implementation.
-        </CardDescription>
+        <CardTitle>Activity summary</CardTitle>
+        <CardDescription>An overview of this week's work.</CardDescription>
       </CardHeader>
-
-      <CardContent>
+      <CardContent className="pt-4">
         <dl className="grid grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <dt className="text-sm text-muted-foreground">
-              Families
-            </dt>
-            <dd className="text-2xl font-semibold">
-              17
-            </dd>
+          <div className="rounded-control bg-muted/60 p-4">
+            <dt className="text-xs text-muted-foreground">Completed</dt>
+            <dd className="mt-1 text-2xl font-semibold tracking-tight">18</dd>
           </div>
-
-          <div className="space-y-1">
-            <dt className="text-sm text-muted-foreground">
-              Components
-            </dt>
-            <dd className="text-2xl font-semibold">
-              55
-            </dd>
-          </div>
-
-          <div className="col-span-2">
-            <Badge variant="success">
-              Implementation complete
-            </Badge>
+          <div className="rounded-control bg-muted/60 p-4">
+            <dt className="text-xs text-muted-foreground">In progress</dt>
+            <dd className="mt-1 text-2xl font-semibold tracking-tight">6</dd>
           </div>
         </dl>
       </CardContent>
     </Card>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Demonstrates a Card without a footer and uses native description-list semantics for related metrics. Internal content layout is controlled by consumers.",
+          "A simple summary card with native description-list semantics for related metrics.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 5. With Footer Actions
-// -----------------------------------------
-
 function FooterActionsExample() {
   const detailsId = useId();
   const [expanded, setExpanded] = useState(false);
-
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle>Project details</CardTitle>
         <CardDescription>
-          Explore additional project information.
+          Review additional information about this project.
         </CardDescription>
       </CardHeader>
-
-      <CardContent className="space-y-3">
+      <CardContent className="pt-3">
         <p className="text-sm leading-6">
-          This example demonstrates functional actions
-          placed in CardFooter.
+          The project is ready for its next review.
         </p>
-
-        <div id={detailsId} hidden={!expanded}>
-          <p className="rounded-control bg-muted p-3 text-sm text-muted-foreground">
-            The project uses a composition-first
-            architecture with strongly typed public
-            component APIs.
+        <div id={detailsId} hidden={!expanded} className="mt-4">
+          <p className="rounded-control bg-muted p-4 text-sm leading-6 text-muted-foreground">
+            The next review covers accessibility, content clarity, and
+            responsive layouts.
           </p>
         </div>
       </CardContent>
-
-      <CardFooter>
+      <CardFooter className="border-t border-border pt-4">
         <Button
           aria-expanded={expanded}
           aria-controls={detailsId}
-          onClick={() => {
-            setExpanded((current) => !current);
-          }}
+          onClick={() => setExpanded((value) => !value)}
         >
           {expanded ? "Hide details" : "Show details"}
         </Button>
-
         <Button
           variant="outline"
           disabled={!expanded}
@@ -284,48 +223,42 @@ function FooterActionsExample() {
   );
 }
 
-export const WithFooterActions: Story = {
-  render: () => <FooterActionsExample />,
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "CardFooter provides layout for actions but does not manage their behavior. Buttons retain native keyboard interactions. This example uses consumer-owned React state and aria-expanded to disclose details.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 6. With Status Badge
-// -----------------------------------------
-
-export const WithStatusBadge: Story = {
+export const WithImage: Story = {
   render: () => (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-sm">
+      <CardMedia className="aspect-video">
+        <img
+          src="/f1.png"
+          alt="Formula 1 cars racing on a circuit"
+          loading="lazy"
+          decoding="async"
+        />
+      </CardMedia>
+
       <CardHeader>
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <CardTitle>Frontend project</CardTitle>
-
-          <Badge variant="success" size="sm">
-            Completed
-          </Badge>
-        </div>
-
+        <CardTitle>Formula 1 Grand Prix</CardTitle>
         <CardDescription>
-          Reusable UI component implementation.
+          Experience the excitement of race weekend.
         </CardDescription>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="pt-3">
         <p className="text-sm leading-6">
-          This Card uses Badge composition to
-          communicate project status without adding
-          status-specific props to Card.
+          Discover the speed, strategy, and competition of Formula 1 as the
+          world's top drivers compete for victory.
         </p>
       </CardContent>
+
+      <CardFooter className="justify-between border-t border-border pt-4">
+        <Badge variant="primary" size="sm">
+          Motorsport
+        </Badge>
+
+        <span className="inline-flex items-center gap-1 text-sm font-medium">
+          Featured
+          <CheckCircle2 aria-hidden="true" className="size-4" />
+        </span>
+      </CardFooter>
     </Card>
   ),
 
@@ -334,87 +267,97 @@ export const WithStatusBadge: Story = {
     docs: {
       description: {
         story:
-          "Status information is composed using Badge rather than a special Card variant. The status is communicated through visible text, not color alone.",
+          "Demonstrates an image-led Card using a native img element, responsive image cropping, composed content sections.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 7. Form Card
-// -----------------------------------------
+export const WithFooterActions: Story = {
+  render: () => <FooterActionsExample />,
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          "CardFooter lays out actions without owning their state. The disclosure button exposes aria-expanded and aria-controls.",
+      },
+    },
+  },
+};
+
+export const WithStatusBadge: Story = {
+  render: () => (
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <CardTitle>Content review</CardTitle>
+          <Badge variant="warning" size="sm">
+            Pending
+          </Badge>
+        </div>
+        <CardDescription>Awaiting final approval.</CardDescription>
+      </CardHeader>
+      <CardContent className="pt-3">
+        <p className="text-sm leading-6">
+          The latest changes have been submitted for review.
+        </p>
+      </CardContent>
+    </Card>
+  ),
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          "A text-labeled status is composed with Badge instead of adding status props to Card.",
+      },
+    },
+  },
+};
 
 function FormCardExample() {
   const formId = useId();
   const inputId = useId();
-
   const [savedName, setSavedName] = useState("");
-
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle>Project settings</CardTitle>
-
         <CardDescription>
-          Update the project display name.
+          Update the name displayed in your workspace.
         </CardDescription>
       </CardHeader>
-
-      <CardContent className="space-y-4">
+      <CardContent className="pt-4">
         <form
           id={formId}
           className="space-y-2"
           onSubmit={(event) => {
             event.preventDefault();
-
-            const formData = new FormData(
-              event.currentTarget,
-            );
-
-            setSavedName(
-              String(formData.get("projectName") ?? ""),
-            );
+            const data = new FormData(event.currentTarget);
+            setSavedName(String(data.get("projectName") ?? ""));
           }}
           onReset={() => setSavedName("")}
         >
-          <label
-            htmlFor={inputId}
-            className="block text-sm font-medium"
-          >
+          <label htmlFor={inputId} className="block text-sm font-medium">
             Project name
           </label>
-
           <Input
             id={inputId}
             name="projectName"
-            defaultValue="Design System"
+            defaultValue="Website refresh"
             required
           />
         </form>
-
-        <p
-          role="status"
-          className="text-sm text-muted-foreground"
-        >
-          {savedName
-            ? `Saved locally: ${savedName}`
-            : ""}
+        <p role="status" className="mt-3 min-h-5 text-sm text-muted-foreground">
+          {savedName ? `Saved locally: ${savedName}` : ""}
         </p>
       </CardContent>
-
-      <CardFooter>
-        <Button
-          type="submit"
-          form={formId}
-        >
-          Save project
+      <CardFooter className="border-t border-border pt-4">
+        <Button type="submit" form={formId}>
+          Save changes
         </Button>
-
-        <Button
-          type="reset"
-          form={formId}
-          variant="outline"
-        >
+        <Button type="reset" form={formId} variant="outline">
           Reset
         </Button>
       </CardFooter>
@@ -424,84 +367,80 @@ function FormCardExample() {
 
 export const FormCard: Story = {
   render: () => <FormCardExample />,
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Demonstrates native form integration. The form lives inside CardContent, while CardFooter buttons use the HTML form attribute to submit or reset it. Input validation and submission state belong to the consumer.",
+          "A native form inside CardContent with submit and reset buttons in CardFooter. Saving is simulated locally, without a server request.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 8. Loading Card with Skeleton
-// -----------------------------------------
 
 function LoadingCardExample() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div className="w-full max-w-md space-y-4">
-      <Button
-        variant="outline"
-        onClick={() => {
-          setLoading((current) => !current);
-        }}
-      >
-        {loading
-          ? "Show loaded content"
-          : "Show loading placeholders"}
-      </Button>
+    <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p role="status" className="text-sm text-muted-foreground">
+          {loading
+            ? "Loading project information..."
+            : "Project information loaded."}
+        </p>
 
-      <p
-        role="status"
-        className="text-sm text-muted-foreground"
-      >
-        {loading
-          ? "Loading project information."
-          : "Project information loaded."}
-      </p>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setLoading((current) => !current)}
+        >
+          {loading ? "Show content" : "Show loading"}
+        </Button>
+      </div>
 
-      <Card aria-busy={loading}>
+      <Card
+        aria-busy={loading}
+        aria-label="Project information"
+        className="w-full"
+      >
         {loading ? (
           <>
-            <CardHeader className="space-y-2">
-              <Skeleton className="h-5 w-2/3" />
-              <Skeleton className="h-3 w-4/5" />
+            <CardHeader className="gap-3">
+              <Skeleton className="h-5 w-2/5" />
+              <Skeleton className="h-3 w-3/5" />
             </CardHeader>
 
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-3 pt-4">
               <Skeleton className="h-3 w-full" />
-              <Skeleton className="h-3 w-5/6" />
-              <Skeleton className="h-3 w-2/3" />
+              <Skeleton className="h-3 w-[90%]" />
+              <Skeleton className="h-3 w-3/4" />
             </CardContent>
 
-            <CardFooter>
-              <Skeleton className="h-9 w-28" />
+            <CardFooter className="border-t border-border pt-4">
+              <Skeleton className="h-6 w-24 rounded-full" />
             </CardFooter>
           </>
         ) : (
           <>
             <CardHeader>
               <CardTitle>Design System</CardTitle>
-
               <CardDescription>
-                Project information
+                Project information and current status.
               </CardDescription>
             </CardHeader>
 
-            <CardContent>
-              <p className="text-sm leading-6">
-                A reusable component library with
-                accessible and strongly typed APIs.
+            <CardContent className="pt-4">
+              <p className="text-sm leading-6 text-muted-foreground">
+                A reusable component library built with
+                React, TypeScript, and accessible design
+                patterns for consistent user interfaces.
               </p>
             </CardContent>
 
-            <CardFooter>
-              <Badge variant="success">
+            <CardFooter className="border-t border-border pt-4">
+              <Badge variant="success" size="sm">
                 Available
               </Badge>
             </CardFooter>
@@ -514,138 +453,103 @@ function LoadingCardExample() {
 
 export const LoadingCard: Story = {
   render: () => <LoadingCardExample />,
-
   parameters: {
+    layout: "padded",
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Demonstrates Card with decorative Skeleton placeholders. aria-busy identifies the loading region, while a persistent status message outside the busy Card communicates state changes. The loading toggle is consumer-managed and deterministic.",
+          "Demonstrates a responsive Card loading state using decorative Skeleton placeholders. The Card fills its container, aria-busy identifies the loading region, and an external status message announces state changes.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 9. Custom Styling
-// -----------------------------------------
 
 export const CustomStyling: Story = {
   render: () => (
-    <div className="w-full max-w-lg space-y-5">
-      <Card className="p-4 shadow-none">
-        <CardHeader>
-          <CardTitle>Compact Card</CardTitle>
-
+    <div className="w-full max-w-lg space-y-4">
+      <Card className="shadow-none">
+        <CardHeader className="px-4 pt-4">
+          <CardTitle className="text-base">Compact card</CardTitle>
           <CardDescription>
-            Reduced padding and no shadow.
+            Reduced section padding and no shadow.
           </CardDescription>
         </CardHeader>
-
-        <CardContent>
+        <CardContent className="px-4 pb-4 pt-2">
           <p className="text-sm">
-            Uses className to customize the existing
-            root styles.
+            Section-level classes keep spacing consistent.
           </p>
         </CardContent>
       </Card>
-
       <Card className="border-primary/40 shadow-none">
         <CardHeader>
-          <CardTitle>Highlighted Card</CardTitle>
-
+          <CardTitle>Highlighted card</CardTitle>
           <CardDescription>
-            Customized border emphasis.
+            Subtle border emphasis using a semantic token.
           </CardDescription>
         </CardHeader>
-
-        <CardContent>
+        <CardContent className="pt-3">
           <p className="text-sm">
-            Styling remains based on semantic tokens.
+            Surface customization does not imply interactivity.
           </p>
         </CardContent>
       </Card>
     </div>
   ),
-
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Consumers can extend or override Card styles through className. No separate appearance variants are required. Customization should preserve readable contrast and consistent spacing.",
+          "Root classes customize the surface; section classes customize spacing. Neither example suggests the card is clickable.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 10. Responsive Card Grid
-// -----------------------------------------
-
 const projects = [
   {
-    name: "Component Library",
-    description:
-      "Reusable accessible React components.",
+    name: "Website refresh",
+    description: "Improve navigation and page layouts.",
     status: "Completed",
     variant: "success",
   },
   {
-    name: "Storybook Documentation",
-    description:
-      "Interactive examples and component guidance.",
-    status: "In Progress",
-    variant: "warning",
+    name: "Content updates",
+    description: "Review and update key pages.",
+    status: "In progress",
+    variant: "primary",
   },
   {
-    name: "Accessibility Review",
-    description:
-      "Keyboard, semantics, and visual checks.",
+    name: "Quality review",
+    description: "Check accessibility and responsive behavior.",
     status: "Planned",
     variant: "neutral",
   },
 ] as const;
 
-function ResponsiveCardGridExample() {
-  const headingId = useId();
-
-  return (
-    <section
-      aria-labelledby={headingId}
-      className="w-full"
-    >
+export const ResponsiveCardGrid: Story = {
+  render: () => (
+    <section aria-labelledby="projects-heading" className="w-full">
       <h2
-        id={headingId}
-        className="mb-4 text-xl font-semibold"
+        id="projects-heading"
+        className="mb-5 text-xl font-semibold tracking-tight"
       >
-        Project workstreams
+        Current projects
       </h2>
-
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (
-          <Card
-            key={project.name}
-            className="h-full"
-          >
+          <Card key={project.name} className="h-full">
             <CardHeader>
-              <CardTitle>
-                {project.name}
-              </CardTitle>
-
-              <CardDescription>
-                {project.description}
-              </CardDescription>
+              <CardTitle>{project.name}</CardTitle>
+              <CardDescription>{project.description}</CardDescription>
             </CardHeader>
-
-            <CardContent className="flex-1">
-              <p className="text-sm text-muted-foreground">
-                Frontend Engineering Internship
-              </p>
+            <CardContent className="flex-1 pt-4">
+              <p className="text-sm text-muted-foreground">Project status</p>
             </CardContent>
-
-            <CardFooter>
-              <Badge variant={project.variant}>
+            <CardFooter className="border-t border-border pt-4">
+              <Badge variant={project.variant} size="sm">
                 {project.status}
               </Badge>
             </CardFooter>
@@ -653,20 +557,14 @@ function ResponsiveCardGridExample() {
         ))}
       </div>
     </section>
-  );
-}
-
-export const ResponsiveCardGrid: Story = {
-  render: () => <ResponsiveCardGridExample />,
-
+  ),
   parameters: {
     layout: "padded",
     controls: { disable: true },
-
     docs: {
       description: {
         story:
-          "Multiple Cards arranged in a responsive CSS grid. The layout changes from one to two to three columns as available width increases. The h2 section heading establishes context for CardTitle's h3 elements.",
+          "Three cards in a responsive grid, with an h2 section heading above their h3 titles and aligned footers.",
       },
     },
   },

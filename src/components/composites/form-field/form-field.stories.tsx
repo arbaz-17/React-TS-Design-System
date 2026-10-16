@@ -15,9 +15,6 @@ import {
   Textarea,
 } from "../../index";
 
-// -----------------------------------------
-// Storybook metadata
-// -----------------------------------------
 
 const meta = {
   title: "Composites/FormField",
@@ -25,10 +22,11 @@ const meta = {
   tags: ["autodocs"],
 
   parameters: {
+    layout: "centered",
     docs: {
       description: {
         component:
-          "A lightweight, compositional form-field structure with FormField, FormLabel, FormDescription, and FormMessage. All four components preserve native HTML props and refs. Consumers own control values, validation, IDs, aria-describedby relationships, and submission behavior. FormField does not use internal state, Context, or automatic prop injection.",
+          "A lightweight, compositional form-field structure with FormField, FormLabel, FormDescription, and FormMessage. Components preserve native HTML props and refs. Consumers manage control values, validation, IDs, accessibility relationships, and submission behavior. FormField does not use internal state, Context, or automatic prop injection.",
       },
     },
   },
@@ -53,7 +51,7 @@ const meta = {
     ref: {
       control: false,
       description:
-        "Optional ref to the native root HTMLDivElement.",
+        "Optional ref to the native HTMLDivElement.",
     },
   },
 } satisfies Meta<typeof FormField>;
@@ -62,11 +60,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// -----------------------------------------
-// 1. Default Input Field
-// -----------------------------------------
-
-function DefaultInputExample({
+function DefaultExample({
   className,
 }: {
   className?: string;
@@ -82,30 +76,27 @@ function DefaultInputExample({
       <Input
         id={inputId}
         name="projectName"
-        placeholder="Enter a project name"
+        placeholder="Enter project name"
       />
     </FormField>
   );
 }
 
-export const DefaultInputField: Story = {
+export const Default: Story = {
   render: (args) => (
-    <DefaultInputExample className={args.className} />
+    <DefaultExample className={args.className} />
   ),
 
   parameters: {
     docs: {
       description: {
         story:
-          "Basic composition using FormField, FormLabel, and Input. The label is explicitly associated with the input using htmlFor and id. Use the className control to explore root layout customization.",
+          "Basic FormField composition using a label and input. The label is associated with the input through htmlFor and id. Use Storybook controls to customize the root layout.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 2. Required Field
-// -----------------------------------------
 
 function RequiredFieldExample() {
   const inputId = useId();
@@ -121,6 +112,10 @@ function RequiredFieldExample() {
         setSubmitted(true);
       }}
     >
+      <p className="text-xs text-muted-foreground">
+        Fields marked with * are required.
+      </p>
+
       <FormField>
         <FormLabel
           htmlFor={inputId}
@@ -140,7 +135,7 @@ function RequiredFieldExample() {
         />
 
         <FormDescription id={descriptionId}>
-          A valid email address is required.
+          Enter a valid email address.
         </FormDescription>
       </FormField>
 
@@ -168,15 +163,13 @@ export const RequiredField: Story = {
     docs: {
       description: {
         story:
-          "FormLabel's requiredIndicator adds a decorative asterisk. The actual Input must independently receive required. Native validation blocks empty or malformed email submissions.",
+          "Demonstrates a required field with a visible indicator and native HTML validation. The input receives the required attribute independently of FormLabel's decorative asterisk.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 3. With Description
-// -----------------------------------------
+
 
 function WithDescriptionExample() {
   const inputId = useId();
@@ -197,8 +190,8 @@ function WithDescriptionExample() {
       />
 
       <FormDescription id={descriptionId}>
-        Enter the public URL of your project.
-        Include the https:// prefix.
+        Enter your website address, including
+        the https:// prefix.
       </FormDescription>
     </FormField>
   );
@@ -212,21 +205,19 @@ export const WithDescription: Story = {
     docs: {
       description: {
         story:
-          "FormDescription provides supplementary instructions. The input explicitly references the description ID through aria-describedby. The visible label supplies the accessible name.",
+          "Demonstrates supplementary helper text. The input references FormDescription through aria-describedby, while FormLabel supplies its accessible name.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 4. Invalid Field With Error
-// -----------------------------------------
+
 
 function InvalidFieldExample() {
   const baseId = useId();
 
   const inputId = `${baseId}-email`;
-  const descriptionId = `${baseId}-help`;
+  const descriptionId = `${baseId}-description`;
   const errorId = `${baseId}-error`;
 
   const [email, setEmail] = useState("invalid-email");
@@ -274,7 +265,7 @@ function InvalidFieldExample() {
   );
 }
 
-export const InvalidFieldWithError: Story = {
+export const InvalidField: Story = {
   render: () => <InvalidFieldExample />,
 
   parameters: {
@@ -282,219 +273,136 @@ export const InvalidFieldWithError: Story = {
     docs: {
       description: {
         story:
-          "Demonstrates consumer-managed validation using native input validity. The error message is conditionally rendered, aria-invalid reflects the current state, and aria-describedby references both the description and error while invalid. Enter a browser-valid email address to clear the error.",
+          "Demonstrates an invalid input with consumer-managed validation. aria-invalid reflects the current validity state, and aria-describedby connects both helper text and the error message. Enter a valid email address to clear the error.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 5. Textarea Field
-// -----------------------------------------
 
-function TextareaFieldExample() {
-  const textareaId = useId();
-  const descriptionId = useId();
 
-  return (
-    <FormField className="w-full max-w-lg">
-      <FormLabel htmlFor={textareaId}>
-        Project description
-      </FormLabel>
+function ControlTypesExample() {
+  const baseId = useId();
 
-      <Textarea
-        id={textareaId}
-        name="description"
-        rows={5}
-        placeholder="Describe your project..."
-        aria-describedby={descriptionId}
-      />
-
-      <FormDescription id={descriptionId}>
-        Explain the main purpose, features, and
-        expected behavior of your project.
-      </FormDescription>
-    </FormField>
-  );
-}
-
-export const TextareaField: Story = {
-  render: () => <TextareaFieldExample />,
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "FormField works with the native Textarea primitive. The multiline input receives its accessible label and supplementary description through explicit HTML relationships.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 6. Select Field
-// -----------------------------------------
-
-function SelectFieldExample() {
-  const selectId = useId();
-  const descriptionId = useId();
+  const descriptionId = `${baseId}-description`;
+  const categoryId = `${baseId}-category`;
+  const categoryHelpId = `${baseId}-category-help`;
+  const checkboxId = `${baseId}-checkbox`;
+  const checkboxHelpId = `${baseId}-checkbox-help`;
+  const switchId = `${baseId}-switch`;
+  const switchHelpId = `${baseId}-switch-help`;
 
   return (
-    <FormField className="w-full max-w-sm">
-      <FormLabel
-        htmlFor={selectId}
-        requiredIndicator
-      >
-        Project category
-      </FormLabel>
+    <div className="w-full max-w-lg space-y-6">
+      <FormField>
+        <FormLabel htmlFor={descriptionId}>
+          Project description
+        </FormLabel>
 
-      <Select
-        id={selectId}
-        name="category"
-        defaultValue=""
-        required
-        aria-describedby={descriptionId}
-      >
-        <option value="" disabled>
-          Choose a category
-        </option>
-
-        <option value="design-system">
-          Design System
-        </option>
-
-        <option value="dashboard">
-          Dashboard
-        </option>
-
-        <option value="website">
-          Website
-        </option>
-      </Select>
-
-      <FormDescription id={descriptionId}>
-        Select the category that best describes
-        the project.
-      </FormDescription>
-    </FormField>
-  );
-}
-
-export const SelectField: Story = {
-  render: () => <SelectFieldExample />,
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "Demonstrates FormField with a native single-select control. The consumer supplies the options, empty-value prompt, native required attribute, and accessible associations.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 7. Checkbox Field
-// -----------------------------------------
-
-function CheckboxFieldExample() {
-  const checkboxId = useId();
-  const descriptionId = useId();
-
-  return (
-    <FormField className="w-full max-w-md">
-      <div className="flex items-start gap-3">
-        <Checkbox
-          id={checkboxId}
-          name="weeklyUpdates"
-          defaultChecked
-          className="mt-0.5"
-          aria-describedby={descriptionId}
+        <Textarea
+          id={descriptionId}
+          name="description"
+          rows={4}
+          placeholder="Describe your project..."
         />
+      </FormField>
 
-        <div className="space-y-1">
-          <FormLabel htmlFor={checkboxId}>
-            Weekly project updates
-          </FormLabel>
+      <FormField>
+        <FormLabel htmlFor={categoryId}>
+          Category
+        </FormLabel>
 
-          <FormDescription id={descriptionId}>
-            Receive a weekly email with
-            important project activity.
-          </FormDescription>
+        <Select
+          id={categoryId}
+          name="category"
+          defaultValue=""
+          aria-describedby={categoryHelpId}
+        >
+          <option value="" disabled>
+            Select a category
+          </option>
+
+          <option value="website">
+            Website
+          </option>
+
+          <option value="dashboard">
+            Dashboard
+          </option>
+
+          <option value="application">
+            Application
+          </option>
+        </Select>
+
+        <FormDescription id={categoryHelpId}>
+          Choose the category that best fits
+          your project.
+        </FormDescription>
+      </FormField>
+
+      <FormField>
+        <div className="flex items-start gap-3">
+          <Checkbox
+            id={checkboxId}
+            name="weeklyUpdates"
+            defaultChecked
+            className="mt-0.5"
+            aria-describedby={checkboxHelpId}
+          />
+
+          <div className="space-y-1">
+            <FormLabel htmlFor={checkboxId}>
+              Weekly updates
+            </FormLabel>
+
+            <FormDescription id={checkboxHelpId}>
+              Receive a weekly summary by email.
+            </FormDescription>
+          </div>
         </div>
-      </div>
-    </FormField>
+      </FormField>
+
+      <FormField>
+        <div className="flex items-start gap-3">
+          <Switch
+            id={switchId}
+            name="autoSave"
+            defaultChecked
+            aria-describedby={switchHelpId}
+          />
+
+          <div className="space-y-1">
+            <FormLabel htmlFor={switchId}>
+              Automatic saving
+            </FormLabel>
+
+            <FormDescription id={switchHelpId}>
+              Save changes automatically while working.
+            </FormDescription>
+          </div>
+        </div>
+      </FormField>
+    </div>
   );
 }
 
-export const CheckboxField: Story = {
-  render: () => <CheckboxFieldExample />,
+export const ControlTypes: Story = {
+  render: () => <ControlTypesExample />,
 
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "FormField can arrange a Checkbox and its label horizontally using ordinary Tailwind layout classes. Clicking the label toggles the native checkbox. The description is linked through aria-describedby.",
+          "Demonstrates FormField composition with Textarea, Select, Checkbox, and Switch. Text-based controls use vertical layouts, while binary controls use horizontal label and description arrangements.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 8. Switch Field
-// -----------------------------------------
 
-function SwitchFieldExample() {
-  const switchId = useId();
-  const descriptionId = useId();
-
-  return (
-    <FormField className="w-full max-w-md">
-      <div className="flex items-start gap-3">
-        <Switch
-          id={switchId}
-          name="automaticSaving"
-          defaultChecked
-          aria-describedby={descriptionId}
-        />
-
-        <div className="space-y-1">
-          <FormLabel htmlFor={switchId}>
-            Automatic saving
-          </FormLabel>
-
-          <FormDescription id={descriptionId}>
-            Automatically save changes while
-            working on your project.
-          </FormDescription>
-        </div>
-      </div>
-    </FormField>
-  );
-}
-
-export const SwitchField: Story = {
-  render: () => <SwitchFieldExample />,
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "Demonstrates an on/off setting using the existing native-checkbox-backed Switch. FormField provides layout and labeling without changing Switch semantics or managing its state.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 9. Disabled Control
-// -----------------------------------------
-
-function DisabledControlExample() {
+function DisabledFieldExample() {
   const inputId = useId();
   const descriptionId = useId();
 
@@ -520,66 +428,55 @@ function DisabledControlExample() {
   );
 }
 
-export const DisabledControl: Story = {
-  render: () => <DisabledControlExample />,
+export const DisabledField: Story = {
+  render: () => <DisabledFieldExample />,
 
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "Disabling the control is the consumer's responsibility. FormField does not automatically propagate disabled state. Native disabled inputs cannot be edited or reached through normal Tab navigation and are excluded from FormData.",
+          "Demonstrates a disabled input. The consumer controls the disabled attribute; FormField does not automatically propagate state. Native disabled inputs are excluded from form submission and normal keyboard tab navigation.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 10. Multiple Independent Fields
-// -----------------------------------------
 
-type ProjectFormResult = {
-  projectName: string;
-  category: string;
-  notes: string;
-};
-
-function MultipleFieldsExample() {
+function CompleteFormExample() {
   const baseId = useId();
 
   const nameId = `${baseId}-name`;
   const categoryId = `${baseId}-category`;
   const categoryHelpId = `${baseId}-category-help`;
-  const notesId = `${baseId}-notes`;
-  const notesHelpId = `${baseId}-notes-help`;
+  const descriptionId = `${baseId}-description`;
 
-  const [result, setResult] =
-    useState<ProjectFormResult | null>(null);
+  const [submitted, setSubmitted] = useState(false);
 
   return (
     <form
       className="w-full max-w-lg space-y-5"
       onSubmit={(event) => {
         event.preventDefault();
-
-        const formData = new FormData(
-          event.currentTarget,
-        );
-
-        setResult({
-          projectName: String(
-            formData.get("projectName") ?? "",
-          ),
-          category: String(
-            formData.get("category") ?? "",
-          ),
-          notes: String(
-            formData.get("notes") ?? "",
-          ),
-        });
+        setSubmitted(true);
       }}
-      onReset={() => setResult(null)}
+      onReset={() => setSubmitted(false)}
     >
+      <div className="space-y-1">
+        <h3 className="text-lg font-semibold text-foreground">
+          Create project
+        </h3>
+
+        <p className="text-sm text-muted-foreground">
+          Enter the basic information for your
+          new project.
+        </p>
+      </div>
+
+      <p className="text-xs text-muted-foreground">
+        Fields marked with * are required.
+      </p>
+
       <FormField>
         <FormLabel
           htmlFor={nameId}
@@ -591,8 +488,9 @@ function MultipleFieldsExample() {
         <Input
           id={nameId}
           name="projectName"
-          placeholder="My new project"
+          placeholder="Enter project name"
           required
+          onChange={() => setSubmitted(false)}
         />
       </FormField>
 
@@ -610,13 +508,10 @@ function MultipleFieldsExample() {
           defaultValue=""
           required
           aria-describedby={categoryHelpId}
+          onChange={() => setSubmitted(false)}
         >
           <option value="" disabled>
             Select a category
-          </option>
-
-          <option value="component-library">
-            Component Library
           </option>
 
           <option value="website">
@@ -626,32 +521,37 @@ function MultipleFieldsExample() {
           <option value="dashboard">
             Dashboard
           </option>
+
+          <option value="application">
+            Application
+          </option>
         </Select>
 
         <FormDescription id={categoryHelpId}>
-          Choose the project's primary category.
+          Choose the category that best describes
+          your project.
         </FormDescription>
       </FormField>
 
       <FormField>
-        <FormLabel htmlFor={notesId}>
-          Additional notes
+        <FormLabel htmlFor={descriptionId}>
+          Description
         </FormLabel>
 
         <Textarea
-          id={notesId}
-          name="notes"
+          id={descriptionId}
+          name="description"
           rows={4}
-          placeholder="Optional information..."
-          aria-describedby={notesHelpId}
+          placeholder="Describe your project..."
+          onChange={() => setSubmitted(false)}
         />
 
-        <FormDescription id={notesHelpId}>
-          This field is optional.
+        <FormDescription>
+          Optional. Provide a short project summary.
         </FormDescription>
       </FormField>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-3 pt-2">
         <Button type="submit">
           Create project
         </Button>
@@ -664,37 +564,27 @@ function MultipleFieldsExample() {
         </Button>
       </div>
 
-      <div
+      <p
         role="status"
-        className="text-sm text-foreground"
+        className="text-sm text-success"
       >
-        {result && (
-          <div className="space-y-2 rounded-surface border border-border bg-card p-4">
-            <p className="font-semibold">
-              Project submitted locally
-            </p>
-
-            <p>Name: {result.projectName}</p>
-            <p>Category: {result.category}</p>
-            <p>
-              Notes: {result.notes || "None provided"}
-            </p>
-          </div>
-        )}
-      </div>
+        {submitted
+          ? "Project created successfully."
+          : ""}
+      </p>
     </form>
   );
 }
 
-export const MultipleIndependentFields: Story = {
-  render: () => <MultipleFieldsExample />,
+export const CompleteForm: Story = {
+  render: () => <CompleteFormExample />,
 
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          "A realistic form composed from independent FormField instances. Every field receives stable unique IDs and appropriate native attributes. HTML constraint validation runs before submission, and FormData reads the values. The result is displayed locally without a backend or external form library.",
+          "A practical form composed from independent FormField instances. Demonstrates required inputs, helper text, native validation, and consumer-managed submission state. The form operates locally without a backend.",
       },
     },
   },

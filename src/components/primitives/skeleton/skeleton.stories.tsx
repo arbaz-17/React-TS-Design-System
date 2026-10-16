@@ -10,9 +10,6 @@ import {
   Skeleton,
 } from "../../index";
 
-// -----------------------------------------
-// Storybook metadata
-// -----------------------------------------
 
 const meta = {
   title: "Primitives/Skeleton",
@@ -59,9 +56,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// -----------------------------------------
-// 1. Default
-// -----------------------------------------
+
 
 export const Default: Story = {
   parameters: {
@@ -74,9 +69,7 @@ export const Default: Story = {
   },
 };
 
-// -----------------------------------------
-// 2. Text Lines
-// -----------------------------------------
+
 
 export const TextLines: Story = {
   render: () => (
@@ -107,9 +100,7 @@ export const TextLines: Story = {
   },
 };
 
-// -----------------------------------------
-// 3. Avatar
-// -----------------------------------------
+
 
 export const Avatar: Story = {
   render: () => (
@@ -131,9 +122,6 @@ export const Avatar: Story = {
   },
 };
 
-// -----------------------------------------
-// 4. Image Placeholder
-// -----------------------------------------
 
 export const ImagePlaceholder: Story = {
   render: () => (
@@ -158,9 +146,7 @@ export const ImagePlaceholder: Story = {
   },
 };
 
-// -----------------------------------------
-// 5. Profile Skeleton
-// -----------------------------------------
+
 
 export const ProfileSkeleton: Story = {
   render: () => (
@@ -193,9 +179,6 @@ export const ProfileSkeleton: Story = {
   },
 };
 
-// -----------------------------------------
-// 6. Card Skeleton
-// -----------------------------------------
 
 export const CardSkeleton: Story = {
   render: () => (
@@ -228,9 +211,6 @@ export const CardSkeleton: Story = {
   },
 };
 
-// -----------------------------------------
-// 7. Responsive List
-// -----------------------------------------
 
 export const ResponsiveList: Story = {
   render: () => (
@@ -264,9 +244,6 @@ export const ResponsiveList: Story = {
   },
 };
 
-// -----------------------------------------
-// 8. Loading to Loaded
-// -----------------------------------------
 
 function LoadingToLoadedExample() {
   const [loading, setLoading] = useState(true);
@@ -350,9 +327,6 @@ export const LoadingToLoaded: Story = {
   },
 };
 
-// -----------------------------------------
-// 9. Reduced Motion
-// -----------------------------------------
 
 export const ReducedMotion: Story = {
   render: () => (

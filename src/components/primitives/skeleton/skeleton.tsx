@@ -3,13 +3,6 @@ import type { ComponentPropsWithRef } from "react";
 
 import { cn } from "../../../lib/utils";
 
-/**
- * A decorative loading placeholder.
- *
- * Excludes children and interactive semantics because
- * Skeleton should never contain meaningful content
- * or act as a user-interactive element.
- */
 export type SkeletonProps = Omit<
   ComponentPropsWithRef<"div">,
   | "children"
@@ -19,13 +12,7 @@ export type SkeletonProps = Omit<
   | "aria-hidden"
 >;
 
-/**
- * Reusable visual loading placeholder.
- *
- * Consumers provide dimensions and layout through
- * className. Loading semantics belong to the
- * surrounding content region.
- */
+
 export function Skeleton({
   className,
   ref,
