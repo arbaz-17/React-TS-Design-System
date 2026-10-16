@@ -170,15 +170,15 @@ The tablist therefore behaves as a coordinated keyboard interface rather than pr
 
 ## 8. Automatic Activation
 
-Focus movement activates the focused enabled tab.
+Tabs uses automatic activation during keyboard navigation handled by `TabsList`.
 
-For example, pressing ArrowRight moves focus to the next enabled trigger and updates the selected panel.
+When a user presses `ArrowRight`, `ArrowLeft`, `Home`, or `End` while focus is within the tablist, `TabsList` moves focus to the appropriate enabled trigger and requests selection of its value. A controlled consumer must update its `value` prop in `onValueChange` for selection to change.
 
-TabsTrigger also handles focus activation, so appropriate programmatic focus can update selection.
+`TabsTrigger` also requests selection on click, including native Enter/Space button activation.
 
-Automatic activation is intended for panels whose content can be presented without noticeable latency.
+Programmatically calling `.focus()` on a `TabsTrigger` **does not automatically select it**: `TabsTrigger` has no internal focus-to-selection handler. To select a tab programmatically, consumers using controlled Tabs should change the root `value` through application state.
 
-Manual activation is outside the version 1 API.
+Automatic activation is appropriate when panels can become available without noticeable latency. Manual activation is outside the current public API.
 
 ## 9. Accessible Relationships
 
@@ -322,24 +322,37 @@ Consumers can place Cards, forms, charts, tables or other suitable content withi
 - Automated accessibility checks
 - ESLint and production build
 
-## 15. Storybook Requirements — Phase 7
+## 15. Verified Storybook Coverage — Phase 7
 
-Create stories for:
+**Storybook navigation:** `Interactive/Tabs`
 
-1. Default
-2. Controlled
-3. Uncontrolled
-4. Disabled Tab
-5. Keyboard Navigation
-6. Multiple Instances
-7. Persistent Panel State
-8. Long Labels
-9. Horizontal Overflow
-10. Tabs Inside Card
-11. Focusable Panels
-12. Dark Theme
+**Story file:** [`src/components/interactive/tabs.stories.tsx`](../../src/components/interactive/tabs.stories.tsx)
 
-Storybook interaction tests should cover ArrowLeft, ArrowRight, Home, End, focus movement, selection, and correct panel visibility.
+**Coverage:** 11 locally verified stories.
+
+| Story | Documented purpose |
+|---|---|
+| Default | Default selection and controls |
+| Controlled | React-managed value |
+| Uncontrolled | Component-managed selection |
+| Disabled Tab | Disabled trigger |
+| Keyboard Navigation | Arrow, Home/End, focus and selection |
+| Multiple Instances | Independent IDs and selection |
+| Persistent Panel State | Mounted hidden panels |
+| Long Labels | Label wrapping and overflow |
+| Horizontal Overflow | Scrollable tablist |
+| Tabs Inside Card | Card integration |
+| Focusable Panels | Keyboard-accessible panels |
+
+**Storybook controls:** DefaultValue and className.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 16. Architectural Boundaries
 

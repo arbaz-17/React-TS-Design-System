@@ -1,65 +1,270 @@
+# React + TypeScript Mini Design System
 
-# React / TypeScript Design System — Month 3 Project
+A reusable **React 19 + TypeScript** component library built with **Tailwind CSS v4** and documented in **Storybook**. This project is the Month 3 deliverable for the Frontend Development Internship at **OptimusFox**.
 
-A reusable, scalable, and accessible **React component design system** and storybook built with **TypeScript** as the final project for Month 3 of my Frontend Development Internship at OptimusFox.
+The design system is the main product: a set of typed, composable UI building blocks with shared visual tokens, light/dark themes, and accessibility-focused interaction patterns. The included Vite application is a component showcase—not a dashboard product or backend service.
 
-The project brings together the key skills covered throughout the month: strongly typed React components, modern styling approaches, accessibility engineering, and maintainable component architecture. Its goal is to establish a consistent UI foundation that can be reused across different applications rather than building one-off components for every page.
+## At a glance
 
-## Project Objectives
+| | |
+|---|---|
+| **55 public components** | 17 component families across three layers |
+| **177 Storybook stories** | Component examples, states, interactions, and composition patterns |
+| **17 component guides** | API and usage documentation in [`docs/components/`](docs/components/) |
+| **Themes** | Semantic orange-accented light/dark palette; application supports system preference |
+| **Implementation** | Native HTML where practical, React Context where needed, Radix for overlays |
 
-- **Reusability:** Build flexible UI primitives and components that can be composed into more complex interfaces.
-- **Type Safety:** Define clear TypeScript props, variants, events, and component APIs to prevent invalid usage.
-- **Consistency:** Use shared design tokens for colors, typography, spacing, sizing, and other visual decisions.
-- **Accessibility:** Prioritize semantic HTML, keyboard interactions, focus visibility, and appropriate ARIA usage.
-- **Maintainability:** Keep component logic, styling, and responsibilities organized for future changes and expansion.
+## Technology stack
 
-## Core Areas
+- **React 19** — component composition, state, Context, and refs.
+- **TypeScript** — public component props, native element typings, and typed variants.
+- **Vite** — local development and application builds.
+- **Tailwind CSS v4** — utility-based styling and semantic theme tokens.
+- **Storybook (React + Vite)** — isolated examples, Autodocs, controls, themes, and accessibility checks.
+- **Radix UI** — accessible Dialog and Tooltip primitives.
+- **class-variance-authority (CVA)** — typed visual variants for Button, Badge, and Alert.
+- **clsx + tailwind-merge** — conditional class composition via `cn()`.
+- **Lucide React** — icons used in examples and the showcase.
 
-### 1. Design Tokens & Styling
+## Getting started
 
-Create shared design foundations such as colors, typography, spacing, border radii, and component states to maintain visual consistency and simplify theming.
+**Prerequisites:** Node.js and npm versions compatible with the dependencies in `package.json`; a recent supported Node.js LTS release is recommended.
 
-### 2. Component Architecture
+```bash
+# Install the project's locked dependencies
+npm ci
 
-Separate low-level primitives from reusable composite components. Design components around clear responsibilities, composition, and sensible defaults rather than overly complicated prop interfaces.
+# Run the Vite component showcase
+npm run dev
 
-### 3. TypeScript Component APIs
+# Run the component documentation explorer
+npm run storybook
+```
 
-Use TypeScript to make components predictable and developer-friendly through typed props, variants, callbacks, generics, and constraints where appropriate.
+Open the local URLs printed in your terminal. The Vite app demonstrates composed UI patterns, while Storybook is the primary place to browse and inspect individual components.
 
-### 4. Accessibility by Default
+### Available commands
 
-Apply accessibility engineering principles, including:
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Start the Vite development server |
+| `npm run storybook` | Start the Storybook development server |
+| `npm run build` | Run the TypeScript build check and build the Vite app |
+| `npm run build-storybook` | Produce a static Storybook build |
+| `npm run lint` | Run ESLint |
+| `npm run preview` | Preview the built Vite application |
 
-- Semantic HTML and meaningful accessible names.
-- Keyboard navigation and interaction support.
-- Visible focus indicators and proper focus management.
-- Appropriate ARIA attributes.
-- Accessible form validation and feedback states.
+> Automated Storybook/Vitest interaction tests are **not yet part of the completed verification gate**. Testing is deferred to final project QA; do not treat story rendering checks as a passing automated interaction-test suite.
 
-### 5. Documentation & Usage
+## Component library
 
-Document each component's purpose, supported props, variants, and usage examples to ensure consistent adoption and easier maintenance.
+All public components and their public props types are exported from [`src/components/index.ts`](src/components/index.ts).
 
-## Month 3 Learning Connections
+| Layer | Component families | Public components | Stories |
+|---|---|---:|---:|
+| **Primitives** | Button, Input, Textarea, Select, Checkbox, Switch, Badge, Skeleton | 8 | 79 |
+| **Composites** | Card, Alert, FormField, EmptyState, Table | 27 | 53 |
+| **Interactive** | Dialog, Tabs, Accordion, Tooltip | 20 | 45 |
+| **Total** | **17 families** | **55** | **177** |
 
-| Week | Focus | Application |
-|------|-------|-------------|
-| 9 | TypeScript for Frontend Engineers | Typed component interfaces, generics, and safe APIs |
-| 10 | CSS, Tailwind CSS & Material UI | Styling strategies, design tokens, responsiveness, and theming |
-| 11 | Accessibility Engineering | Keyboard support, focus management, semantics, and inclusive patterns |
-| 12 | Design Systems & Component Architecture | Reusable primitives, component composition, variants, and documentation |
+Composite and interactive families expose multiple public parts. For example, Card has six components, Table has nine, and Dialog has eight.
 
-## Project Outcome
+See the [Storybook coverage index](docs/storybook-coverage.md) for each family, its story file, and the corresponding documentation guide.
 
-The intended outcome is a **well-structured and reusable component library** that improves UI consistency, accessibility, and development efficiency.
+## Using the components
 
-This project demonstrates how TypeScript, modern React architecture, styling systems, and accessibility principles work together to create scalable frontend applications.
+Components currently live in this repository and are consumed through its source barrel. **This project is not published as an npm package**; the examples below show imports from an application file inside `src/`.
 
----
+### Button and Card composition
 
-**Internship:** Frontend Development — OptimusFox  
-**Month:** 3 — TypeScript, UI Engineering & Design Systems  
-**Project:** React / TypeScript Design System
+```tsx
+import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./components";
 
-> **Note:** This README outlines the project's intended scope and learning objectives. Implementation details, component lists, installation instructions, and screenshots can be added after development.
+export function ProjectSummary() {
+  return (
+    <Card className="max-w-md">
+      <CardHeader>
+        <CardTitle>Design System</CardTitle>
+        <CardDescription>Reusable frontend components</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Badge variant="success">Active</Badge>
+      </CardContent>
+      <CardFooter>
+        <Button onClick={() => console.log("Project viewed")}>
+          View project
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+```
+
+### Accessible field composition
+
+```tsx
+import { FormField, FormLabel, Input } from "./components";
+
+export function EmailField() {
+  return (
+    <FormField>
+      <FormLabel htmlFor="contact-email" requiredIndicator>
+        Email address
+      </FormLabel>
+      <Input
+        id="contact-email"
+        name="email"
+        type="email"
+        autoComplete="email"
+        required
+      />
+    </FormField>
+  );
+}
+```
+
+The label's asterisk is visual; the input's `required` attribute establishes the real native requirement. A consuming form owns validation and submission behavior.
+
+### Modal composition
+
+```tsx
+import {
+  Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./components";
+
+export function HelpDialog() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Open help</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>About this project</DialogTitle>
+          <DialogDescription>
+            Explore components and their accessibility contracts in Storybook.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button>Close</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+`asChild` allows the existing Button to be used as the actual trigger/close control without nesting buttons.
+
+## Design foundations and theming
+
+The theme uses **semantic CSS variables**, not per-component hardcoded colors:
+
+- [`src/styles/tokens.css`](src/styles/tokens.css) defines light/dark colors, radius/shadow tokens, and Tailwind v4 mappings.
+- [`src/styles/global.css`](src/styles/global.css) imports Tailwind, establishes base styling, keyboard focus indicators, and reduced-motion support.
+- [`src/theme/theme-provider.tsx`](src/theme/theme-provider.tsx) and [`src/theme/use-theme.ts`](src/theme/use-theme.ts) manage the application's `light`, `dark`, and `system` theme preferences.
+- [`src/lib/utils.ts`](src/lib/utils.ts) provides `cn()` for composing class names and resolving recognized Tailwind conflicts.
+
+The resolved app theme is applied to the document's `<html data-theme="...">` attribute. Storybook has its own global **light/dark toolbar** to verify component appearances in isolation. The design system's primary visual identity is orange, expressed via tokens such as `--primary`.
+
+> **Final-QA follow-up:** The original repository's early theme initialization script and active React ThemeProvider use different localStorage keys. Their integration must be resolved and reverified separately; this README does not claim that issue is fixed.
+
+## Architecture
+
+```text
+.storybook/                  Storybook setup and shared preview configuration
+src/
+  components/
+    primitives/              8 primitive families and stories
+    composites/              5 composite families and stories
+    interactive/             4 interactive families and stories
+    index.ts                 Public component and props-type exports
+  lib/utils.ts               cn() helper
+  styles/
+    tokens.css               Semantic tokens and light/dark palettes
+    global.css               Global Tailwind, focus, and motion styles
+  theme/                     Theme context, provider, and hook
+  App.tsx                    Component showcase
+  main.tsx                   Application providers and entry point
+docs/
+  architecture.md            Architecture and dependency boundaries
+  component-conventions.md   API and accessibility conventions
+  storybook-coverage.md      All 17 families and 177 stories
+  components/                17 component guides
+```
+
+The implementation deliberately uses different strategies according to the component's behavior:
+
+- **Structural composition** for Card, Alert, FormField, EmptyState, and Table.
+- **Browser-native semantics** for form controls, tables, and Accordion's `details`/`summary` disclosures.
+- **React Context and coordinated state** for Tabs.
+- **Radix** for Dialog and Tooltip's more involved overlay and focus behavior.
+
+Component source stays independent from the showcase, Storybook stories, data fetching, and business-domain state.
+
+## Storybook and documentation
+
+Storybook is the primary component reference. Browse the sidebar sections **Primitives**, **Composites**, and **Interactive** to see:
+
+- Live component examples and composition patterns.
+- Meaningful controls for supported props.
+- Autodocs, descriptions, and source examples.
+- Light/dark theme previews.
+- Accessibility-addon reports and manually verifiable keyboard interactions.
+
+Related documentation:
+
+- [Architecture](docs/architecture.md)
+- [Component conventions](docs/component-conventions.md)
+- [Storybook coverage index](docs/storybook-coverage.md)
+- [Component guides](docs/components/)
+
+## Accessibility and verification status
+
+Accessibility is a design objective throughout the library: semantic elements, meaningful accessible names, focus-visible states, keyboard operation, label/error associations, reduced-motion handling, and appropriate native or Radix behavior.
+
+**Completed and locally verified during component-story development:**
+
+- All **177 stories** across **17 families** were reported to render and pass their story-specific verification checklists.
+- Relevant keyboard interactions, responsive behaviors, theme modes, and accessibility-addon findings were manually reviewed during those phases.
+- `npm run build`, `npm run build-storybook`, and `npm run lint` were reported passing.
+
+**Still scheduled for final QA:**
+
+- Automated interaction testing and final integration checks.
+- Comprehensive manual assistive-technology review and broader accessibility checks.
+- Verification of effective TypeScript compiler strictness.
+- Theme-persistence initialization consistency.
+- Final Storybook presentation polish and submission review.
+
+Passing the Storybook accessibility addon does **not** establish full WCAG conformance. No published package or production deployment is claimed here.
+
+## Project context
+
+This library brings together the four areas covered in **Month 3 of the OptimusFox Frontend Development Internship**:
+
+1. TypeScript for Frontend Development.
+2. CSS, Tailwind CSS, and Material UI (the library itself uses Tailwind; Material UI is not a runtime dependency).
+3. Accessibility Engineering.
+4. Design Systems and Component Architecture.
+
+**Deliverable:** A TypeScript + Tailwind CSS + Storybook design system with reusable components, documented architecture, and accessibility-focused examples.

@@ -255,28 +255,37 @@ No fixed message length is enforced, but messages should remain concise and acti
 - Accessibility checks
 - ESLint and production build
 
-## 12. Storybook Requirements — Phase 7
+## 12. Verified Storybook Coverage — Phase 7
 
-Create stories for:
+**Storybook navigation:** `Composites/Alert`
 
-1. Default
-2. Success
-3. Warning
-4. Destructive
-5. All Variants
-6. Title Only
-7. Description Only
-8. With Icon
-9. Long Content
-10. Dynamic Status
-11. Urgent Alert
-12. Dark Theme
+**Story file:** [`src/components/composites/alert.stories.tsx`](../../src/components/composites/alert.stories.tsx)
 
-Storybook controls should expose the `variant` prop.
+**Coverage:** 11 locally verified stories.
 
-Documentation should distinguish static informational content from dynamically announced feedback.
+| Story | Documented purpose |
+|---|---|
+| Default | Variant control and static information |
+| Success | Success appearance |
+| Warning | Warning appearance |
+| Destructive | Error appearance |
+| All Variants | Side-by-side visual semantics |
+| Title Only | Optional description |
+| Description Only | Optional title |
+| With Icon | Decorative icons |
+| Long Content | Paragraphs and lists |
+| Dynamic Status | Polite live-region example |
+| Urgent Alert | Assertive live-region example |
 
-Accessibility stories should demonstrate appropriate usage of `role="status"` and `role="alert"`.
+**Storybook controls:** Variant and className.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 13. Architectural Boundaries
 

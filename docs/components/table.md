@@ -402,24 +402,37 @@ No internal imports or coupling with these components are required.
 - Accessibility review
 - ESLint and production build
 
-## 13. Storybook Requirements — Phase 7
+## 13. Verified Storybook Coverage — Phase 7
 
-Create stories for:
+**Storybook navigation:** `Composites/Table`
 
-1. Basic Table
-2. Table With Caption
-3. Row Headers
-4. Status Badges
-5. Row Actions
-6. Footer Totals
-7. Empty Data
-8. Horizontal Overflow
-9. Numeric Alignment
-10. Table Inside Card
-11. Custom Styling
-12. Dark Theme
+**Story file:** [`src/components/composites/table.stories.tsx`](../../src/components/composites/table.stories.tsx)
 
-Storybook documentation should explain valid table nesting, captions, scope associations, responsive scrolling and the distinction between a presentational Table and a DataTable.
+**Coverage:** 11 locally verified stories.
+
+| Story | Documented purpose |
+|---|---|
+| Basic Table | Native table structure |
+| Table With Caption | Caption semantics |
+| Row Headers | Header scopes |
+| Status Badges | Badge composition |
+| Row Actions | Accessible row-specific actions |
+| Footer Totals | tfoot and computed totals |
+| Empty Data | Valid empty-state table structure |
+| Horizontal Overflow | Keyboard-scrollable region |
+| Numeric Alignment | Numeric columns |
+| Table Inside Card | Card composition |
+| Custom Styling | Semantic className overrides |
+
+**Storybook controls:** ClassName on Table.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 14. Architectural Boundaries
 

@@ -6,7 +6,7 @@ import "./styles/global.css";
 
 import App from "./App";
 import { ThemeProvider } from "./theme/theme-provider";
-import { TooltipProvider } from "./components/interactive/tooltip";
+import { TooltipProvider } from "./components/interactive/tooltip/tooltip";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

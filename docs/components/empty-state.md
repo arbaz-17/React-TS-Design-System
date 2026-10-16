@@ -319,26 +319,37 @@ EmptyState can also be composed inside a future Table's empty-row cell, provided
 - Accessibility review
 - ESLint and production build
 
-## 11. Storybook Requirements — Phase 7
+## 11. Verified Storybook Coverage — Phase 7
 
-Create stories for:
+**Storybook navigation:** `Composites/EmptyState`
 
-1. Default
-2. With Visual
-3. Without Visual
-4. Title Only
-5. No Search Results
-6. No Records
-7. Primary Action
-8. Multiple Actions
-9. Custom Illustration
-10. Inside Card
-11. Responsive Layout
-12. Dark Theme
+**Story file:** [`src/components/composites/empty-state.stories.tsx`](../../src/components/composites/empty-state.stories.tsx)
 
-Document optional sections, composition patterns, accessibility expectations and appropriate application-state usage.
+**Coverage:** 11 locally verified stories.
 
-Do not introduce Storybook-specific behavior into the production component.
+| Story | Documented purpose |
+|---|---|
+| Default | Complete presentation |
+| With Visual | Decorative icon |
+| Without Visual | Text-only content |
+| Title Only | Minimal content |
+| No Search Results | Functional search and reset |
+| No Records | First-use empty state |
+| Primary Action | Creation and content replacement |
+| Multiple Actions | Multiple actionable controls |
+| Custom Illustration | Decorative inline SVG |
+| Inside Card | Card composition |
+| Responsive Layout | Responsive grid |
+
+**Storybook controls:** ClassName on the EmptyState root.
+
+**Themes:** Use the global Storybook light/dark toolbar. There is no dedicated Dark Theme story; verify each story in both themes when relevant.
+
+**Accessibility and behavior:** The examples demonstrate the component’s existing semantics and relevant keyboard, focus, responsive, and ARIA behavior. They do not add behavior to production components.
+
+**Verification status:** Story rendering, manual checks, Storybook build, app build, lint, and the Storybook accessibility panel were reported as passing during Phases 7.2–7.4. This is user-reported verification; it does not constitute a completed automated interaction-test suite or full WCAG conformance audit.
+
+**Synchronization note:** This section is based on the story implementation and verification results in the project conversation. The original repository ZIP did not contain the newly authored `.stories.tsx` files. Perform a final export-name and content comparison against the latest working tree during Phase 7.5.1-F.
 
 ## 12. Architectural Boundaries
 
