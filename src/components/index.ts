@@ -1,31 +1,23 @@
-
-/**
- * Design System — Public Component API
- *
- * Only export components and types intended
- * for consumers of the design system.
- */
-
-// Button
+// Primitives
 export { Button } from "./primitives/button/button";
 export type { ButtonProps } from "./primitives/button/button";
 
-// Input
+
 export { Input } from "./primitives/input/input";
 export type {
   InputProps,
   InputType,
 } from "./primitives/input/input";
 
-// Textarea
+
 export { Textarea } from "./primitives/textarea/textarea";
 export type { TextareaProps } from "./primitives/textarea/textarea";
 
-// Checkbox
+
 export { Checkbox } from "./primitives/checkbox/checkbox";
 export type { CheckboxProps } from "./primitives/checkbox/checkbox";
 
-// Badge
+
 export { Badge } from "./primitives/badge/badge";
 export type { BadgeProps } from "./primitives/badge/badge";
 
@@ -33,7 +25,7 @@ export type { BadgeProps } from "./primitives/badge/badge";
 export { Select } from "./primitives/select/select";
 export type { SelectProps } from "./primitives/select/select";
 
-// Skeleton
+
 export { Skeleton } from "./primitives/skeleton/skeleton";
 export type { SkeletonProps } from "./primitives/skeleton/skeleton";
 
@@ -41,6 +33,7 @@ export { Switch } from "./primitives/switch/switch";
 export type { SwitchProps } from "./primitives/switch/switch";
 
 
+// Composites
 export {
   Card,
   CardHeader,
@@ -62,9 +55,6 @@ export type {
 } from "./composites/card/card";
 
 
-
-// Shared Composites — Alert
-
 export {
   Alert,
   AlertTitle,
@@ -78,9 +68,6 @@ export type {
 } from "./composites/alert/alert";
 
 
-
-
-// Shared Composites — FormField
 
 export {
   FormField,
@@ -96,10 +83,6 @@ export type {
   FormMessageProps,
 } from "./composites/form-field/form-field";
 
-
-
-
-// Shared Composites — EmptyState
 
 export {
   EmptyState,
@@ -117,9 +100,6 @@ export type {
   EmptyStateActionsProps,
 } from "./composites/empty-state/empty-state";
 
-
-
-// Shared Composites — Table
 
 export {
   TableContainer,
@@ -147,9 +127,7 @@ export type {
 
 
 
-
-// Advanced Interactive Components — Dialog
-
+//Interactive
 export {
   Dialog,
   DialogTrigger,
@@ -173,10 +151,6 @@ export type {
 } from "./interactive/dialog/dialog";
 
 
-
-
-// Advanced Interactive Components — Tabs
-
 export {
   Tabs,
   TabsList,
@@ -192,10 +166,6 @@ export type {
 } from "./interactive/tabs/tabs";
 
 
-
-
-// Advanced Interactive Components — Accordion
-
 export {
   Accordion,
   AccordionItem,
@@ -210,10 +180,6 @@ export type {
   AccordionContentProps,
 } from "./interactive/accordion/accordion";
 
-
-
-
-// Advanced Interactive Components — Tooltip
 
 export {
   TooltipProvider,

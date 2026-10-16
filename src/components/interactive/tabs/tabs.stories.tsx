@@ -1,5 +1,15 @@
+
 import { useId, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
+import {
+  Activity,
+  ArrowRight,
+  BarChart3,
+  FolderKanban,
+  Settings2,
+  Users,
+} from "lucide-react";
 
 import {
   Button,
@@ -15,20 +25,18 @@ import {
   TabsContent,
 } from "../../index";
 
-// -----------------------------------------
-// Storybook metadata
-// -----------------------------------------
-
 const meta = {
   title: "Interactive/Tabs",
   component: Tabs,
   tags: ["autodocs"],
 
   parameters: {
+    layout: "centered",
+
     docs: {
       description: {
         component:
-          "A custom React Context-based horizontal Tabs family containing Tabs, TabsList, TabsTrigger, and TabsContent. Supports controlled and uncontrolled selection, automatic activation during arrow-key navigation, roving tabIndex, disabled triggers, generated ARIA relationships, and persistent mounted panels. Consumers must provide matching values and an accessible tablist name.",
+          "A compositional, horizontal Tabs family built with React Context and native HTML elements. Supports controlled and uncontrolled selection, automatic activation during keyboard navigation, roving tabIndex, disabled triggers, generated ARIA relationships, and persistent mounted panels. Consumers provide matching trigger and panel values, an accessible tablist name, and an initially selected enabled tab.",
       },
     },
   },
@@ -41,33 +49,43 @@ const meta = {
   argTypes: {
     defaultValue: {
       control: "select",
-      options: ["overview", "activity", "settings"],
-      description: "Initial selection for uncontrolled Tabs.",
+      options: [
+        "overview",
+        "activity",
+        "settings",
+      ],
+      description:
+        "Initial selection for uncontrolled Tabs.",
     },
 
     value: {
       control: false,
-      description: "Controlled selection. Requires onValueChange.",
+      description:
+        "Controlled selection. Requires onValueChange.",
     },
 
     onValueChange: {
       control: false,
-      description: "Called when the selected value changes.",
+      description:
+        "Called when the selected value changes.",
     },
 
     className: {
       control: "text",
-      description: "Additional classes for the root container.",
+      description:
+        "Additional classes for the root container.",
     },
 
     children: {
       control: false,
-      description: "Composable tablist, triggers, and content panels.",
+      description:
+        "Composable tablist, triggers, and panels.",
     },
 
     ref: {
       control: false,
-      description: "Optional native HTMLDivElement ref.",
+      description:
+        "Optional native HTMLDivElement ref.",
     },
   },
 } satisfies Meta<typeof Tabs>;
@@ -76,37 +94,66 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// -----------------------------------------
-// 1. Default
-// -----------------------------------------
-
 export const Default: Story = {
   render: (args) => (
     <Tabs
       key={args.defaultValue ?? "overview"}
-      defaultValue={args.defaultValue ?? "overview"}
+      defaultValue={
+        args.defaultValue ?? "overview"
+      }
       className={args.className}
     >
       <TabsList aria-label="Project sections">
-        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="overview">
+          Overview
+        </TabsTrigger>
 
-        <TabsTrigger value="activity">Activity</TabsTrigger>
+        <TabsTrigger value="activity">
+          Activity
+        </TabsTrigger>
 
-        <TabsTrigger value="settings">Settings</TabsTrigger>
+        <TabsTrigger value="settings">
+          Settings
+        </TabsTrigger>
       </TabsList>
 
       <TabsContent value="overview">
-        <p className="text-sm leading-6">
-          View the project's general information.
-        </p>
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-foreground">
+            Project overview
+          </h3>
+
+          <p className="text-sm leading-6 text-muted-foreground">
+            View general project information,
+            ownership, and current progress.
+          </p>
+        </div>
       </TabsContent>
 
       <TabsContent value="activity">
-        <p className="text-sm leading-6">Review recent project activity.</p>
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-foreground">
+            Recent activity
+          </h3>
+
+          <p className="text-sm leading-6 text-muted-foreground">
+            Review recent changes and updates
+            across the project.
+          </p>
+        </div>
       </TabsContent>
 
       <TabsContent value="settings">
-        <p className="text-sm leading-6">Configure project preferences.</p>
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-foreground">
+            Project settings
+          </h3>
+
+          <p className="text-sm leading-6 text-muted-foreground">
+            Configure project preferences
+            and related options.
+          </p>
+        </div>
       </TabsContent>
     </Tabs>
   ),
@@ -115,48 +162,84 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          "Basic three-tab composition. Use controls to explore the initial selected value and root styling. Changing defaultValue remounts the example because uncontrolled selection is initialized only once.",
+          "Basic uncontrolled Tabs composition. Use Storybook controls to change the initial selection and root classes. Changing defaultValue remounts the example because uncontrolled state is initialized only once.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 2. Controlled
-// -----------------------------------------
 
 function ControlledExample() {
-  const [active, setActive] = useState("overview");
+  const [active, setActive] =
+    useState("overview");
 
   return (
-    <div className="w-full max-w-lg space-y-4">
-      <Button variant="outline" onClick={() => setActive("settings")}>
-        Select Settings externally
-      </Button>
+    <div className="w-full max-w-xl space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-muted-foreground">
+          Selection is managed by React state.
+        </p>
 
-      <Tabs value={active} onValueChange={setActive}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => {
+            setActive("settings");
+          }}
+        >
+          <Settings2
+            aria-hidden="true"
+            className="size-4"
+          />
+          Select Settings
+        </Button>
+      </div>
+
+      <Tabs
+        value={active}
+        onValueChange={setActive}
+      >
         <TabsList aria-label="Controlled project sections">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="overview">
+            Overview
+          </TabsTrigger>
 
-          <TabsTrigger value="activity">Activity</TabsTrigger>
+          <TabsTrigger value="activity">
+            Activity
+          </TabsTrigger>
 
-          <TabsTrigger value="settings">Settings</TabsTrigger>
+          <TabsTrigger value="settings">
+            Settings
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview">
-          Project overview information.
+          <p className="text-sm leading-6 text-muted-foreground">
+            General project information.
+          </p>
         </TabsContent>
 
-        <TabsContent value="activity">Recent project activity.</TabsContent>
+        <TabsContent value="activity">
+          <p className="text-sm leading-6 text-muted-foreground">
+            Recent project updates and changes.
+          </p>
+        </TabsContent>
 
         <TabsContent value="settings">
-          Project configuration settings.
+          <p className="text-sm leading-6 text-muted-foreground">
+            Project configuration settings.
+          </p>
         </TabsContent>
       </Tabs>
 
-      <p role="status" className="text-sm text-muted-foreground">
+      <p
+        role="status"
+        className="text-sm text-muted-foreground"
+      >
         Selected value:{" "}
-        <span className="font-medium text-foreground">{active}</span>
+        <span className="font-medium text-foreground">
+          {active}
+        </span>
       </p>
     </div>
   );
@@ -167,200 +250,199 @@ export const Controlled: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "React owns the selected value through value and onValueChange. Selection can change through tab interaction or through an external control.",
+          "Demonstrates controlled selection using value and onValueChange. The selected tab can change through keyboard or pointer interaction, or through an external button.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 3. Uncontrolled
-// -----------------------------------------
-
-function UncontrolledExample() {
-  const [lastChange, setLastChange] = useState("No selection change yet.");
-
-  return (
-    <div className="w-full max-w-lg space-y-4">
-      <Tabs
-        defaultValue="activity"
-        onValueChange={(nextValue) => {
-          setLastChange(`Selection changed to: ${nextValue}`);
-        }}
-      >
-        <TabsList aria-label="Uncontrolled project sections">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-
-          <TabsTrigger value="activity">Activity</TabsTrigger>
-
-          <TabsTrigger value="settings">Settings</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="overview">Project summary.</TabsContent>
-
-        <TabsContent value="activity">
-          Recent activity is shown initially.
-        </TabsContent>
-
-        <TabsContent value="settings">Project settings.</TabsContent>
-      </Tabs>
-
-      <p role="status" className="text-sm text-muted-foreground">
-        {lastChange}
-      </p>
-    </div>
-  );
-}
-
-export const Uncontrolled: Story = {
-  render: () => <UncontrolledExample />,
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "Tabs manages its own selection through defaultValue. The optional onValueChange callback observes changes without controlling the component.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 4. Disabled Tab
-// -----------------------------------------
-
-export const DisabledTab: Story = {
-  render: () => (
-    <Tabs defaultValue="overview" className="w-full max-w-lg">
-      <TabsList aria-label="Workspace sections">
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-
-        <TabsTrigger value="billing" disabled>
-          Billing
-        </TabsTrigger>
-
-        <TabsTrigger value="team">Team</TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="overview">General workspace information.</TabsContent>
-
-      <TabsContent value="billing">
-        Billing information is unavailable.
-      </TabsContent>
-
-      <TabsContent value="team">Manage workspace team members.</TabsContent>
-    </Tabs>
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "The disabled Billing tab cannot be activated and is skipped during arrow navigation. The initially selected value remains an existing enabled tab.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 5. Keyboard Navigation
-// -----------------------------------------
 
 function KeyboardNavigationExample() {
-  const [selected, setSelected] = useState("overview");
+  const [selected, setSelected] =
+    useState("overview");
 
   return (
     <div className="w-full max-w-xl space-y-4">
-      <p className="text-sm text-muted-foreground">
-        Focus the selected tab. Use ArrowLeft, ArrowRight, Home, and End to
-        navigate. The disabled tab is skipped.
+      <p className="text-sm leading-6 text-muted-foreground">
+        Focus the active tab, then use ArrowLeft,
+        ArrowRight, Home, and End. The disabled
+        Billing tab is skipped. Press Tab to
+        move into the active panel.
       </p>
 
-      <Tabs value={selected} onValueChange={setSelected}>
+      <Tabs
+        value={selected}
+        onValueChange={setSelected}
+      >
         <TabsList aria-label="Keyboard navigation example">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="overview">
+            Overview
+          </TabsTrigger>
 
-          <TabsTrigger value="activity">Activity</TabsTrigger>
+          <TabsTrigger value="activity">
+            Activity
+          </TabsTrigger>
 
-          <TabsTrigger value="billing" disabled>
+          <TabsTrigger
+            value="billing"
+            disabled
+          >
             Billing
           </TabsTrigger>
 
-          <TabsTrigger value="settings">Settings</TabsTrigger>
+          <TabsTrigger value="settings">
+            Settings
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview">Overview panel.</TabsContent>
+        <TabsContent value="overview">
+          <p className="text-sm leading-6 text-muted-foreground">
+            Overview panel. This panel can
+            receive keyboard focus.
+          </p>
+        </TabsContent>
 
-        <TabsContent value="activity">Activity panel.</TabsContent>
+        <TabsContent value="activity">
+          <p className="text-sm leading-6 text-muted-foreground">
+            Activity panel. Navigate back
+            to Overview or forward to Settings.
+          </p>
+        </TabsContent>
 
-        <TabsContent value="billing">Unavailable billing panel.</TabsContent>
+        <TabsContent value="billing">
+          <p className="text-sm leading-6 text-muted-foreground">
+            Billing is currently unavailable.
+          </p>
+        </TabsContent>
 
-        <TabsContent value="settings">Settings panel.</TabsContent>
+        <TabsContent value="settings">
+          <p className="text-sm leading-6 text-muted-foreground">
+            Settings panel. Press ArrowRight
+            to wrap back to Overview.
+          </p>
+        </TabsContent>
       </Tabs>
 
-      <p className="text-sm text-muted-foreground">
-        Active tab:{" "}
-        <span className="font-medium text-foreground">{selected}</span>
-      </p>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-muted-foreground">
+          Active tab:{" "}
+          <span className="font-medium text-foreground">
+            {selected}
+          </span>
+        </p>
+
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+        >
+          Next focusable control
+          <ArrowRight
+            aria-hidden="true"
+            className="size-4"
+          />
+        </Button>
+      </div>
     </div>
   );
 }
 
 export const KeyboardNavigation: Story = {
-  render: () => <KeyboardNavigationExample />,
+  render: () => (
+    <KeyboardNavigationExample />
+  ),
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Demonstrates horizontal keyboard navigation with automatic activation, wrapping, disabled-tab skipping, and roving tabIndex. ArrowUp and ArrowDown do not change selection. Only the selected enabled trigger participates in normal Tab navigation.",
+          "Tests automatic activation, arrow-key wrapping, Home and End navigation, disabled-tab skipping, and roving tabIndex. The selected panel has tabIndex=0 and a visible keyboard focus indicator. Only the selected enabled tab participates in normal Tab navigation.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 6. Multiple Instances
-// -----------------------------------------
 
 export const MultipleInstances: Story = {
   render: () => (
     <div className="grid w-full max-w-2xl gap-8">
-      <section className="space-y-2">
-        <h2 className="text-lg font-semibold">Project navigation</h2>
+      <section className="space-y-3">
+        <div className="flex items-center gap-2">
+          <FolderKanban
+            aria-hidden="true"
+            className="size-5 text-muted-foreground"
+          />
+
+          <h3 className="text-base font-semibold text-foreground">
+            Project navigation
+          </h3>
+        </div>
 
         <Tabs defaultValue="overview">
           <TabsList aria-label="Project navigation">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="overview">
+              Overview
+            </TabsTrigger>
 
-            <TabsTrigger value="settings">Settings</TabsTrigger>
+            <TabsTrigger value="settings">
+              Settings
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview">Project overview.</TabsContent>
+          <TabsContent value="overview">
+            <p className="text-sm text-muted-foreground">
+              Project overview information.
+            </p>
+          </TabsContent>
 
-          <TabsContent value="settings">Project settings.</TabsContent>
+          <TabsContent value="settings">
+            <p className="text-sm text-muted-foreground">
+              Project configuration settings.
+            </p>
+          </TabsContent>
         </Tabs>
       </section>
 
-      <section className="space-y-2">
-        <h2 className="text-lg font-semibold">Account navigation</h2>
+      <section className="space-y-3">
+        <div className="flex items-center gap-2">
+          <Users
+            aria-hidden="true"
+            className="size-5 text-muted-foreground"
+          />
+
+          <h3 className="text-base font-semibold text-foreground">
+            Account navigation
+          </h3>
+        </div>
 
         <Tabs defaultValue="settings">
           <TabsList aria-label="Account navigation">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="overview">
+              Overview
+            </TabsTrigger>
 
-            <TabsTrigger value="settings">Settings</TabsTrigger>
+            <TabsTrigger value="settings">
+              Settings
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview">Account overview.</TabsContent>
+          <TabsContent value="overview">
+            <p className="text-sm text-muted-foreground">
+              Account overview information.
+            </p>
+          </TabsContent>
 
-          <TabsContent value="settings">Account settings.</TabsContent>
+          <TabsContent value="settings">
+            <p className="text-sm text-muted-foreground">
+              Account preferences and settings.
+            </p>
+          </TabsContent>
         </Tabs>
       </section>
     </div>
@@ -368,27 +450,39 @@ export const MultipleInstances: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Two independent Tabs instances reuse the same selection values. React useId generates separate ID namespaces, so aria-controls and aria-labelledby relationships do not collide.",
+          "Two independent Tabs instances reuse the same selection values without sharing state or colliding ARIA IDs. Each Tabs root generates its own ID namespace through React useId.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 7. Persistent Panel State
-// -----------------------------------------
+
 
 function CounterPanel() {
   const [count, setCount] = useState(0);
 
   return (
     <div className="space-y-3">
-      <p className="text-sm">Counter: {count}</p>
+      <p className="text-sm text-muted-foreground">
+        Counter value:{" "}
+        <span className="font-semibold text-foreground tabular-nums">
+          {count}
+        </span>
+      </p>
 
-      <Button onClick={() => setCount((n) => n + 1)}>Increment counter</Button>
+      <Button
+        type="button"
+        variant="outline"
+        onClick={() => {
+          setCount((current) => current + 1);
+        }}
+      >
+        Increment counter
+      </Button>
     </div>
   );
 }
@@ -397,27 +491,51 @@ function PersistentPanelExample() {
   const notesId = useId();
 
   return (
-    <Tabs defaultValue="notes" className="w-full max-w-lg">
-      <TabsList aria-label="Persistent panel examples">
-        <TabsTrigger value="notes">Notes</TabsTrigger>
+    <div className="w-full max-w-lg space-y-3">
+      <p className="text-sm leading-6 text-muted-foreground">
+        Edit the notes, switch to Counter,
+        increment it, then switch back.
+        Both values should be preserved.
+      </p>
 
-        <TabsTrigger value="counter">Counter</TabsTrigger>
-      </TabsList>
+      <Tabs defaultValue="notes">
+        <TabsList aria-label="Persistent panel state">
+          <TabsTrigger value="notes">
+            Notes
+          </TabsTrigger>
 
-      <TabsContent value="notes">
-        <div className="space-y-2">
-          <label htmlFor={notesId} className="block text-sm font-medium">
-            Project notes
-          </label>
+          <TabsTrigger value="counter">
+            Counter
+          </TabsTrigger>
+        </TabsList>
 
-          <Input id={notesId} defaultValue="Initial notes" />
-        </div>
-      </TabsContent>
+        <TabsContent value="notes">
+          <div className="space-y-2">
+            <label
+              htmlFor={notesId}
+              className="block text-sm font-medium text-foreground"
+            >
+              Project notes
+            </label>
 
-      <TabsContent value="counter">
-        <CounterPanel />
-      </TabsContent>
-    </Tabs>
+            <Input
+              id={notesId}
+              defaultValue="Initial project notes"
+              placeholder="Write some notes..."
+            />
+
+            <p className="text-xs text-muted-foreground">
+              This input keeps its value
+              when the panel is hidden.
+            </p>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="counter">
+          <CounterPanel />
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 }
 
@@ -426,86 +544,84 @@ export const PersistentPanelState: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Inactive panels remain mounted but hidden. Edit the Notes input, switch to Counter, increment it, and return to Notes. Both the browser-managed input value and React counter state should remain intact.",
+          "Inactive panels remain mounted but hidden. Switching tabs preserves both an uncontrolled input's browser-managed value and a child component's React state.",
       },
     },
   },
 };
-
-// -----------------------------------------
-// 8. Long Labels
-// -----------------------------------------
-
-export const LongLabels: Story = {
-  render: () => (
-    <Tabs defaultValue="overview" className="w-full max-w-sm">
-      <TabsList aria-label="Long project section labels">
-        <TabsTrigger value="overview">General project overview</TabsTrigger>
-
-        <TabsTrigger value="permissions">Roles and permissions</TabsTrigger>
-
-        <TabsTrigger value="configuration">Advanced configuration</TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="overview">General project information.</TabsContent>
-
-      <TabsContent value="permissions">
-        Role and permission settings.
-      </TabsContent>
-
-      <TabsContent value="configuration">
-        Advanced project configuration.
-      </TabsContent>
-    </Tabs>
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "Tests descriptive tab labels within a constrained width. TabsList supports horizontal overflow instead of squeezing or wrapping tab buttons. Verify label readability and focus visibility.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 9. Horizontal Overflow
-// -----------------------------------------
 
 const reportSections = [
-  { value: "overview", label: "Overview" },
-  { value: "activity", label: "Activity" },
-  { value: "reports", label: "Reports" },
-  { value: "inventory", label: "Inventory" },
-  { value: "settings", label: "Settings" },
-  { value: "permissions", label: "Permissions" },
-  { value: "audit", label: "Audit history" },
+  {
+    value: "overview",
+    label: "Project overview",
+  },
+  {
+    value: "activity",
+    label: "Recent activity",
+  },
+  {
+    value: "reports",
+    label: "Performance reports",
+  },
+  {
+    value: "inventory",
+    label: "Asset inventory",
+  },
+  {
+    value: "settings",
+    label: "Workspace settings",
+  },
+  {
+    value: "permissions",
+    label: "Roles and permissions",
+  },
+  {
+    value: "audit",
+    label: "Audit history",
+  },
 ] as const;
 
 export const HorizontalOverflow: Story = {
   render: () => (
-    <div className="w-full max-w-xs space-y-4">
-      <p className="text-sm text-muted-foreground">
-        Focus Overview and use the arrow keys to navigate across all seven tabs.
+    <div className="w-full max-w-sm space-y-4">
+      <p className="text-sm leading-6 text-muted-foreground">
+        This tablist is intentionally narrow.
+        Use the arrow keys to navigate through
+        the longer labels and confirm the
+        focused tab remains visible.
       </p>
 
       <Tabs defaultValue="overview">
         <TabsList aria-label="Scrollable report sections">
           {reportSections.map((section) => (
-            <TabsTrigger key={section.value} value={section.value}>
+            <TabsTrigger
+              key={section.value}
+              value={section.value}
+            >
               {section.label}
             </TabsTrigger>
           ))}
         </TabsList>
 
         {reportSections.map((section) => (
-          <TabsContent key={section.value} value={section.value}>
-            <p className="text-sm">Content for {section.label}.</p>
+          <TabsContent
+            key={section.value}
+            value={section.value}
+          >
+            <div className="space-y-2">
+              <h3 className="text-sm font-semibold text-foreground">
+                {section.label}
+              </h3>
+
+              <p className="text-sm leading-6 text-muted-foreground">
+                Content for the{" "}
+                {section.label.toLowerCase()} section.
+              </p>
+            </div>
           </TabsContent>
         ))}
       </Tabs>
@@ -514,115 +630,154 @@ export const HorizontalOverflow: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Demonstrates horizontal tablist scrolling with seven tabs in a narrow container. Keyboard focus should remain visible as ArrowRight, ArrowLeft, Home, and End move between tabs. The tablist itself is not an additional Tab stop.",
+          "Combines long tab labels and horizontal overflow in a constrained container. Arrow-key navigation automatically activates the next enabled tab and scrolls it into view. The tablist does not introduce an additional keyboard Tab stop.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 10. Tabs Inside Card
-// -----------------------------------------
 
-export const TabsInsideCard: Story = {
+export const InsideCard: Story = {
   render: () => (
-    <div className="w-full max-w-xl">
-      <h2 className="sr-only">Project details example</h2>
+    <Card className="w-full max-w-2xl">
+      <CardHeader>
+        <CardTitle>
+          Project dashboard
+        </CardTitle>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Project details</CardTitle>
+        <CardDescription>
+          Explore project information,
+          activity, and team members.
+        </CardDescription>
+      </CardHeader>
 
-          <CardDescription>
-            View the project's summary and settings.
-          </CardDescription>
-        </CardHeader>
+      <CardContent>
+        <Tabs defaultValue="overview">
+          <TabsList aria-label="Dashboard sections">
+            <TabsTrigger value="overview">
+              <BarChart3
+                aria-hidden="true"
+                className="mr-2 size-4"
+              />
+              Overview
+            </TabsTrigger>
 
-        <CardContent>
-          <Tabs defaultValue="summary">
-            <TabsList aria-label="Project detail sections">
-              <TabsTrigger value="summary">Summary</TabsTrigger>
+            <TabsTrigger value="activity">
+              <Activity
+                aria-hidden="true"
+                className="mr-2 size-4"
+              />
+              Activity
+            </TabsTrigger>
 
-              <TabsTrigger value="settings">Settings</TabsTrigger>
-            </TabsList>
+            <TabsTrigger value="team">
+              <Users
+                aria-hidden="true"
+                className="mr-2 size-4"
+              />
+              Team
+            </TabsTrigger>
+          </TabsList>
 
-            <TabsContent value="summary">
-              <p className="text-sm leading-6">
-                This project contains reusable UI components with strongly typed
-                APIs.
-              </p>
-            </TabsContent>
+          <TabsContent value="overview">
+            <div className="grid gap-3 py-1 sm:grid-cols-2">
+              <div className="rounded-surface border border-border bg-muted/30 p-4">
+                <p className="text-xs font-medium text-muted-foreground">
+                  Total tasks
+                </p>
 
-            <TabsContent value="settings">
-              <p className="text-sm leading-6">
-                Project configuration is managed separately from the Tabs
-                component.
-              </p>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
-    </div>
+                <p className="mt-2 text-2xl font-semibold text-foreground tabular-nums">
+                  24
+                </p>
+              </div>
+
+              <div className="rounded-surface border border-border bg-muted/30 p-4">
+                <p className="text-xs font-medium text-muted-foreground">
+                  Completed tasks
+                </p>
+
+                <p className="mt-2 text-2xl font-semibold text-foreground tabular-nums">
+                  18
+                </p>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="activity">
+            <div className="space-y-3 py-1">
+              <div className="flex items-start gap-3">
+                <div className="flex size-9 shrink-0 items-center justify-center rounded-control bg-muted/60">
+                  <Activity
+                    aria-hidden="true"
+                    className="size-4 text-muted-foreground"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-foreground">
+                    Components updated
+                  </p>
+
+                  <p className="text-sm text-muted-foreground">
+                    Recent improvements were made
+                    to the component library.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="team">
+            <div className="space-y-3 py-1">
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-muted/60 text-xs font-semibold text-foreground">
+                  AM
+                </div>
+
+                <div>
+                  <p className="text-sm font-medium text-foreground">
+                    Alex Morgan
+                  </p>
+
+                  <p className="text-xs text-muted-foreground">
+                    Project owner
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-muted/60 text-xs font-semibold text-foreground">
+                  SW
+                </div>
+
+                <div>
+                  <p className="text-sm font-medium text-foreground">
+                    Sam Wilson
+                  </p>
+
+                  <p className="text-xs text-muted-foreground">
+                    Contributor
+                  </p>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </CardContent>
+    </Card>
   ),
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Demonstrates Tabs inside CardContent. Both component families retain their independent responsibilities. Card supplies the content surface, while Tabs manages panel selection and keyboard interaction.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 11. Focusable Panels
-// -----------------------------------------
-
-export const FocusablePanels: Story = {
-  render: () => (
-    <div className="w-full max-w-lg space-y-4">
-      <p className="text-sm text-muted-foreground">
-        Press Tab from the active tab to focus its content panel. The panel has
-        its own visible focus indicator.
-      </p>
-
-      <Tabs defaultValue="summary">
-        <TabsList aria-label="Focusable documentation panels">
-          <TabsTrigger value="summary">Summary</TabsTrigger>
-
-          <TabsTrigger value="details">Details</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="summary">
-          <p className="text-sm leading-6">
-            This panel has no interactive child controls. The panel itself is
-            focusable.
-          </p>
-        </TabsContent>
-
-        <TabsContent value="details">
-          <p className="text-sm leading-6">
-            Hidden panels are not available in the normal keyboard focus
-            sequence.
-          </p>
-        </TabsContent>
-      </Tabs>
-
-      <Button variant="outline">Next focusable control</Button>
-    </div>
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "TabsContent has tabIndex=0, allowing keyboard users to focus panels even when they contain no interactive children. Test the Tab sequence from the selected trigger to its panel, then to the next button. Inactive panels must remain hidden and unfocusable through normal keyboard navigation.",
+          "A practical dashboard composition using Tabs inside Card. The Card provides the surrounding surface and context, while Tabs manages selection and accessibility. Lucide icons are decorative and do not replace visible tab labels.",
       },
     },
   },

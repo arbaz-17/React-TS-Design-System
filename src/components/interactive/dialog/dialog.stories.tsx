@@ -1,6 +1,14 @@
-
 import { useId, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
+import {
+  FileText,
+  Maximize2,
+  Pencil,
+  Plus,
+  Settings2,
+  ShieldCheck,
+} from "lucide-react";
 
 import {
   Button,
@@ -19,9 +27,7 @@ import {
   Textarea,
 } from "../../index";
 
-// -----------------------------------------
-// Storybook metadata
-// -----------------------------------------
+
 
 const meta = {
   title: "Interactive/Dialog",
@@ -29,10 +35,11 @@ const meta = {
   tags: ["autodocs"],
 
   parameters: {
+
     docs: {
       description: {
         component:
-          "A modal-only, Radix-backed Dialog family containing eight public components. Supports controlled and uncontrolled state, accessible titles and descriptions, keyboard interaction, focus containment and restoration, responsive scrolling, and portal rendering. Consumers own forms, validation, dismissal policies, and business operations.",
+          "A modal-only Dialog family built on Radix UI. Supports controlled and uncontrolled state, accessible titles and descriptions, keyboard interactions, focus containment and restoration, responsive scrolling, and portal rendering. Consumers manage forms, validation, business operations, and dismissal policies.",
       },
     },
   },
@@ -40,26 +47,22 @@ const meta = {
   argTypes: {
     open: {
       control: false,
-      description:
-        "Controlled visibility. Use with onOpenChange.",
+      description: "Controlled visibility. Use together with onOpenChange.",
     },
 
     defaultOpen: {
       control: false,
-      description:
-        "Initial visibility for uncontrolled Dialog.",
+      description: "Initial visibility for an uncontrolled Dialog.",
     },
 
     onOpenChange: {
       control: false,
-      description:
-        "Callback invoked when Dialog requests a visibility change.",
+      description: "Callback invoked when Dialog requests a visibility change.",
     },
 
     children: {
       control: false,
-      description:
-        "Composable trigger, content, and supporting components.",
+      description: "Composable trigger, content, and supporting components.",
     },
   },
 } satisfies Meta<typeof Dialog>;
@@ -68,104 +71,41 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// -----------------------------------------
-// 1. Basic Dialog
-// -----------------------------------------
 
-export const BasicDialog: Story = {
+export const Default: Story = {
   render: () => (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Open dialog</Button>
-      </DialogTrigger>
-
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>
-            Account information
-          </DialogTitle>
-
-          <DialogDescription>
-            Review the information associated
-            with your account.
-          </DialogDescription>
-        </DialogHeader>
-
-        <div className="py-4 text-sm leading-6 text-foreground">
-          This dialog demonstrates the complete
-          eight-component composition using the
-          existing public API.
-        </div>
-
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">
-              Close dialog
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  ),
-
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "Basic modal composition using all eight public Dialog components. Trigger and Close use asChild to compose the existing Button without nested native buttons.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 2. With Description
-// -----------------------------------------
-
-export const WithDescription: Story = {
-  render: () => (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">
-          View project details
+        <Button>
+          <Settings2 aria-hidden="true" className="size-4" />
+          Open dialog
         </Button>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            Project details
-          </DialogTitle>
+          <DialogTitle>Account settings</DialogTitle>
 
           <DialogDescription>
-            Read the project information below.
-            These details are provided for reference.
+            Review your account information and available preferences.
           </DialogDescription>
         </DialogHeader>
 
-        <dl className="grid grid-cols-2 gap-4 py-4 text-sm">
-          <div>
-            <dt className="text-muted-foreground">
-              Project
-            </dt>
-            <dd className="font-medium">
-              Design System
-            </dd>
-          </div>
+        <div className="space-y-3 py-4">
+          <div className="rounded-surface border border-border bg-muted/30 p-4">
+            <p className="text-sm font-medium text-foreground">
+              Personal workspace
+            </p>
 
-          <div>
-            <dt className="text-muted-foreground">
-              Status
-            </dt>
-            <dd className="font-medium">
-              In progress
-            </dd>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              Your account is connected to the personal workspace.
+            </p>
           </div>
-        </dl>
+        </div>
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button>Done</Button>
+            <Button variant="outline">Close dialog</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
@@ -176,42 +116,37 @@ export const WithDescription: Story = {
     docs: {
       description: {
         story:
-          "DialogTitle supplies the accessible name, and DialogDescription supplies supplementary context through Radix-managed ARIA relationships.",
+          "The recommended basic composition. Dialog manages uncontrolled visibility, DialogTrigger opens the modal, DialogTitle and DialogDescription provide accessible labeling, and DialogClose closes it. Trigger and Close use asChild to avoid nested buttons.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 3. Without Description
-// -----------------------------------------
+
 
 export const WithoutDescription: Story = {
   render: () => (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline">
-          Open simple dialog
+          <FileText aria-hidden="true" className="size-4" />
+          Quick information
         </Button>
       </DialogTrigger>
 
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>
-            Quick information
-          </DialogTitle>
+          <DialogTitle>Quick information</DialogTitle>
         </DialogHeader>
 
-        <p className="py-4 text-sm leading-6">
-          Not every dialog requires a separate
+        <p className="py-4 text-sm leading-6 text-foreground">
+          This dialog contains a title and body content without a separate
           accessible description.
         </p>
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">
-              Close
-            </Button>
+            <Button variant="outline">Close</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
@@ -219,18 +154,17 @@ export const WithoutDescription: Story = {
   ),
 
   parameters: {
+    controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "DialogTitle is required for accessible naming. DialogDescription is optional; when omitted, aria-describedby is explicitly undefined to prevent a broken or unnecessary description reference.",
+          "Demonstrates a dialog without DialogDescription. DialogTitle still supplies the accessible name, while aria-describedby={undefined} explicitly indicates that no supplementary accessible description is provided.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 4. Form Dialog
-// -----------------------------------------
 
 function FormDialogExample() {
   const formId = useId();
@@ -239,25 +173,26 @@ function FormDialogExample() {
   const notesId = useId();
 
   const [open, setOpen] = useState(false);
-  const [savedProject, setSavedProject] =
-    useState<string | null>(null);
+
+  const [savedProject, setSavedProject] = useState<string | null>(null);
 
   return (
-    <div className="space-y-4">
+    <div className="w-full max-w-lg space-y-4">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button>Create project</Button>
+          <Button>
+            <Plus aria-hidden="true" className="size-4" />
+            Create project
+          </Button>
         </DialogTrigger>
 
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>
-              Create a project
-            </DialogTitle>
+            <DialogTitle>Create a project</DialogTitle>
 
             <DialogDescription>
-              Provide a project name and optional
-              notes. This example saves data locally.
+              Add a project name and optional notes. This example saves data
+              locally.
             </DialogDescription>
           </DialogHeader>
 
@@ -267,25 +202,18 @@ function FormDialogExample() {
             onSubmit={(event) => {
               event.preventDefault();
 
-              const formData = new FormData(
-                event.currentTarget,
-              );
+              const formData = new FormData(event.currentTarget);
 
-              const name = String(
-                formData.get("projectName") ?? "",
-              ).trim();
+              const name = String(formData.get("projectName") ?? "").trim();
 
-              if (!name) return;
+              if (name.length < 3) return;
 
               setSavedProject(name);
               setOpen(false);
             }}
           >
             <FormField>
-              <FormLabel
-                htmlFor={nameId}
-                requiredIndicator
-              >
+              <FormLabel htmlFor={nameId} requiredIndicator>
                 Project name
               </FormLabel>
 
@@ -304,9 +232,7 @@ function FormDialogExample() {
             </FormField>
 
             <FormField>
-              <FormLabel htmlFor={notesId}>
-                Notes
-              </FormLabel>
+              <FormLabel htmlFor={notesId}>Notes</FormLabel>
 
               <Textarea
                 id={notesId}
@@ -319,25 +245,22 @@ function FormDialogExample() {
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">
+              <Button type="button" variant="outline">
                 Cancel
               </Button>
             </DialogClose>
 
             <Button type="submit" form={formId}>
-              Save project
+              Create project
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      <p
-        role="status"
-        className="text-sm text-muted-foreground"
-      >
+      <p role="status" className="text-sm text-muted-foreground">
         {savedProject
-          ? `Project saved locally: ${savedProject}`
-          : "No project saved yet."}
+          ? `Project created: ${savedProject}`
+          : "No project created yet."}
       </p>
     </div>
   );
@@ -348,173 +271,63 @@ export const FormDialog: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Demonstrates consumer-managed form submission in a controlled Dialog. Native validation runs before onSubmit. The Save button submits the form without automatically closing the modal; the consumer closes it after successful local processing. Cancel uses DialogClose.",
+          "Demonstrates controlled Dialog state, FormField composition, native form validation, and submission from a footer button using the form attribute. The consumer closes the modal after successful local processing; Dialog does not automatically submit or save data.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 5. Controlled Dialog
-// -----------------------------------------
 
-function ControlledDialogExample() {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className="space-y-4">
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button>Manage preferences</Button>
-        </DialogTrigger>
-
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              Application preferences
-            </DialogTitle>
-
-            <DialogDescription>
-              This dialog is controlled by React
-              state in its consuming component.
-            </DialogDescription>
-          </DialogHeader>
-
-          <p className="py-4 text-sm">
-            Closing through the button, Escape, or
-            supported outside interactions updates
-            the same React state.
-          </p>
-
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">
-                Close preferences
-              </Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <p
-        role="status"
-        className="text-sm text-muted-foreground"
-      >
-        Controlled state: {open ? "Open" : "Closed"}
-      </p>
-    </div>
-  );
-}
-
-export const ControlledDialog: Story = {
-  render: () => <ControlledDialogExample />,
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "React owns the open state using open and onOpenChange. Radix handles interaction mechanics while the consumer synchronizes visibility.",
-      },
-    },
+const checklistSections = [
+  {
+    title: "Component architecture",
+    description:
+      "Review the component structure, public API, and separation of responsibilities.",
   },
-};
-
-// -----------------------------------------
-// 6. Uncontrolled Dialog
-// -----------------------------------------
-
-function UncontrolledDialogExample() {
-  const [lastEvent, setLastEvent] = useState(
-    "No visibility change yet.",
-  );
-
-  return (
-    <div className="space-y-4">
-      <Dialog
-        defaultOpen={false}
-        onOpenChange={(nextOpen) => {
-          setLastEvent(
-            nextOpen
-              ? "Dialog was opened."
-              : "Dialog was closed.",
-          );
-        }}
-      >
-        <DialogTrigger asChild>
-          <Button variant="outline">
-            Open uncontrolled dialog
-          </Button>
-        </DialogTrigger>
-
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              Uncontrolled state
-            </DialogTitle>
-
-            <DialogDescription>
-              Radix manages visibility internally.
-              React only observes state changes.
-            </DialogDescription>
-          </DialogHeader>
-
-          <p className="py-4 text-sm">
-            This example does not pass an open prop.
-          </p>
-
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button>Close</Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <p
-        role="status"
-        className="text-sm text-muted-foreground"
-      >
-        {lastEvent}
-      </p>
-    </div>
-  );
-}
-
-export const UncontrolledDialog: Story = {
-  render: () => <UncontrolledDialogExample />,
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "Radix owns visibility using defaultOpen. The optional onOpenChange callback observes transitions but does not control the root.",
-      },
-    },
+  {
+    title: "TypeScript contracts",
+    description:
+      "Verify component props, native element support, and ref compatibility.",
   },
-};
-
-// -----------------------------------------
-// 7. Long Content
-// -----------------------------------------
-
-const longSections = [
-  "Project overview",
-  "Component architecture",
-  "Design tokens",
-  "TypeScript contracts",
-  "Accessibility requirements",
-  "Keyboard interactions",
-  "Focus management",
-  "Responsive behavior",
-  "Theme compatibility",
-  "Component documentation",
-  "Testing strategy",
-  "Submission checklist",
+  {
+    title: "Design tokens",
+    description:
+      "Confirm consistent colors, spacing, borders, typography, and surface styles.",
+  },
+  {
+    title: "Accessibility",
+    description:
+      "Check semantic HTML, accessible names, descriptions, and keyboard interaction.",
+  },
+  {
+    title: "Focus management",
+    description:
+      "Verify initial focus, focus containment, and restoration after dismissal.",
+  },
+  {
+    title: "Responsive layout",
+    description:
+      "Test narrow viewports, browser zoom, and content that exceeds available height.",
+  },
+  {
+    title: "Theme compatibility",
+    description:
+      "Review contrast, surface colors, and focus indicators in light and dark themes.",
+  },
+  {
+    title: "Storybook coverage",
+    description:
+      "Confirm the stories demonstrate distinct, practical usage scenarios.",
+  },
+  {
+    title: "Testing",
+    description:
+      "Run relevant unit, interaction, accessibility, and visual regression checks.",
+  },
 ] as const;
 
 export const LongContent: Story = {
@@ -522,38 +335,30 @@ export const LongContent: Story = {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline">
-          Open long dialog
+          <FileText aria-hidden="true" className="size-4" />
+          Review checklist
         </Button>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            Project review checklist
-          </DialogTitle>
+          <DialogTitle>Project review checklist</DialogTitle>
 
           <DialogDescription>
-            Review the following engineering
-            topics before submitting the project.
+            Review these engineering topics before marking your project as
+            complete.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-5 py-4">
-          {longSections.map((section, index) => (
-            <section
-              key={section}
-              className="space-y-2"
-            >
+          {checklistSections.map((section, index) => (
+            <section key={section.title} className="space-y-2">
               <h3 className="text-sm font-semibold text-foreground">
-                {index + 1}. {section}
+                {index + 1}. {section.title}
               </h3>
 
               <p className="text-sm leading-6 text-muted-foreground">
-                Verify that the implementation
-                follows the intended architecture,
-                remains accessible, and works
-                correctly across supported screen
-                sizes and interaction methods.
+                {section.description}
               </p>
             </section>
           ))}
@@ -561,9 +366,7 @@ export const LongContent: Story = {
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button>
-              Finish review
-            </Button>
+            <Button>Finish review</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
@@ -572,67 +375,75 @@ export const LongContent: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Tests viewport-constrained modal height and internal scrolling. Verify that the footer remains reachable at narrow widths and 200% browser zoom, without clipping or losing focus.",
+          "Tests viewport-constrained dialog height and internal scrolling. Verify that the content and footer remain reachable on small screens and at increased browser zoom. The default DialogContent scrolls as one region, so its footer scrolls with the content.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 8. Custom Width
-// -----------------------------------------
 
 export const CustomWidth: Story = {
   render: () => (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline">
+          <Maximize2 aria-hidden="true" className="size-4" />
           Open wide dialog
         </Button>
       </DialogTrigger>
 
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>
-            Project summary
-          </DialogTitle>
+          <DialogTitle>Project overview</DialogTitle>
 
           <DialogDescription>
-            A wider dialog using the existing
-            className customization API.
+            A wider dialog for presenting related information side by side.
           </DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-4 py-4 sm:grid-cols-2">
-          <div className="rounded-surface border border-border p-4">
-            <h3 className="font-semibold">
-              Components
-            </h3>
+          <div className="space-y-2 rounded-surface border border-border bg-muted/30 p-4">
+            <div className="flex items-center gap-2">
+              <Settings2
+                aria-hidden="true"
+                className="size-4 text-muted-foreground"
+              />
 
-            <p className="mt-2 text-sm text-muted-foreground">
-              Reusable primitives and composites.
+              <h3 className="text-sm font-semibold text-foreground">
+                Components
+              </h3>
+            </div>
+
+            <p className="text-sm leading-6 text-muted-foreground">
+              Reusable primitives, composites, and consistent design tokens.
             </p>
           </div>
 
-          <div className="rounded-surface border border-border p-4">
-            <h3 className="font-semibold">
-              Accessibility
-            </h3>
+          <div className="space-y-2 rounded-surface border border-border bg-muted/30 p-4">
+            <div className="flex items-center gap-2">
+              <ShieldCheck
+                aria-hidden="true"
+                className="size-4 text-muted-foreground"
+              />
 
-            <p className="mt-2 text-sm text-muted-foreground">
-              Semantic HTML and keyboard behavior.
+              <h3 className="text-sm font-semibold text-foreground">
+                Accessibility
+              </h3>
+            </div>
+
+            <p className="text-sm leading-6 text-muted-foreground">
+              Semantic markup, keyboard support, and predictable focus behavior.
             </p>
           </div>
         </div>
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">
-              Close
-            </Button>
+            <Button variant="outline">Close</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
@@ -641,18 +452,16 @@ export const CustomWidth: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Overrides DialogContent's default max-w-lg with max-w-2xl. The original viewport-relative width and maximum height remain in place, preserving responsiveness.",
+          "Overrides DialogContent's default max-w-lg with max-w-2xl while retaining its viewport-relative width and maximum height. The internal grid switches from one column to two columns at the small breakpoint.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 9. Dismissal Prevention
-// -----------------------------------------
 
 function DismissalPreventionExample() {
   const formId = useId();
@@ -660,103 +469,137 @@ function DismissalPreventionExample() {
 
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState("");
-  const [saved, setSaved] = useState<string | null>(null);
+  const [savedDraft, setSavedDraft] = useState<string | null>(null);
 
-  const dirty = draft.length > 0;
+  const [showWarning, setShowWarning] = useState(false);
+
+  const dirty = draft.trim().length > 0;
+
+  const discardChanges = () => {
+    setDraft("");
+    setShowWarning(false);
+    setOpen(false);
+  };
+
+  const requestClose = () => {
+    if (dirty) {
+      setShowWarning(true);
+      return;
+    }
+
+    setShowWarning(false);
+    setOpen(false);
+  };
 
   return (
-    <div className="space-y-4">
-      <Dialog open={open} onOpenChange={setOpen}>
+    <div className="w-full max-w-lg space-y-4">
+      <Dialog
+        open={open}
+        onOpenChange={(nextOpen) => {
+          if (nextOpen) {
+            setShowWarning(false);
+            setOpen(true);
+          } else {
+            requestClose();
+          }
+        }}
+      >
         <DialogTrigger asChild>
           <Button variant="outline">
+            <Pencil aria-hidden="true" className="size-4" />
             Edit draft
           </Button>
         </DialogTrigger>
 
         <DialogContent
           onEscapeKeyDown={(event) => {
-            if (dirty) event.preventDefault();
-          }}
-          onPointerDownOutside={(event) => {
-            if (dirty) event.preventDefault();
+            if (dirty) {
+              event.preventDefault();
+              setShowWarning(true);
+            }
           }}
           onInteractOutside={(event) => {
-            if (dirty) event.preventDefault();
+            if (dirty) {
+              event.preventDefault();
+              setShowWarning(true);
+            }
           }}
         >
           <DialogHeader>
-            <DialogTitle>
-              Edit project draft
-            </DialogTitle>
+            <DialogTitle>Edit project draft</DialogTitle>
 
             <DialogDescription>
-              Unsaved changes are protected against
-              Escape and outside dismissal. Use Save
-              or Discard to finish editing.
+              Changes are kept locally until you save or discard them.
             </DialogDescription>
           </DialogHeader>
 
           <form
             id={formId}
-            className="py-4"
+            className="space-y-4 py-4"
             onSubmit={(event) => {
               event.preventDefault();
 
-              setSaved(draft);
+              setSavedDraft(draft);
               setDraft("");
+              setShowWarning(false);
               setOpen(false);
             }}
           >
             <FormField>
-              <FormLabel htmlFor={notesId}>
-                Draft notes
-              </FormLabel>
+              <FormLabel htmlFor={notesId}>Draft notes</FormLabel>
 
               <Textarea
                 id={notesId}
                 name="notes"
-                value={draft}
                 rows={4}
-                placeholder="Make a change..."
+                value={draft}
+                placeholder="Write your draft..."
                 onChange={(event) => {
                   setDraft(event.currentTarget.value);
+
+                  if (showWarning) {
+                    setShowWarning(false);
+                  }
                 }}
               />
 
               <FormDescription>
-                Type some text, then try Escape
-                or clicking outside the dialog.
+                Enter text, then try Escape, clicking outside, or Cancel.
               </FormDescription>
             </FormField>
+
+            {showWarning && (
+              <p
+                role="alert"
+                className="rounded-control border border-border bg-muted/40 px-3 py-2 text-sm text-foreground"
+              >
+                You have unsaved changes. Save your draft or discard your
+                changes to close.
+              </p>
+            )}
           </form>
 
           <DialogFooter>
-            <DialogClose asChild>
-              <Button
-                variant="outline"
-                onClick={() => setDraft("")}
-              >
-                Discard changes
-              </Button>
-            </DialogClose>
+            <Button type="button" variant="outline" onClick={requestClose}>
+              Cancel
+            </Button>
 
-            <Button
-              type="submit"
-              form={formId}
-              disabled={!dirty}
-            >
+            {dirty && (
+              <Button type="button" variant="outline" onClick={discardChanges}>
+                Discard
+              </Button>
+            )}
+
+            <Button type="submit" form={formId} disabled={!dirty}>
               Save draft
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      <p
-        role="status"
-        className="text-sm text-muted-foreground"
-      >
-        {saved !== null
-          ? `Last saved draft: ${saved}`
+      <p role="status" className="text-sm text-muted-foreground">
+        {savedDraft !== null
+          ? `Last saved draft: ${savedDraft}`
           : "No draft saved yet."}
       </p>
     </div>
@@ -768,83 +611,70 @@ export const DismissalPrevention: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "Demonstrates consumer-controlled dismissal protection. Once the draft contains unsaved text, Escape and outside interaction are prevented through supported Radix callbacks. Save and Discard remain explicit ways to close the modal. This is a local example, not an asynchronous save workflow.",
+          "Demonstrates protection against accidental dismissal while changes are unsaved. Escape, outside interaction, and Cancel cannot silently discard a dirty draft. An inline warning explains the available Save and Discard actions. This example uses local state rather than an asynchronous persistence workflow.",
       },
     },
   },
 };
 
-// -----------------------------------------
-// 10. Keyboard And Focus
-// -----------------------------------------
+
 
 function KeyboardAndFocusExample() {
   const firstId = useId();
   const secondId = useId();
 
   return (
-    <div className="space-y-3">
-      <p className="text-sm text-muted-foreground">
-        Use the keyboard to open this dialog.
-        Test Tab, Shift+Tab, Escape, and focus
-        restoration.
+    <div className="w-full max-w-lg space-y-4">
+      <p className="text-sm leading-6 text-muted-foreground">
+        Use the keyboard to open the dialog. Test Tab, Shift+Tab, Escape, and
+        focus restoration after closing.
       </p>
 
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button>
-            Test keyboard focus
-          </Button>
-        </DialogTrigger>
+      <div className="flex flex-wrap items-center gap-3">
+        <Button variant="outline">Before trigger</Button>
 
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              Keyboard interaction test
-            </DialogTitle>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>Test keyboard focus</Button>
+          </DialogTrigger>
 
-            <DialogDescription>
-              Focus should remain inside this modal
-              while it is open.
-            </DialogDescription>
-          </DialogHeader>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Keyboard interaction test</DialogTitle>
 
-          <div className="space-y-4 py-4">
-            <FormField>
-              <FormLabel htmlFor={firstId}>
-                First field
-              </FormLabel>
+              <DialogDescription>
+                Focus should remain inside this modal until it closes.
+              </DialogDescription>
+            </DialogHeader>
 
-              <Input
-                id={firstId}
-                placeholder="First input"
-              />
-            </FormField>
+            <div className="space-y-4 py-4">
+              <FormField>
+                <FormLabel htmlFor={firstId}>First field</FormLabel>
 
-            <FormField>
-              <FormLabel htmlFor={secondId}>
-                Second field
-              </FormLabel>
+                <Input id={firstId} placeholder="First input" />
+              </FormField>
 
-              <Input
-                id={secondId}
-                placeholder="Second input"
-              />
-            </FormField>
-          </div>
+              <FormField>
+                <FormLabel htmlFor={secondId}>Second field</FormLabel>
 
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">
-                Close and restore focus
-              </Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+                <Input id={secondId} placeholder="Second input" />
+              </FormField>
+            </div>
+
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Close and restore focus</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Button variant="outline">After trigger</Button>
+      </div>
     </div>
   );
 }
@@ -854,74 +684,11 @@ export const KeyboardAndFocus: Story = {
 
   parameters: {
     controls: { disable: true },
+
     docs: {
       description: {
         story:
-          "A focused manual keyboard test. Open with Enter or Space, verify focus moves inside, cycle through controls with Tab and Shift+Tab, and close with Escape or the explicit button. Focus should return to the trigger. Radix owns focus management; the story does not implement its own focus trap.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 11. Portal And Theme
-// -----------------------------------------
-
-export const PortalAndTheme: Story = {
-  render: () => (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">
-          Inspect portal theme
-        </Button>
-      </DialogTrigger>
-
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>
-            Portal and theme verification
-          </DialogTitle>
-
-          <DialogDescription>
-            This content renders through the
-            internal Radix Portal.
-          </DialogDescription>
-        </DialogHeader>
-
-        <div className="space-y-3 py-4">
-          <div className="rounded-surface border border-border bg-background p-4">
-            <p className="font-medium text-foreground">
-              Semantic surface
-            </p>
-
-            <p className="mt-2 text-sm text-muted-foreground">
-              Background, foreground, and border
-              colors should follow the selected
-              Storybook theme.
-            </p>
-          </div>
-
-          <p className="text-sm text-muted-foreground">
-            Close this dialog, switch between light
-            and dark themes, and reopen it.
-          </p>
-        </div>
-
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button>Done</Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  ),
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "Checks that the Radix portal receives the existing document-root data-theme tokens. Verify both light and dark modes in Canvas and Docs views, including overlay, foreground, border, and focus colors.",
+          "A manual keyboard-accessibility test. Open the dialog with Enter or Space, verify that focus moves inside, use Tab and Shift+Tab to test focus containment, and close with Escape or the explicit Close button. Focus should return to the trigger rather than moving to the surrounding buttons. Radix owns the focus behavior.",
       },
     },
   },

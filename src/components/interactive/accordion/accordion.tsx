@@ -1,17 +1,15 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useId,
-  useState,
+  useRef,
   type ComponentPropsWithRef,
+  type Ref,
 } from "react";
 
 import { cn } from "../../../lib/utils";
-
-/* -------------------------------------------------------
- * Public Types
- * ----------------------------------------------------- */
 
 export type AccordionProps =
   ComponentPropsWithRef<"div"> & {
@@ -31,13 +29,10 @@ export type AccordionTriggerProps =
 export type AccordionContentProps =
   ComponentPropsWithRef<"div">;
 
-/* -------------------------------------------------------
- * Private Context
- * ----------------------------------------------------- */
-
 type AccordionContextValue = {
   groupName: string | undefined;
 };
+
 
 const AccordionContext =
   createContext<AccordionContextValue | null>(null);
@@ -54,22 +49,19 @@ function useAccordionContext() {
   return context;
 }
 
-/* -------------------------------------------------------
- * Accordion Root
- * ----------------------------------------------------- */
 
-/**
- * Accordion
- *
- * Provides the shared visual container and
- * an optional native disclosure group.
- *
- * type="single":
- *   At most one item can be expanded.
- *
- * type="multiple":
- *   Items expand independently.
- */
+function assignRef<T>(
+  ref: Ref<T> | undefined,
+  value: T | null,
+) {
+  if (typeof ref === "function") {
+    ref(value);
+  } else if (ref) {
+    ref.current = value;
+  }
+}
+
+
 export function Accordion({
   type = "multiple",
   className,
@@ -79,16 +71,20 @@ export function Accordion({
   const id = useId();
 
   const groupName =
-    type === "single" ? `accordion-${id}` : undefined;
+    type === "single"
+      ? `accordion-${id}`
+      : undefined;
 
   return (
-    <AccordionContext.Provider value={{ groupName }}>
+    <AccordionContext.Provider
+      value={{ groupName }}
+    >
       <div
         {...props}
         ref={ref}
         className={cn(
           "w-full min-w-0",
-          "rounded-surface",
+          "overflow-hidden rounded-surface",
           "border border-border",
           className,
         )}
@@ -97,18 +93,6 @@ export function Accordion({
   );
 }
 
-/* -------------------------------------------------------
- * AccordionItem
- * ----------------------------------------------------- */
-
-/**
- * AccordionItem
- *
- * Native <details> disclosure.
- *
- * The browser owns the current open state.
- * defaultOpen is captured on initial mount only.
- */
 
 export function AccordionItem({
   defaultOpen = false,
@@ -118,16 +102,26 @@ export function AccordionItem({
 }: AccordionItemProps) {
   const { groupName } = useAccordionContext();
 
-  // Capture the initial open value once.
-  // Subsequent disclosure changes remain native.
-  const [initialOpen] = useState(defaultOpen);
+  const initializedRef = useRef(false);
+  const initialOpenRef = useRef(defaultOpen);
+
+  const setDetailsRef = useCallback(
+    (node: HTMLDetailsElement | null) => {
+      if (node && !initializedRef.current) {
+        node.open = initialOpenRef.current;
+        initializedRef.current = true;
+      }
+
+      assignRef(ref, node);
+    },
+    [ref],
+  );
 
   return (
     <details
       {...props}
-      ref={ref}
+      ref={setDetailsRef}
       name={groupName}
-      open={initialOpen}
       className={cn(
         "group min-w-0",
         "border-b border-border",
@@ -139,20 +133,6 @@ export function AccordionItem({
   );
 }
 
-
-/* -------------------------------------------------------
- * AccordionTrigger
- * ----------------------------------------------------- */
-
-/**
- * AccordionTrigger
- *
- * Native <summary> element.
- *
- * Must be the first child of AccordionItem.
- *
- * Browser owns Enter/Space activation.
- */
 export function AccordionTrigger({
   className,
   ref,
@@ -163,20 +143,21 @@ export function AccordionTrigger({
       {...props}
       ref={ref}
       className={cn(
-        // Preserve native disclosure marker.
+        // Preserve native disclosure marker
         "list-item list-inside",
         "cursor-pointer",
 
-        // Spacing and typography.
+        // Spacing and typography
         "px-4 py-3",
         "text-sm font-medium leading-6",
         "text-foreground",
         "marker:text-muted-foreground",
 
-        // Native open-state styling.
+        // Interaction
+        "hover:bg-muted/30",
         "group-open:bg-muted/40",
 
-        // Keyboard accessibility.
+        // Keyboard focus
         "focus-visible:outline-none",
         "focus-visible:ring-2",
         "focus-visible:ring-inset",
@@ -188,18 +169,7 @@ export function AccordionTrigger({
   );
 }
 
-/* -------------------------------------------------------
- * AccordionContent
- * ----------------------------------------------------- */
 
-/**
- * AccordionContent
- *
- * Content is revealed/hidden by the parent
- * native <details> element.
- *
- * No React state or custom visibility logic.
- */
 export function AccordionContent({
   className,
   ref,

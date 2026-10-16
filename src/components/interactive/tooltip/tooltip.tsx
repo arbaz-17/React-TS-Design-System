@@ -8,10 +8,6 @@ import { Tooltip as TooltipPrimitive } from "radix-ui";
 
 import { cn } from "../../../lib/utils";
 
-/* -------------------------------------------------------
- * Public Types
- * ----------------------------------------------------- */
-
 export type TooltipProviderProps =
   ComponentProps<typeof TooltipPrimitive.Provider>;
 
@@ -26,15 +22,6 @@ export type TooltipContentProps = Omit<
   "asChild" | "forceMount"
 >;
 
-/* -------------------------------------------------------
- * TooltipProvider
- * ----------------------------------------------------- */
-
-/**
- * Provides shared timing and hover behavior.
- *
- * Mount once near the application root.
- */
 export function TooltipProvider({
   delayDuration = 500,
   skipDelayDuration = 300,
@@ -51,43 +38,13 @@ export function TooltipProvider({
   );
 }
 
-/* -------------------------------------------------------
- * Tooltip
- * ----------------------------------------------------- */
-
-/**
- * Individual tooltip state.
- *
- * Supports controlled and uncontrolled modes.
- * Requires TooltipProvider higher in the tree.
- */
 export function Tooltip(props: TooltipProps) {
   return <TooltipPrimitive.Root {...props} />;
 }
 
-/* -------------------------------------------------------
- * TooltipTrigger
- * ----------------------------------------------------- */
+export const TooltipTrigger =
+  TooltipPrimitive.Trigger;
 
-/**
- * Focus/hover target.
- *
- * Use asChild when composing with Button
- * or another focusable interactive element.
- */
-export const TooltipTrigger = TooltipPrimitive.Trigger;
-
-/* -------------------------------------------------------
- * TooltipContent
- * ----------------------------------------------------- */
-
-/**
- * Accessible supplementary explanation.
- *
- * Portal and positioning are handled internally.
- *
- * Content must remain noninteractive.
- */
 export function TooltipContent({
   className,
   ref,
@@ -95,6 +52,7 @@ export function TooltipContent({
   side = "top",
   align = "center",
   sideOffset = 6,
+  collisionPadding = 8,
   ...props
 }: TooltipContentProps) {
   return (
@@ -105,23 +63,16 @@ export function TooltipContent({
         side={side}
         align={align}
         sideOffset={sideOffset}
+        collisionPadding={collisionPadding}
         className={cn(
-          // Layering above ordinary overlays
           "z-[60]",
-
-          // Sizing
           "max-w-[min(18rem,calc(100vw-2rem))]",
-
-          // Surface
           "rounded-surface",
           "border border-border",
           "bg-card text-card-foreground",
           "shadow-surface",
-
-          // Text
           "break-words px-3 py-2",
           "text-xs leading-5",
-
           className,
         )}
       >

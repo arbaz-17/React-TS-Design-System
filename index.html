@@ -9,11 +9,9 @@
       (() => {
         const key = "mini-design-system-theme";
         let stored = null;
-
         try {
           stored = localStorage.getItem(key);
         } catch {
-          // Fall back to system preference.
         }
 
         const systemDark = window.matchMedia(
