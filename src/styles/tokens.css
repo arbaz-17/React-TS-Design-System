@@ -1,55 +1,60 @@
-
 /*
  * Mini Design System — Design Tokens
  *
- * Semantic colors for light and dark themes.
- * Components must use these semantic tokens rather
- * than hardcoded palette values.
+ * Visual direction:
+ * Orange · Charcoal · Graphite · Off-white
+ *
+ * Semantic foreground/background pairs must
+ * always be used together where appropriate.
  */
 
 /* ---------------------------------------------
-   Light theme (default)
+   Light theme
 --------------------------------------------- */
 
 :root {
+  /* Brand identity */
+  --brand-orange: #ff6a2c;
+  --brand-orange-deep: #e2551c;
+
   /* Base surfaces */
-  --background: #fffaf5;
-  --foreground: #1c1917;
+  --background: #f6f6f5;
+  --foreground: #1c1c1f;
 
   /* Elevated surfaces */
   --card: #ffffff;
-  --card-foreground: #1c1917;
+  --card-foreground: #1c1c1f;
 
   /* Primary actions */
   --primary: #c2410c;
   --primary-foreground: #ffffff;
 
   /* Secondary actions */
-  --secondary: #fff0e5;
-  --secondary-foreground: #7c2d12;
+  --secondary: #fff1ea;
+  --secondary-foreground: #713118;
 
-  /* Subtle surfaces and text */
-  --muted: #f5f5f4;
-  --muted-foreground: #57534e;
+  /* Neutral surfaces and supporting text */
+  --muted: #f0f0ef;
+  --muted-foreground: #605e63;
 
   /* Highlights and selections */
-  --accent: #ffedd5;
-  --accent-foreground: #9a3412;
+  --accent: #ffede3;
+  --accent-foreground: #94340f;
 
   /* Destructive actions */
   --destructive: #b91c1c;
   --destructive-foreground: #ffffff;
 
   /* Feedback states */
-  --success: #166534;
+  --success: #16734a;
   --success-foreground: #ffffff;
 
-  --warning: #92400e;
+  --warning: #8c4c08;
   --warning-foreground: #ffffff;
 
-  /* Borders and focus */
-  --border: #d6d3d1;
-  --input: #78716c;
+  /* Borders and keyboard focus */
+  --border: #e4e3e1;
+  --input: #8b8990;
   --ring: #c2410c;
 }
 
@@ -59,44 +64,44 @@
 
 :root[data-theme="dark"] {
   /* Base surfaces */
-  --background: #171412;
-  --foreground: #fafaf9;
+  --background: #141416;
+  --foreground: #f2f2f1;
 
   /* Elevated surfaces */
-  --card: #231e1b;
-  --card-foreground: #fafaf9;
+  --card: #1e1e21;
+  --card-foreground: #f2f2f1;
 
   /* Primary actions */
-  --primary: #fdba74;
-  --primary-foreground: #431407;
+  --primary: #ff8752;
+  --primary-foreground: #1c1c1f;
 
   /* Secondary actions */
-  --secondary: #38302b;
-  --secondary-foreground: #f5f5f4;
+  --secondary: #303034;
+  --secondary-foreground: #f2f2f1;
 
-  /* Subtle surfaces and text */
-  --muted: #292524;
-  --muted-foreground: #d6d3d1;
+  /* Neutral surfaces and supporting text */
+  --muted: #29292d;
+  --muted-foreground: #b4b3b8;
 
   /* Highlights and selections */
-  --accent: #43230f;
-  --accent-foreground: #fed7aa;
+  --accent: #3b2820;
+  --accent-foreground: #ffccb2;
 
   /* Destructive actions */
-  --destructive: #f87171;
-  --destructive-foreground: #450a0a;
+  --destructive: #ff7d73;
+  --destructive-foreground: #1c1c1f;
 
   /* Feedback states */
-  --success: #86efac;
-  --success-foreground: #052e16;
+  --success: #65d69a;
+  --success-foreground: #082516;
 
-  --warning: #fcd34d;
-  --warning-foreground: #451a03;
+  --warning: #f1bd68;
+  --warning-foreground: #382108;
 
-  /* Borders and focus */
-  --border: #57534e;
-  --input: #a8a29e;
-  --ring: #fb923c;
+  /* Borders and keyboard focus */
+  --border: #44444a;
+  --input: #85858e;
+  --ring: #ffa676;
 }
 
 /* ---------------------------------------------
