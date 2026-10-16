@@ -8,10 +8,6 @@ import {
   type TextareaProps,
 } from "../../index";
 
-// -----------------------------------------
-// Story-only helper
-// -----------------------------------------
-
 type LabeledTextareaProps = TextareaProps & {
   label: string;
   description?: string;
@@ -63,9 +59,6 @@ function LabeledTextarea({
   );
 }
 
-// -----------------------------------------
-// Metadata
-// -----------------------------------------
 
 const meta = {
   title: "Primitives/Textarea",
@@ -146,15 +139,12 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// -----------------------------------------
-// 1. Default
-// -----------------------------------------
 
 export const Default: Story = {
   render: (args) => (
     <LabeledTextarea
       {...args}
-      label="Project description"
+      label="Project Description"
     />
   ),
 
@@ -168,9 +158,6 @@ export const Default: Story = {
   },
 };
 
-// -----------------------------------------
-// 2. Controlled
-// -----------------------------------------
 
 function ControlledExample() {
   const [value, setValue] = useState(
@@ -220,9 +207,6 @@ export const Controlled: Story = {
   },
 };
 
-// -----------------------------------------
-// 3. Uncontrolled
-// -----------------------------------------
 
 function UncontrolledExample() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -296,9 +280,6 @@ export const Uncontrolled: Story = {
   },
 };
 
-// -----------------------------------------
-// 4. Custom Rows
-// -----------------------------------------
 
 export const CustomRows: Story = {
   render: () => (
@@ -328,9 +309,6 @@ export const CustomRows: Story = {
   },
 };
 
-// -----------------------------------------
-// 5. Long Content
-// -----------------------------------------
 
 const longContent = [
   "Project Overview",
@@ -364,9 +342,6 @@ export const LongContent: Story = {
   },
 };
 
-// -----------------------------------------
-// 6. Vertical Resizing
-// -----------------------------------------
 
 export const VerticalResizing: Story = {
   render: () => (
@@ -389,9 +364,6 @@ export const VerticalResizing: Story = {
   },
 };
 
-// -----------------------------------------
-// 7. Disabled
-// -----------------------------------------
 
 export const Disabled: Story = {
   args: {
@@ -418,9 +390,6 @@ export const Disabled: Story = {
   },
 };
 
-// -----------------------------------------
-// 8. Read Only
-// -----------------------------------------
 
 export const ReadOnly: Story = {
   args: {
@@ -448,9 +417,6 @@ export const ReadOnly: Story = {
   },
 };
 
-// -----------------------------------------
-// 9. Required
-// -----------------------------------------
 
 function RequiredExample() {
   const [submitted, setSubmitted] = useState(false);
@@ -502,57 +468,7 @@ export const Required: Story = {
   },
 };
 
-// -----------------------------------------
-// 10. Invalid
-// -----------------------------------------
 
-function InvalidExample() {
-  const textareaId = useId();
-  const errorId = useId();
-
-  return (
-    <div className="max-w-lg space-y-2">
-      <label
-        htmlFor={textareaId}
-        className="block text-sm font-medium"
-      >
-        Description
-      </label>
-
-      <Textarea
-        id={textareaId}
-        defaultValue="Incomplete description."
-        aria-invalid="true"
-        aria-describedby={errorId}
-      />
-
-      <p
-        id={errorId}
-        className="text-sm text-destructive"
-      >
-        The description needs more information.
-      </p>
-    </div>
-  );
-}
-
-export const Invalid: Story = {
-  render: () => <InvalidExample />,
-
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          "A fixed invalid-state demonstration. aria-invalid applies the destructive border styling, while aria-describedby associates the error message with the field.",
-      },
-    },
-  },
-};
-
-// -----------------------------------------
-// 11. With Description
-// -----------------------------------------
 
 export const WithDescription: Story = {
   render: () => (
@@ -575,9 +491,6 @@ export const WithDescription: Story = {
   },
 };
 
-// -----------------------------------------
-// 12. With Error Message
-// -----------------------------------------
 
 function ErrorMessageExample() {
   const textareaId = useId();

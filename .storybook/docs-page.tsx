@@ -72,7 +72,7 @@ export function DocsPage() {
         aria-label="Additional component examples"
       >
         <Stories
-          title="Additional examples"
+          title="Stories"
           includePrimary={false}
         />
       </section>

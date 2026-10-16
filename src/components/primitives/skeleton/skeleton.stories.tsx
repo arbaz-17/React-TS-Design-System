@@ -23,7 +23,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "A lightweight, decorative loading placeholder with semantic styling, configurable dimensions, reduced-motion support, and forced-colors visibility. Skeleton is always hidden from assistive technology. Consumers manage loading state, aria-busy, status announcements, and content replacement.",
+          "A lightweight, decorative loading placeholder with semantic styling, configurable dimensions, reduced-motion support, and forced-colors visibility.",
       },
     },
   },

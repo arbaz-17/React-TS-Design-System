@@ -1,67 +1,57 @@
 
 import type { ComponentPropsWithRef } from "react";
-
-import {
-  cva,
-  type VariantProps,
-} from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "../../../lib/utils";
 
-/**
- * Badge visual variants and sizes.
- *
- * Badge is a non-interactive presentation primitive.
- * Colors come from semantic design tokens.
- */
 const badgeVariants = cva(
   [
-    // Layout and alignment
-    "inline-flex min-w-0 max-w-full items-center",
-    "justify-center gap-1.5 align-middle",
-
-    // Shape and typography
-    "rounded-full border border-transparent",
+    "inline-flex min-w-0 max-w-full items-center justify-center",
+    "gap-1.5 align-middle",
+    "rounded-full border",
     "font-medium text-center",
     "whitespace-normal wrap-anywhere",
-
-    // Icon composition
-    "[&_svg]:shrink-0",
+    "[&_svg]:size-3.5 [&_svg]:shrink-0",
   ],
   {
     variants: {
       variant: {
         neutral: [
-          "bg-muted text-muted-foreground",
+          "border-border/70",
+          "bg-muted",
+          "text-foreground",
         ],
-
         primary: [
-          "bg-primary text-primary-foreground",
+          "border-primary/20",
+          "bg-primary/10",
+          "text-primary",
         ],
-
         success: [
-          "bg-success text-success-foreground",
+          "border-success/25",
+          "bg-success/10",
+          "text-success",
         ],
-
         warning: [
-          "bg-warning text-warning-foreground",
+          "border-warning/30",
+          "bg-warning/10",
+          "text-warning",
         ],
-
         destructive: [
-          "bg-destructive text-destructive-foreground",
+          "border-destructive/25",
+          "bg-destructive/10",
+          "text-destructive",
         ],
-
         outline: [
-          "border-input bg-transparent text-foreground",
+          "border-input",
+          "bg-background",
+          "text-foreground",
         ],
       },
-
       size: {
-        sm: "px-2 py-0.5 text-xs leading-4",
-        md: "px-2.5 py-1 text-sm leading-5",
+        sm: "px-2.5 py-0.5 text-xs leading-4",
+        md: "px-3 py-1 text-sm leading-5",
       },
     },
-
     defaultVariants: {
       variant: "neutral",
       size: "md",
@@ -69,17 +59,10 @@ const badgeVariants = cva(
   },
 );
 
-/**
- * Badge props:
- * Native span attributes plus typed visual variants.
- */
 export type BadgeProps =
   ComponentPropsWithRef<"span"> &
   VariantProps<typeof badgeVariants>;
 
-/**
- * Reusable non-interactive Badge component.
- */
 export function Badge({
   variant,
   size,

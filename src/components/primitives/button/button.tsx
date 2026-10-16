@@ -1,13 +1,8 @@
 import type { ComponentPropsWithRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-
+import { LoaderCircle } from "lucide-react";
 import { cn } from "../../../lib/utils";
 
-/**
- * Button visual variants and sizes.
- *
- * These classes consume our semantic design tokens.
- */
 const buttonVariants = cva(
   [
     "relative inline-flex max-w-full items-center justify-center gap-2",
@@ -68,10 +63,6 @@ const buttonVariants = cva(
 
 export type ButtonProps = ComponentPropsWithRef<"button"> &
   VariantProps<typeof buttonVariants> & {
-    /**
-     * Displays a loading spinner and prevents activation.
-     * Loading state is controlled by the consumer.
-     */
     loading?: boolean;
   };
 
@@ -104,31 +95,12 @@ export function Button({
       >
         {children}
       </span>
-
       {loading && (
-        <svg
+        <LoaderCircle
           aria-hidden="true"
           focusable="false"
-          viewBox="0 0 24 24"
-          fill="none"
-          className="absolute size-4 motion-safe:animate-spin"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="9"
-            stroke="currentColor"
-            strokeWidth="3"
-            opacity="0.25"
-          />
-
-          <path
-            d="M21 12a9 9 0 0 0-9-9"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-        </svg>
+          className="pointer-events-none absolute inset-0 m-auto size-4 motion-safe:animate-spin"
+        />
       )}
     </button>
   );

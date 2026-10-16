@@ -1,20 +1,7 @@
-
 import type { ComponentPropsWithRef } from "react";
 
 import { cn } from "../../../lib/utils";
 
-/**
- * A native checkbox presented as an on/off switch.
- *
- * The following props are intentionally excluded:
- * - type: always checkbox
- * - role: always switch
- * - aria-checked: native checked state is authoritative
- * - defaultValue: use defaultChecked
- * - readOnly: unsupported interaction pattern
- * - size: fixed visual dimensions
- * - children: labels are external
- */
 export type SwitchProps = Omit<
   ComponentPropsWithRef<"input">,
   | "type"
@@ -26,18 +13,7 @@ export type SwitchProps = Omit<
   | "size"
 >;
 
-/**
- * Native switch with an accessible input and
- * decorative track/thumb.
- *
- * className applies to the outer wrapper.
- * ref points to the underlying HTMLInputElement.
- */
-export function Switch({
-  className,
-  ref,
-  ...props
-}: SwitchProps) {
+export function Switch({ className, ref, ...props }: SwitchProps) {
   return (
     <span
       className={cn(
@@ -57,7 +33,6 @@ export function Switch({
         )}
       />
 
-      {/* Decorative track */}
       <span
         aria-hidden="true"
         className={cn(
@@ -82,14 +57,12 @@ export function Switch({
           // Disabled state
           "peer-disabled:opacity-50",
 
-          // Windows forced-colors support
           "forced-colors:border-[ButtonText]",
           "peer-checked:forced-colors:border-[Highlight]",
           "peer-checked:forced-colors:bg-[Highlight]",
         )}
       />
 
-      {/* Decorative thumb */}
       <span
         aria-hidden="true"
         className={cn(
@@ -98,16 +71,10 @@ export function Switch({
           "bg-background shadow-sm",
           "motion-safe:transition-transform",
           "motion-safe:duration-200",
-
-          // Move 20px to the right when checked
           "peer-checked:translate-x-5",
           "peer-checked:border-primary-foreground",
           "peer-checked:bg-primary-foreground",
-
-          // Disabled state
           "peer-disabled:opacity-50",
-
-          // Forced-colors support
           "forced-colors:bg-[Canvas]",
         )}
       />
