@@ -24,23 +24,16 @@ export function Skeleton({
       ref={ref}
       aria-hidden="true"
       className={cn(
-        // Default geometry
         "h-4 w-full min-w-0 rounded-control",
 
-        // Theme-aware appearance
         "bg-muted",
 
-        // Animation only when motion is permitted
         "motion-safe:animate-pulse",
 
-        // Clearly visible in forced-colors mode
         "forced-colors:border",
         "forced-colors:border-[CanvasText]",
-
-        // Decorative, non-interactive behavior
         "pointer-events-none select-none",
 
-        // Consumer overrides
         className,
       )}
     />

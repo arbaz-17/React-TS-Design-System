@@ -85,7 +85,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// 1. Interactive playground
 
 export const Default: Story = {
   parameters: {
@@ -97,8 +96,6 @@ export const Default: Story = {
     },
   },
 };
-
-// 2. Semantic variants
 
 export const Variants: Story = {
   render: () => (
@@ -122,7 +119,6 @@ export const Variants: Story = {
   },
 };
 
-// 3. Sizes
 
 export const Sizes: Story = {
   render: () => (
@@ -151,7 +147,6 @@ export const Sizes: Story = {
   },
 };
 
-// 4. Text with an icon
 
 export const WithIcon: Story = {
   args: {
@@ -182,7 +177,7 @@ export const WithIcon: Story = {
   },
 };
 
-// 5. Accessible icon-only action
+
 
 export const IconOnly: Story = {
   args: {
@@ -217,7 +212,7 @@ export const IconOnly: Story = {
   },
 };
 
-// 6. Native disabled state
+
 
 export const Disabled: Story = {
   args: {
@@ -235,7 +230,6 @@ export const Disabled: Story = {
   },
 };
 
-// 7. Consumer-controlled loading state
 
 export const Loading: Story = {
   args: {
@@ -253,7 +247,6 @@ export const Loading: Story = {
   },
 };
 
-// 8. Keyboard and focus demonstration
 
 function KeyboardFocusExample() {
   const [message, setMessage] = useState(
@@ -302,7 +295,7 @@ export const KeyboardFocus: Story = {
   },
 };
 
-// 9. Native form integration
+
 
 function FormSubmissionExample() {
   const inputId = useId();

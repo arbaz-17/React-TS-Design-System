@@ -2,7 +2,6 @@
 import { useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 
-// Replace with your deployed Storybook URL.
 const STORYBOOK_URL = "";
 
 export default function App() {
