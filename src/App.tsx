@@ -2,7 +2,8 @@
 import { useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 
-const STORYBOOK_URL = "";
+const STORYBOOK_URL =
+  "https://arbaz-17.github.io/React-TS-Design-System/storybook/";
 
 export default function App() {
   useEffect(() => {

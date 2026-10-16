@@ -228,7 +228,7 @@ export const WithImage: Story = {
     <Card className="w-full max-w-sm">
       <CardMedia className="aspect-video">
         <img
-          src="/f1.png"
+          src="./f1.png"
           alt="Formula 1 cars racing on a circuit"
           loading="lazy"
           decoding="async"
