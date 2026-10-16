@@ -5,8 +5,7 @@ export const managerTheme = create({
   base: "dark",
   brandTitle: "Design System - OptimusFox",
 
-  fontBase:
-    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+  fontBase: '"Poppins", sans-serif',
   fontCode:
     'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
 

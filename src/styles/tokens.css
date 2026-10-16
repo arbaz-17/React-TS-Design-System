@@ -126,9 +126,13 @@
 
 
 @theme {
+  --font-sans: "Poppins", sans-serif;
+
+
   --radius-control: 0.5rem;
   --radius-surface: 0.75rem;
   --radius-overlay: 1rem;
+
 
   --shadow-surface: 0 2px 8px rgb(0 0 0 / 0.06);
   --shadow-overlay: 0 16px 40px rgb(0 0 0 / 0.16);
