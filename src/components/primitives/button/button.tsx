@@ -12,7 +12,7 @@ const buttonVariants = cva(
     "disabled:cursor-not-allowed disabled:opacity-50",
     "[&_svg]:shrink-0",
   ],
-  {
+  {   
     variants: {
       variant: {
         primary: [

@@ -8,12 +8,6 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "../../../lib/utils";
 
-/**
- * Dialog is intentionally modal-only.
- *
- * Consumers can use controlled or uncontrolled
- * state, but cannot switch to non-modal behavior.
- */
 export type DialogProps = Omit<
   ComponentProps<typeof DialogPrimitive.Root>,
   "modal"
@@ -52,12 +46,7 @@ export type DialogCloseProps =
     typeof DialogPrimitive.Close
   >;
 
-/**
- * Dialog
- *
- * Modal root with controlled and uncontrolled
- * state support.
- */
+
 export function Dialog(props: DialogProps) {
   return (
     <DialogPrimitive.Root
@@ -67,23 +56,10 @@ export function Dialog(props: DialogProps) {
   );
 }
 
-/**
- * DialogTrigger
- *
- * Use asChild when composing with our Button.
- */
+
 export const DialogTrigger =
   DialogPrimitive.Trigger;
 
-/**
- * DialogContent
- *
- * Composes the portal, backdrop and dialog
- * panel into one reusable public component.
- *
- * The consumer is responsible for supplying
- * an accessible DialogTitle.
- */
 export function DialogContent({
   className,
   ref,
@@ -117,8 +93,6 @@ export function DialogContent({
           "bg-card p-6 text-card-foreground",
           "shadow-overlay",
 
-          // Focus is managed by Radix.
-          // Individual controls retain focus styles.
           "outline-none",
           className,
         )}
@@ -129,11 +103,7 @@ export function DialogContent({
   );
 }
 
-/**
- * DialogHeader
- *
- * Groups title and supporting description.
- */
+
 export function DialogHeader({
   className,
   ref,
@@ -152,12 +122,7 @@ export function DialogHeader({
   );
 }
 
-/**
- * DialogTitle
- *
- * Radix supplies accessible naming through
- * its Title primitive.
- */
+
 export function DialogTitle({
   className,
   ref,
@@ -176,11 +141,7 @@ export function DialogTitle({
   );
 }
 
-/**
- * DialogDescription
- *
- * Optional supporting description.
- */
+
 export function DialogDescription({
   className,
   ref,
@@ -199,14 +160,7 @@ export function DialogDescription({
   );
 }
 
-/**
- * DialogFooter
- *
- * Consumer-owned action layout.
- *
- * DOM and visual order remain consistent
- * across mobile and desktop breakpoints.
- */
+
 export function DialogFooter({
   className,
   ref,
@@ -225,11 +179,5 @@ export function DialogFooter({
   );
 }
 
-/**
- * DialogClose
- *
- * Use asChild to compose an existing Button
- * without producing nested button elements.
- */
 export const DialogClose =
   DialogPrimitive.Close;
