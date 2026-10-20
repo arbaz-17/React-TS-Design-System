@@ -67,7 +67,7 @@ The project applies concepts covered throughout Month 3 of the internship.
 ## Project Structure
 
 ```text
-.storybook/           # Storybook configuration and themes
+.storybook/           # Storybook configuration 
 src/
 ├── components/
 │   ├── primitives/   # Foundational UI components
@@ -82,5 +82,5 @@ src/
 
 ## Live Demo
 
-**Storybook Demo:** [View Live Demo](https://arbaz-17.github.io/React-TS-Design-System/storybook/)
+**Demo:** [View Live Demo](https://arbaz-17.github.io/React-TS-Design-System/storybook/)
 
