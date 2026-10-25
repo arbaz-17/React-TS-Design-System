@@ -1,7 +1,7 @@
 
 # Design System Storybook — Month 3 Project
 
-A reusable **React + TypeScript Design System** built with **Tailwind CSS v4 and Storybook** as the project for Month 3 of the Frontend Engineering Internship at **OptimusFox**.
+A **React + TypeScript Design System** built with **Tailwind CSS v4 and Storybook** as the project for Month 3 of the Frontend Internship at **OptimusFox**.
 
 ## Overview
 
