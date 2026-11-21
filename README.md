@@ -9,8 +9,6 @@ This project focuses on building a small, professional component library with re
 
 Rather than developing a complete application, the goal was to establish the foundations of a design system that can be reused across different frontend projects.
 
-Storybook serves as the primary environment for exploring, testing, and documenting components independently.
-
 ## What Was Created
 
 Developed **17 component families**, organized into three categories.
@@ -21,7 +19,6 @@ Developed **17 component families**, organized into three categories.
 | **Composites** | Card, Alert, FormField, EmptyState, Table | Reusable structures for organizing content, displaying information, and building forms. |
 | **Interactive** | Dialog, Tabs, Accordion, Tooltip | Advanced components supporting state management, keyboard interactions, overlays, and accessible navigation. |
 
-Each component includes TypeScript definitions, reusable styling, Storybook examples, and individual documentation.
 
 ## Key Features
 
