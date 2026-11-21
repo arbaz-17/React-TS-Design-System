@@ -26,7 +26,7 @@ const features = [
   },
   {
     icon: BookOpen,
-    label: "Storybook Documentation",
+    label: "Storybook",
   },
 ];
 
@@ -59,7 +59,7 @@ export default function App() {
         <div className="mb-7 flex items-center justify-center gap-3">
 
           <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary sm:text-sm">
-            Month 3 Project — OptimusFox
+            Month 3 Project
           </span>
         </div>
 
