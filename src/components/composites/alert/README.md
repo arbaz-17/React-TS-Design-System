@@ -80,8 +80,6 @@ Demonstrates an extended warning message containing multiple paragraphs and a st
 ### 10. DynamicStatus
 Provides an interactive example that switches between unsaved and saved states using React state. Demonstrates a persistent `role="status"` live region with `aria-atomic="true"` to request polite announcements of updated message content without moving keyboard focus.
 
-### 11. UrgentAlert
-Demonstrates an urgent session-expiry message that appears after user interaction. Uses `role="alert"` and `aria-atomic="true"` to request assertive announcement behavior, illustrating how urgent notifications differ from ordinary informational messages.
 
 ## Accessibility Notes
 
